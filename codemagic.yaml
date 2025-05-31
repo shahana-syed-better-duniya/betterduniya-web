@@ -9,9 +9,14 @@ workflows:
       vars:
         PACKAGE_NAME: "io.enactus.duniya.reactnative"
     scripts:
-      - name: Install npm dependencies
+      - name: Install dependencies and Expo CLI, and eject app
         script: |
           npm install
+          npm install -g expo-cli
+          expo eject
+      - name: Set up app/build.gradle
+        script: |
+          mv ./support-files/build.gradle android/app
       - name: Set Android SDK location
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
