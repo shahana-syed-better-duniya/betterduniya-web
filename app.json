@@ -10,10 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.enactus.duniya.reactnative",
-      "config": {
-        "googleMapsApiKey": ""
-      }
+      "bundleIdentifier": "io.enactus.duniya.reactnative"
     },
     "android": {
       "adaptiveIcon": {
