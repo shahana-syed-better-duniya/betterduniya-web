@@ -13,7 +13,7 @@ workflows:
         script: |
           npm install
           npm install -g expo-cli
-          expo eject
+          expo eject --non-interactive
       - name: Set up app/build.gradle
         script: |
           mv ./support-files/build.gradle android/app
