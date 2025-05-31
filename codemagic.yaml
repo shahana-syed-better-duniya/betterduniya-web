@@ -1,5 +1,8 @@
 workflows:
-  sample-workflow:
-    name: Codemagic Sample Workflow
+  android-workflow:
+    name: Codemagic Android Workflow
     max_build_duration: 15
     instance_type: mac_mini_m2
+    environment:
+      android_signing:
+        - keystore_android_reference
