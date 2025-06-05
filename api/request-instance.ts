@@ -1,11 +1,11 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import axiosInstance from "@/api/request-instance";
+import {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {Alert} from "react-native";
+import axiosInstance from "@/api/axioInstance";
 
 export interface ApiRequest {
   isBlob?: boolean;
   method: (
-    instance: typeof axiosInstance,
+    instance: AxiosInstance,
     path: string,
     config: AxiosRequestConfig,
     body?: unknown
