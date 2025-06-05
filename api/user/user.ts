@@ -11,6 +11,11 @@ export const userApi = {
     path: () => `/user/register`,
     okMessage: `Account is registered`,
   },
+  verifyAccount: {
+    method: requestMethods.get,
+    path: (email: string, code: string) => `/user/register/verify?email=${email}&code=${code}`,
+    okMessage: `Account is verified`,
+  },
   forgetPassword: {
     method: requestMethods.post,
     path: (email: string) => `/user/forget-password?email=${email}`,
@@ -41,20 +46,5 @@ export const userApi = {
     method: requestMethods.post,
     path: () => `/user/login/google`,
     okMessage: `Login is successful`,
-  },
-  getUserList: {
-    method: requestMethods.get,
-    path: () => `/user/list`,
-    okMessage: 'User list fetched',
-  },
-  getUserSettings: {
-    method: requestMethods.get,
-    path: () => `/user/settings`,
-    okMessage: 'User settings is fetched',
-  },
-  updateUserSettings: {
-    method: requestMethods.put,
-    path: () => `/user/settings`,
-    okMessage: 'User settings are updated',
   },
 };

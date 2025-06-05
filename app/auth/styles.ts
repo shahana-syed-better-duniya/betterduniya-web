@@ -164,4 +164,11 @@ export const styles = StyleSheet.create({
     marginHorizontal: 8,
     resizeMode: "contain",
   },
+  successMessage: {
+    color: "green",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
+    textAlign: "center",
+  },
 });

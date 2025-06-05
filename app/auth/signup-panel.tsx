@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import React, {useEffect, useState} from "react";
+import {ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {styles} from "@/app/auth/styles";
 import {UseStringReturn} from "@/hooks/primitive/use-string";
 
 type SignUpPanelProps = {
-  onSignUp: (email: string, username: string, password: string) => void;
+  onSignUp: (email: string, username: string, password: string) => Promise<void>;
   onSocialPress?: (provider: string) => void;
   username: UseStringReturn;
   email: UseStringReturn;
@@ -31,9 +31,11 @@ export default function SignUpPanel({
                                     }: SignUpPanelProps) {
   const [touched, setTouched] = useState<Partial<Record<keyof SignUpErrors, boolean>>>({});
   const [errors, setErrors] = useState<SignUpErrors>({});
+  const [loading, setLoading] = useState(false); // Loading state
+  const [success, setSuccess] = useState<string | null>(null); // Success message
 
   // Validate fields based on backend rules
-  const validate = (): SignUpErrors => {
+  useEffect(() => {
     const newErrors: SignUpErrors = {};
     // Username
     if (!username.value) {
@@ -62,19 +64,34 @@ export default function SignUpPanel({
       newErrors.confirmPassword = "Passwords do not match.";
     }
     setErrors(newErrors);
-    return newErrors;
-  };
+  }, [username.value, email.value, password.value, confirmPassword.value]);
 
   const handleBlur = (field: keyof SignUpErrors) => {
-    setTouched(prev => ({...prev, [field]: true}));
-    validate();
+    setTouched((prev) => ({...prev, [field]: true}));
   };
 
-  const handleSignUp = () => {
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length === 0) {
-      onSignUp(username.value, email.value, password.value);
+  const isFormValid = Object.keys(errors).length === 0;
+
+  const handleSignUp = async () => {
+    setSuccess(null); // Reset success message
+    setLoading(true); // Show loading indicator
+    if (isFormValid) {
+      try {
+        await onSignUp(email.value, username.value, password.value);
+        setSuccess("Registration successful! Please verify your email.");
+        username.onChangeValue(""); // Clear form fields
+        email.onChangeValue("");
+        password.onChangeValue("");
+        confirmPassword.onChangeValue("");
+      } catch (error) {
+        console.error("Sign-up error:", error);
+        setErrors((prev) => ({
+          ...prev,
+          email: "This email is already registered.",
+        }));
+      }
     }
+    setLoading(false); // Hide loading indicator
   };
 
   return (
@@ -85,10 +102,7 @@ export default function SignUpPanel({
           placeholder="Username"
           placeholderTextColor="#888"
           value={username.value}
-          onChangeText={v => {
-            username.onChangeValue(v);
-            if (touched.username) validate();
-          }}
+          onChangeText={(v) => username.onChangeValue(v)}
           onBlur={() => handleBlur("username")}
           autoCapitalize="none"
         />
@@ -101,10 +115,7 @@ export default function SignUpPanel({
           placeholder="Email"
           placeholderTextColor="#888"
           value={email.value}
-          onChangeText={v => {
-            email.onChangeValue(v);
-            if (touched.email) validate();
-          }}
+          onChangeText={(v) => email.onChangeValue(v)}
           onBlur={() => handleBlur("email")}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -119,10 +130,7 @@ export default function SignUpPanel({
           placeholderTextColor="#888"
           secureTextEntry
           value={password.value}
-          onChangeText={v => {
-            password.onChangeValue(v);
-            if (touched.password) validate();
-          }}
+          onChangeText={(v) => password.onChangeValue(v)}
           onBlur={() => handleBlur("password")}
         />
         {touched.password && errors.password && (
@@ -135,10 +143,7 @@ export default function SignUpPanel({
           placeholderTextColor="#888"
           secureTextEntry
           value={confirmPassword.value}
-          onChangeText={v => {
-            confirmPassword.onChangeValue(v);
-            if (touched.confirmPassword) validate();
-          }}
+          onChangeText={(v) => confirmPassword.onChangeValue(v)}
           onBlur={() => handleBlur("confirmPassword")}
         />
         {touched.confirmPassword && errors.confirmPassword && (
@@ -146,16 +151,22 @@ export default function SignUpPanel({
         )}
       </View>
 
-      <TouchableOpacity
-        style={[
-          styles.loginBtn,
-          Object.keys(errors).length > 0 && {backgroundColor: "#ccc"},
-        ]}
-        onPress={handleSignUp}
-        disabled={Object.keys(errors).length > 0}
-      >
-        <Text style={styles.loginBtnText}>Sign Up</Text>
-      </TouchableOpacity>
+      {loading ? (
+        <ActivityIndicator size="large" color="#000"/>
+      ) : (
+        <TouchableOpacity
+          style={[
+            styles.loginBtn,
+            !isFormValid && {backgroundColor: "#ccc"},
+          ]}
+          onPress={handleSignUp}
+          disabled={!isFormValid}
+        >
+          <Text style={styles.loginBtnText}>Sign Up</Text>
+        </TouchableOpacity>
+      )}
+
+      {success && <Text style={styles.successMessage}>{success}</Text>}
     </>
   );
 }

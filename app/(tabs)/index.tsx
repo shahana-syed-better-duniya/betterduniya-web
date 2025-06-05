@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {
-  Dimensions,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -14,12 +13,11 @@ import useString from "@/hooks/primitive/use-string";
 import {styles} from "@/app/auth/styles";
 import SignUpPanel from "@/app/auth/signup-panel";
 import LogInPanel from "@/app/auth/login-panel";
-import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/user";
+import useRegistration from "@/app/auth/use-registration";
 
 export default function LoginScreen() {
-  const {onRequest} = useRequest();
   const [activeTab, setActiveTab] = useState("login");
+  const {onSignUp} = useRegistration();
 
   // Log In fields
   const loginUsername = useString("");
@@ -34,14 +32,6 @@ export default function LoginScreen() {
   const onLogin = () => {
   };
   const onForgotPassword = () => {
-  };
-  const onSignUp = async (username: string, email: string, password: string) => {
-    const body = {
-      email,
-      username,
-      password,
-    }
-    await onRequest(userApi.registerAccount, [], body, false);
   };
   const onSocialPress = (provider: string) => {
   };
