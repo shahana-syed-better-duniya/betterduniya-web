@@ -18,7 +18,7 @@ steps:
 
   - script: |
       echo "Building the web app..."
-      npx expo export:web --output-dir $(buildOutput)
+      npx expo export -p web --output-dir $(buildOutput)
     displayName: 'Build Expo Web App'
 
   - script: |
