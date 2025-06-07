@@ -3,7 +3,6 @@ import {useNavigation} from "expo-router";
 import { router } from 'expo-router';
 
 const VerifySuccessScreen = () => {
-  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.logoSection}>

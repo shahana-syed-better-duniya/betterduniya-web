@@ -9,32 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import useString from "@/hooks/primitive/use-string";
 import {styles} from "@/app/auth/styles";
 import SignUpPanel from "@/app/auth/signup-panel";
 import LogInPanel from "@/app/auth/login-panel";
-import useRegistration from "@/app/auth/use-registration";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");
-  const {onSignUp} = useRegistration();
-
-  // Log In fields
-  const loginUsername = useString("");
-  const loginPassword = useString("");
-
-  // Sign Up fields
-  const signupUsername = useString("");
-  const signupEmail = useString("");
-  const signupPassword = useString("");
-  const signupConfirmPassword = useString("");
-
-  const onLogin = () => {
-  };
-  const onForgotPassword = () => {
-  };
-  const onSocialPress = (provider: string) => {
-  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -95,21 +75,9 @@ export default function LoginScreen() {
             </View>
 
             {activeTab === "login" ? (
-              <LogInPanel
-                onForgotPassword={onForgotPassword}
-                onLogin={onLogin}
-                onSocialPress={onSocialPress}
-                username={loginUsername}
-                password={loginPassword}
-              />
+              <LogInPanel/>
             ) : (
-              <SignUpPanel
-                onSignUp={onSignUp}
-                username={signupUsername}
-                email={signupEmail}
-                password={signupPassword}
-                confirmPassword={signupConfirmPassword}
-              />
+              <SignUpPanel/>
             )}
           </View>
         </ScrollView>
