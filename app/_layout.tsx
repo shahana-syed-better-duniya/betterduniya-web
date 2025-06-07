@@ -25,11 +25,11 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found"/>
         <Stack.Screen
           name="/auth/verify-email-screen"
-          options={{title: "Verify Email"}}
+          options={{title: "Verify Email", headerShown: false}}
         />
         <Stack.Screen
           name="/auth/verify-success-screen"
-          options={{title: "Verify Email"}}
+          options={{title: "Verify Email", headerShown: false}}
         />
       </Stack>
       <StatusBar style="auto"/>
