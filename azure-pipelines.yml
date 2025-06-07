@@ -18,7 +18,7 @@ steps:
 
   - script: |
       echo "Building the web app..."
-      npx expo export -p web
+      npx expo export -p web --output-dir $(buildOutput)
     displayName: 'Build Expo Web App'
 
   - task: AzureStaticWebApp@0
