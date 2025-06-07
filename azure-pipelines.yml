@@ -18,12 +18,11 @@ steps:
 
   - script: |
       echo "Building the web app..."
-      npx expo export -p web  --output-dir $(buildOutput)
+      npx expo export -p web
     displayName: 'Build Expo Web App'
 
   - task: AzureStaticWebApp@0
     inputs:
-      app_location: $(buildOutput)
-      output_location: './'
+      app_location: 'web-build'
       skip_app_build: true
       azure_static_web_apps_api_token: $(deployment_token)
