@@ -1,6 +1,9 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {useNavigation} from "expo-router";
+import { router } from 'expo-router';
 
 const VerifySuccessScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.logoSection}>
@@ -14,8 +17,7 @@ const VerifySuccessScreen = () => {
         Your email has been verified successfully. You can now proceed to use the app.
       </Text>
 
-      <TouchableOpacity style={styles.proceedBtn} onPress={() => {
-      }}>
+      <TouchableOpacity style={styles.proceedBtn} onPress={() => router.replace('/(tabs)/home-screen')}>
         <Text style={styles.proceedBtnText}>Proceed</Text>
       </TouchableOpacity>
     </View>
