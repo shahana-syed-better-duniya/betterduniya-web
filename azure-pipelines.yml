@@ -25,4 +25,5 @@ steps:
     inputs:
       app_location: '/'
       output_location: $(buildOutput)
+      skip_app_build: true
       azure_static_web_apps_api_token: $(deployment_token)
