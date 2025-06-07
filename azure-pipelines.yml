@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  buildOutput: 'out'
+  buildOutput: 'dist'
   nodeVersion: '16.x'
 
 steps:
@@ -18,11 +18,15 @@ steps:
 
   - script: |
       echo "Building the web app..."
-      npx expo export -p web
+      npx expo export:web --output-dir $(buildOutput)
     displayName: 'Build Expo Web App'
+
+  - script: |
+      echo "Contents of $(buildOutput):"
+      ls -la $(buildOutput)
+    displayName: 'Show Output Directory'
 
   - task: AzureStaticWebApp@0
     inputs:
-      app_location: 'web-build'
-      skip_app_build: true
+      app_location: $(buildOutput)
       azure_static_web_apps_api_token: $(deployment_token)
