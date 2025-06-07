@@ -1,16 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {styles} from "@/app/auth/styles";
-import {UseStringReturn} from "@/hooks/primitive/use-string";
-
-type SignUpPanelProps = {
-  onSignUp: (email: string, username: string, password: string) => Promise<void>;
-  onSocialPress?: (provider: string) => void;
-  username: UseStringReturn;
-  email: UseStringReturn;
-  password: UseStringReturn;
-  confirmPassword: UseStringReturn;
-};
+import useString from "@/hooks/primitive/use-string";
+import useRegistration from "@/app/auth/use-registration";
 
 type SignUpErrors = {
   username?: string;
@@ -22,13 +14,15 @@ type SignUpErrors = {
 const validateEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-export default function SignUpPanel({
-                                      onSignUp,
-                                      username,
-                                      email,
-                                      password,
-                                      confirmPassword,
-                                    }: SignUpPanelProps) {
+export default function SignUpPanel() {
+  const {onSignUp} = useRegistration();
+
+  const username = useString("");
+  const email = useString("");
+  const password = useString("");
+  const confirmPassword = useString("");
+
+
   const [touched, setTouched] = useState<Partial<Record<keyof SignUpErrors, boolean>>>({});
   const [errors, setErrors] = useState<SignUpErrors>({});
   const [loading, setLoading] = useState(false); // Loading state
