@@ -7,7 +7,6 @@ import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {useNavigation} from "expo-router";
 import {validateForgotPassword} from "@/app/auth/utils/validators";
-import {useBoolean} from "@/hooks/primitive/use-boolean";
 
 
 interface ForgotPasswordScreen {
@@ -35,7 +34,6 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreen> = ({onGoBack}) => {
 
   const handleSubmit = async () => {
     apiResult.onClear();
-    handleBlur('email')();
 
     if (!isValid) return;
 

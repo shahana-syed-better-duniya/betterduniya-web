@@ -179,4 +179,21 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
   },
+  verifyBtn: {
+    width: "85%",
+    backgroundColor: "#FFD740",
+    borderRadius: 30,
+    paddingVertical: 12,
+    alignItems: "center",
+    shadowColor: "#FFD740",
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 2,
+    marginBottom: 16,
+  },
+  verifyBtnText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  }
 });
