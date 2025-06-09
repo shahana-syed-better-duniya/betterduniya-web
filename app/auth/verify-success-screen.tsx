@@ -1,6 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {useNavigation} from "expo-router";
-import { router } from 'expo-router';
+import {router} from "expo-router";
 
 const VerifySuccessScreen = () => {
   return (

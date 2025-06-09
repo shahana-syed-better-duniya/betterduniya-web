@@ -1,80 +1,59 @@
+import React from "react";
 import {ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useEffect, useState} from "react";
 import {styles} from "@/app/auth/styles";
-import useString from "@/hooks/primitive/use-string";
-import {userApi} from "@/api/user/user";
-import useRequest from "@/hooks/api/use-request";
-import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
+import {useForm} from "@/hooks/interaction/use-form";
+import {validateLogin} from "@/app/auth/validators";
+import useLogin from "@/app/auth/use-login";
 import {router} from "expo-router";
+import useString from "@/hooks/primitive/use-string";
 
-const defaultErrors = {email: '', password: ''};
+export default function LogInPanel() {
+  const {onLogin, isLoading,} = useLogin();
+  const loginError = useString("");
 
-function LogInPanel() {
-  const {onRequest} = useRequest<UserLoginSuccessInfo>()
-  const email = useString("");
-  const password = useString("");
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    isValid,
+    setErrors,
+    resetForm,
+  } = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate: validateLogin,
+  });
 
-  const [touched, setTouched] = useState({username: false, password: false});
-  const [errors, setErrors] = useState(defaultErrors);
-  const [loading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState("");
+  const handleLogin = async () => {
+    loginError.onClear();
+    if (isValid) {
+      try {
+        const userInfo = await onLogin(values.email, values.password);
+        if (userInfo?.accessToken != '') {
+          router.replace('/(tabs)/home-screen')
+        } else {
+          loginError.onChangeValue("Email or password is invalid. Please try again.");
+        }
+        resetForm();
+      } catch (e) {
+        setErrors((prev) => ({
+          ...prev,
+          password: "Login failed. Please check your credentials.",
+        }));
+      }
+    }
+  };
 
   const onForgotPassword = () => {
+    // Your forgot password logic here
   };
+
   const onSocialPress = (provider: string) => {
-  };
-
-  useEffect(() => {
-    const newErrors = {email: '', password: ''};
-
-    if (!email.value.trim()) {
-      newErrors.email = "Email is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-
-    if (!password.value.trim()) {
-      newErrors.password = "Password is required.";
-    }
-
-    setErrors(newErrors);
-  }, [email.value, password.value]);
-
-  const isFormValid = errors.email == "" && errors.password == "";
-
-  const handleBlur = (field) => {
-    setTouched((prev) => ({...prev, [field]: true}));
-  };
-
-  const onLogin = async () => {
-    setLoginError("");
-    setLoading(true);
-
-    if (!isFormValid) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const body = {
-        email: email.value,
-        password: password.value,
-      };
-      const response = await onRequest(userApi.loginAccount, [], body, false);
-      const userInfo = response.result;
-      if (userInfo?.accessToken != '') {
-        router.replace('/(tabs)/home-screen')
-      } else {
-        setLoginError("Email or password is invalid. Please try again.");
-      }
-
-      console.log("User Login Success:", userInfo);
-    } catch (error) {
-      console.error("Login failed:", error);
-      setLoginError("Invalid credentials. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    // Your social login logic here
   };
 
   return (
@@ -84,12 +63,12 @@ function LogInPanel() {
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#888"
-          value={email.value}
-          onChangeText={email.onChangeValue}
-          onBlur={() => handleBlur("username")}
+          value={values.email}
+          onChangeText={handleChange("email")}
+          onBlur={handleBlur("email")}
           autoCapitalize="none"
         />
-        {touched.username && errors.email && (
+        {touched.email && errors.email && (
           <Text style={styles.inputError}>{errors.email}</Text>
         )}
 
@@ -98,9 +77,9 @@ function LogInPanel() {
           placeholder="Password"
           placeholderTextColor="#888"
           secureTextEntry
-          value={password.value}
-          onChangeText={password.onChangeValue}
-          onBlur={() => handleBlur("password")}
+          value={values.password}
+          onChangeText={handleChange("password")}
+          onBlur={handleBlur("password")}
         />
         {touched.password && errors.password && (
           <Text style={styles.inputError}>{errors.password}</Text>
@@ -111,20 +90,19 @@ function LogInPanel() {
         </TouchableOpacity>
       </View>
 
-      {loading ? (
+      {isLoading ? (
         <ActivityIndicator size="large" color="#000"/>
       ) : (
         <TouchableOpacity
-          style={[styles.loginBtn, !isFormValid && {backgroundColor: "#ccc"}]}
-          onPress={onLogin}
-          disabled={!isFormValid}
+          style={[styles.loginBtn, !isValid && {backgroundColor: "#ccc"}]}
+          onPress={handleLogin}
+          disabled={!isValid}
         >
           <Text style={styles.loginBtnText}>Log In</Text>
         </TouchableOpacity>
       )}
 
-      {loginError && <Text style={styles.inputError}>{loginError}</Text>}
-
+      {!loginError.isEmpty && <Text style={styles.inputError}>{loginError.value}</Text>}
       <Text style={styles.orText}>Or Continue with</Text>
       <View style={styles.socialRow}>
         <TouchableOpacity onPress={() => onSocialPress("google")}>
@@ -134,5 +112,3 @@ function LogInPanel() {
     </>
   );
 }
-
-export default LogInPanel;
