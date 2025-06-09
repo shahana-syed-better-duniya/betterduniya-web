@@ -1,15 +1,18 @@
 import React from "react";
 import {ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {styles} from "@/app/auth/styles";
+import {styles} from "@/app/auth/utils/styles";
 import {useForm} from "@/hooks/interaction/use-form";
-import {validateLogin} from "@/app/auth/validators";
-import useLogin from "@/app/auth/use-login";
+import {validateLogin} from "@/app/auth/utils/validators";
+import useLogin from "@/app/auth/hooks/use-login";
 import {router} from "expo-router";
 import useString from "@/hooks/primitive/use-string";
+import {useBoolean} from "@/hooks/primitive/use-boolean";
+import ForgotPasswordScreen from "@/app/auth/forget-password-screen";
 
 export default function LogInPanel() {
   const {onLogin, isLoading,} = useLogin();
   const loginError = useString("");
+  const isForgetPassword = useBoolean(false);
 
   const {
     values,
@@ -48,13 +51,15 @@ export default function LogInPanel() {
     }
   };
 
-  const onForgotPassword = () => {
-    // Your forgot password logic here
-  };
-
   const onSocialPress = (provider: string) => {
     // Your social login logic here
   };
+
+  if (isForgetPassword.value) {
+    return (
+      <ForgotPasswordScreen onGoBack={isForgetPassword.onFalse}/>
+    )
+  }
 
   return (
     <>
@@ -85,7 +90,7 @@ export default function LogInPanel() {
           <Text style={styles.inputError}>{errors.password}</Text>
         )}
 
-        <TouchableOpacity onPress={onForgotPassword} style={styles.forgotPassword}>
+        <TouchableOpacity onPress={isForgetPassword.onToggle} style={styles.forgotPassword}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>

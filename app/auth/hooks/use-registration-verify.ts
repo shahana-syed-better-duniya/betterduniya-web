@@ -5,7 +5,7 @@ import {Alert} from "react-native";
 
 const useRegistrationVerify = () => {
   const navigation = useNavigation();
-  const {onRequest} = useRequest<boolean>();
+  const {onRequest, isLoading} = useRequest<boolean>();
 
   const onVerify = async (email: string, code: string) => {
     const response = await onRequest(userApi.verifyAccount, [email, code], null, false);
@@ -16,7 +16,7 @@ const useRegistrationVerify = () => {
     }
   };
 
-  return {onVerify}
+  return {onVerify, isLoading}
 }
 
 export default useRegistrationVerify;

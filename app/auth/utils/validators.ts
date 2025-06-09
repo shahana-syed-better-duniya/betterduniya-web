@@ -8,6 +8,24 @@ type SignUpErrors = {
 const validateEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+const validatePasswords = (values: { password?: string; confirmPassword?: string }) => {
+  const errors: { password?: string; confirmPassword?: string } = {};
+
+  if (!values.password) {
+    errors.password = "Password is required.";
+  } else if (values.password.length < 8) {
+    errors.password = "Password must be at least 8 characters.";
+  }
+
+  if (!values.confirmPassword) {
+    errors.confirmPassword = "Please confirm your password.";
+  } else if (values.confirmPassword !== values.password) {
+    errors.confirmPassword = "Passwords do not match.";
+  }
+
+  return errors;
+}
+
 export function validateLogin(values: { email: string; password: string }) {
   const errors: Partial<{ email: string; password: string }> = {};
   if (!values.email) {
@@ -42,18 +60,25 @@ export function validateSignUp(values: {
   } else if (!validateEmail(values.email)) {
     errors.email = "Please enter a valid email address.";
   }
+  Object.assign(errors, validatePasswords((values)));
+  return errors;
+}
 
-  if (!values.password) {
-    errors.password = "Password is required.";
-  } else if (values.password.length < 8) {
-    errors.password = "Password must be at least 8 characters.";
-  }
+export const validateForgotPassword = (values: { email: string }) => {
+  const errors: { email?: string } = {};
 
-  if (!values.confirmPassword) {
-    errors.confirmPassword = "Please confirm your password.";
-  } else if (values.confirmPassword !== values.password) {
-    errors.confirmPassword = "Passwords do not match.";
+  if (!values.email || values.email.length === 0) {
+    errors.email = "Email is required";
+  } else if (!validateEmail(values.email)) {
+    errors.email = "Enter a valid email";
   }
 
   return errors;
+};
+
+export function validateResetPassword(values: {
+  password: string;
+  confirmPassword: string;
+}): SignUpErrors {
+  return validatePasswords(values);
 }
