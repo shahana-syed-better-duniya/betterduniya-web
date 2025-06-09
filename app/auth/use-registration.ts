@@ -6,7 +6,7 @@ import {Alert} from "react-native";
 
 const useRegistration = () => {
   const navigation = useNavigation();
-  const {onRequest} = useRequest<RegistrationResult>();
+  const {onRequest, isLoading} = useRequest<RegistrationResult>();
 
   const onSignUp = async (email: string, username: string, password: string) => {
     const body = {
@@ -37,6 +37,7 @@ const useRegistration = () => {
 
   return {
     onSignUp,
+    isLoading,
   }
 }
 
