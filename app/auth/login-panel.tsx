@@ -8,6 +8,8 @@ import {router} from "expo-router";
 import useString from "@/hooks/primitive/use-string";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import ForgotPasswordScreen from "@/app/auth/forget-password-screen";
+import {useUserContext} from "@/utils/user/user-context";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LogInPanel() {
   const {onLogin, isLoading,} = useLogin();
@@ -31,12 +33,21 @@ export default function LogInPanel() {
     validate: validateLogin,
   });
 
+
+  const {setUserContext} = useUserContext();
   const handleLogin = async () => {
     loginError.onClear();
     if (isValid) {
       try {
         const userInfo = await onLogin(values.email, values.password);
-        if (userInfo?.accessToken != '') {
+        if (userInfo != null) {
+          setUserContext({
+            userId: userInfo.userId,
+            username: userInfo.userName,
+            personalName: userInfo.personalName,
+            userRole: userInfo.userRole
+          });
+          await AsyncStorage.setItem('token', userInfo.accessToken);
           router.replace('/(tabs)/home-screen')
         } else {
           loginError.onChangeValue("Email or password is invalid. Please try again.");

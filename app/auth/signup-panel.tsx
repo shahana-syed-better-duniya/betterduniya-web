@@ -22,6 +22,7 @@ export default function SignUpPanel() {
   } = useForm({
     initialValues: {
       username: "",
+      personalName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -33,8 +34,8 @@ export default function SignUpPanel() {
     apiResult.onClear();
     if (isValid) {
       try {
-        await onSignUp(values.email, values.username, values.password);
-        apiResult.onChangeValue("Registration apiResultful! Please verify your email.");
+        await onSignUp(values.email, values.username, values.password, values.personalName);
+        apiResult.onChangeValue("Registration successful! Please verify your email.");
         resetForm();
       } catch (error) {
         setErrors((prev) => ({
@@ -59,6 +60,18 @@ export default function SignUpPanel() {
         />
         {touched.username && errors.username?.length && (
           <Text style={styles.inputError}>{errors.username}</Text>
+        )}
+        <TextInput
+          style={styles.input}
+          placeholder="Personal Name"
+          placeholderTextColor="#888"
+          value={values.personalName}
+          onChangeText={handleChange('personalName')}
+          onBlur={handleBlur("personalName")}
+          autoCapitalize="none"
+        />
+        {touched.personalName && errors.personalName?.length && (
+          <Text style={styles.inputError}>{errors.personalName}</Text>
         )}
 
         <TextInput

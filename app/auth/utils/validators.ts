@@ -1,5 +1,6 @@
 type SignUpErrors = {
   username?: string;
+  personalName?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;
@@ -41,6 +42,7 @@ export function validateLogin(values: { email: string; password: string }) {
 
 export function validateSignUp(values: {
   username: string;
+  personalName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -53,6 +55,14 @@ export function validateSignUp(values: {
     errors.username = "Username must be at least 4 characters.";
   } else if (values.username.length > 50) {
     errors.username = "Username can't exceed 50 characters.";
+  }
+
+  if (!values.personalName) {
+    errors.personalName = "Personal name is required.";
+  } else if (values.personalName.length < 4) {
+    errors.personalName = "Personal name must be at least 4 characters.";
+  } else if (values.personalName.length > 150) {
+    errors.personalName = "Personal name can't exceed 150 characters.";
   }
 
   if (!values.email) {

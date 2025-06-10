@@ -1,77 +1,124 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import React from "react";
+import {ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import {useForm} from "@/hooks/interaction/use-form";
+import useString from "@/hooks/primitive/use-string";
+import {validateReview} from "@/app/(tabs)/validators";
+import useProductReviewCreate from "@/app/(tabs)/review/use-product-review-create";
+import {useUserContext} from "@/utils/user/user-context";
 
 export default function ReviewScreen() {
-  const [title, setTitle] = useState("");
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState(0);
+  const apiResult = useString("");
+  const {onCreateReview, isLoading} = useProductReviewCreate();
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    resetForm,
+    isValid,
+    setErrors,
+  } = useForm({
+    initialValues: {
+      title: "",
+      description: "",
+      rating: '0',
+    },
+    validate: validateReview,
+  });
+
+  const handlePostReview = async () => {
+    apiResult.onClear();
+    if (isValid) {
+      try {
+        // Replace this with the actual API call
+        console.log(values)
+        console.log("Review Submitted:", values);
+        await onCreateReview(values.title, values.description, parseInt(values.rating));
+        apiResult.onChangeValue("Review submitted successfully!");
+        resetForm();
+      } catch (error) {
+        setErrors((prev) => ({
+          ...prev,
+          title: "Something went wrong. Please try again.",
+        }));
+      }
+    }
+  };
+
+  const {username, personalName} = useUserContext();
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 32 }}>
-      {/* Header */}
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{paddingBottom: 32}}
+    >
       <Text style={styles.header}>New Review</Text>
 
-      {/* User Info */}
       <View style={styles.profileRow}>
         <Image
-          source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
+          source={{uri: "https://randomuser.me/api/portraits/men/32.jpg"}}
           style={styles.avatar}
         />
-        <View style={{ marginLeft: 12 }}>
-          <Text style={styles.name}>Ben Parker</Text>
-          <Text style={styles.username}>@benparker</Text>
+        <View style={{marginLeft: 12}}>
+          <Text style={styles.name}>{personalName}</Text>
+          <Text style={styles.username}>@{username}</Text>
         </View>
       </View>
 
-      {/* Title */}
+      {/* Title Input */}
       <Text style={styles.label}>Title:</Text>
       <TextInput
         style={styles.titleInput}
         placeholder="Enter a title..."
-        value={title}
-        onChangeText={setTitle}
+        value={values.title}
+        onChangeText={handleChange("title")}
+        onBlur={handleBlur("title")}
         placeholderTextColor="#bbb"
       />
+      {touched.title && errors.title && (
+        <Text style={styles.inputError}>{errors.title}</Text>
+      )}
 
-      {/* Review */}
+      {/* Review Input */}
       <TextInput
         style={styles.reviewBox}
         multiline
         numberOfLines={6}
         placeholder="Please write your review..."
-        value={review}
-        onChangeText={setReview}
+        value={values.description}
+        onChangeText={handleChange("description")}
+        onBlur={handleBlur("description")}
         placeholderTextColor="#bbb"
       />
+      {touched.description && errors.description && (
+        <Text style={styles.inputError}>{errors.description}</Text>
+      )}
 
+      {/* Add Media Section */}
       <View style={styles.rowBetween}>
         <TouchableOpacity style={styles.addMediaBtn}>
-          <Icon name="add" size={28} color="#FFC107" />
+          <Icon name="add" size={28} color="#FFC107"/>
         </TouchableOpacity>
-        <Text style={styles.charCount}>100,000 Characters</Text>
+        <Text style={styles.charCount}>5000 Characters</Text>
       </View>
       <Text style={styles.addMediaLabel}>Add images, video</Text>
 
-      <View style={styles.hr} />
+      <View style={styles.hr}/>
 
-      {/* Rating */}
+      {/* Rating Section */}
       <Text style={styles.ratingLabel}>Overall Rating</Text>
       <View style={styles.ratingRow}>
         {[1, 2, 3, 4, 5].map((i) => (
-          <TouchableOpacity key={i} onPress={() => setRating(i)}>
+          <TouchableOpacity
+            key={i}
+            onPress={() => handleChange("rating")(i)}
+          >
             <Icon
               name="star"
               size={28}
-              color={i <= rating ? (i <= 3 ? "#F44336" : "#FFC107") : "#ccc"}
+              color={i <= parseInt(values.rating) ? (i <= 3 ? "#F44336" : "#FFC107") : "#ccc"}
             />
           </TouchableOpacity>
         ))}
@@ -85,24 +132,37 @@ export default function ReviewScreen() {
         <Text style={styles.arrowRight}>{"——>"}</Text>
       </View>
 
-      <View style={styles.hr} />
+      <View style={styles.hr}/>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#000"/>
+      ) : (
+        <TouchableOpacity
+          style={[
+            styles.postBtn,
+            !isValid && {backgroundColor: "#ccc"},
+          ]}
+          onPress={handlePostReview}
+          disabled={!isValid}
+        >
+          <Text style={styles.postBtnText}>Post!</Text>
+        </TouchableOpacity>
+      )}
 
-      {/* Post Button */}
-      <TouchableOpacity style={styles.postBtn}>
-        <Text style={styles.postBtnText}>Post !</Text>
-      </TouchableOpacity>
+      {!apiResult.isEmpty && (
+        <Text style={styles.successMessage}>{apiResult.value}</Text>
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", paddingTop: 24, paddingHorizontal: 20 },
-  header: { fontWeight: "bold", fontSize: 28, marginBottom: 14 },
-  profileRow: { flexDirection: "row", alignItems: "center", marginBottom: 24 },
-  avatar: { width: 60, height: 60, borderRadius: 30 },
-  name: { fontWeight: "bold", fontSize: 18, color: "#222" },
-  username: { color: "#888", fontSize: 15 },
-  label: { fontWeight: "500", color: "#555", fontSize: 15, marginBottom: 2 },
+  container: {flex: 1, backgroundColor: "#fff", paddingTop: 24, paddingHorizontal: 20},
+  header: {fontWeight: "bold", fontSize: 28, marginBottom: 14},
+  profileRow: {flexDirection: "row", alignItems: "center", marginBottom: 24},
+  avatar: {width: 60, height: 60, borderRadius: 30},
+  name: {fontWeight: "bold", fontSize: 18, color: "#222"},
+  username: {color: "#888", fontSize: 15},
+  label: {fontWeight: "500", color: "#555", fontSize: 15, marginBottom: 2},
   titleInput: {
     borderBottomWidth: 2,
     borderBottomColor: "#ededed",
@@ -128,34 +188,42 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   addMediaBtn: {
-    width: 42, height: 42, borderRadius: 21,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     backgroundColor: "#fff",
-    shadowColor: "#000", shadowOpacity: 0.07, shadowRadius: 3, elevation: 2,
-    justifyContent: "center", alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.07,
+    shadowRadius: 3,
+    elevation: 2,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  charCount: { color: "#888", fontSize: 13, marginRight: 2 },
-  addMediaLabel: { color: "#888", fontSize: 14, marginTop: 3, marginBottom: 16 },
+  charCount: {color: "#888", fontSize: 13, marginRight: 2},
+  addMediaLabel: {color: "#888", fontSize: 14, marginTop: 3, marginBottom: 16},
   hr: {
     height: 2,
     backgroundColor: "#ededed",
     marginVertical: 12,
     borderRadius: 2,
   },
-  ratingLabel: { fontSize: 16, fontWeight: "500", color: "#666", marginBottom: 10 },
-  ratingRow: { flexDirection: "row", alignItems: "center", marginBottom: 2 },
+  ratingLabel: {fontSize: 16, fontWeight: "500", color: "#666", marginBottom: 10},
+  ratingRow: {flexDirection: "row", alignItems: "center", marginBottom: 2},
   ratingTextRow: {
-    flexDirection: "row", justifyContent: "space-between", marginHorizontal: 2,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 2,
   },
-  negativeRating: { color: "#F44336", fontSize: 14, fontWeight: "600" },
-  positiveRating: { color: "#FFC107", fontSize: 14, fontWeight: "600" },
+  negativeRating: {color: "#F44336", fontSize: 14, fontWeight: "600"},
+  positiveRating: {color: "#FFC107", fontSize: 14, fontWeight: "600"},
   ratingArrowRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 2,
     marginBottom: 10,
   },
-  arrowLeft: { color: "#F44336", fontSize: 14 },
-  arrowRight: { color: "#FFC107", fontSize: 14 },
+  arrowLeft: {color: "#F44336", fontSize: 14},
+  arrowRight: {color: "#FFC107", fontSize: 14},
   postBtn: {
     marginTop: 22,
     alignSelf: "center",
@@ -163,7 +231,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 36,
     paddingVertical: 12,
     borderRadius: 22,
-    shadowColor: "#000", shadowOpacity: 0.14, shadowRadius: 6, elevation: 3,
+    shadowColor: "#000",
+    shadowOpacity: 0.14,
+    shadowRadius: 6,
+    elevation: 3,
   },
-  postBtnText: { color: "#fff", fontWeight: "bold", fontSize: 20 },
+  postBtnText: {color: "#fff", fontWeight: "bold", fontSize: 20},
+  inputError: {color: "#F44336", fontSize: 13, marginTop: 4},
+  successMessage: {color: "#4CAF50", fontSize: 16, marginTop: 10},
 });

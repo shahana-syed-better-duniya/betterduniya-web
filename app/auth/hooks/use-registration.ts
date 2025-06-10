@@ -8,11 +8,12 @@ const useRegistration = () => {
   const navigation = useNavigation();
   const {onRequest, isLoading} = useRequest<RegistrationResult>();
 
-  const onSignUp = async (email: string, username: string, password: string) => {
+  const onSignUp = async (email: string, username: string, password: string, personalName: string) => {
     const body = {
       email,
       username,
       password,
+      personalName,
     }
     try {
       const response = await onRequest(userApi.registerAccount, [], body, false);
