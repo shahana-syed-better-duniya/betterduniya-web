@@ -44,6 +44,9 @@ workflows:
         XCODE_WORKSPACE: "EnactusDuniya.xcworkspace"
         XCODE_SCHEME: "EnactusDuniya"
     scripts:
+      - name: Install npm dependencies
+        script: |
+          npm install
       - name: Run Expo Prebuild
         script: |
           npx expo prebuild
