@@ -1,6 +1,7 @@
 import {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {Alert} from "react-native";
 import axiosInstance from "@/api/axioInstance";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface ApiRequest {
   isBlob?: boolean;
@@ -30,14 +31,14 @@ export interface RequestResult<T> {
   };
 }
 
-const getRequestConfig = (request: ApiRequest): AxiosRequestConfig => {
-  const token = localStorage.getItem('token');
-
+const getRequestConfig = async (request: ApiRequest): Promise<AxiosRequestConfig> => {
+  const token = await AsyncStorage.getItem('token')
+  console.log(token);
   if (!token) {
     console.log(`Invalid token: ${token}`);
   }
 
-  const responseType = request?.isBlob ? { responseType: 'blob' as const } : {};
+  const responseType = request?.isBlob ? {responseType: 'blob' as const} : {};
   return {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -73,8 +74,8 @@ const requestInstance = async <T>(
   args: any[],
   body?: any
 ): Promise<RequestResult<T>> => {
-  const config = getRequestConfig(request);
-  const { method, path } = request;
+  const config = await getRequestConfig(request);
+  const {method, path} = request;
 
   const completePath = path(...args);
   if (completePath.includes('undefined')) {
@@ -84,11 +85,11 @@ const requestInstance = async <T>(
   try {
     const response = await method(axiosInstance, completePath, config, body);
     const json = await response.data;
-    return { result: json, ok: true, errors: [] };
+    return {result: json, ok: true, errors: []};
   } catch (error) {
     console.error('Request failed', error);
     const errorMessage = getResponseErrorMessage(error);
-    return { result: null, ok: false, error, errorMessage };
+    return {result: null, ok: false, error, errorMessage};
   }
 };
 

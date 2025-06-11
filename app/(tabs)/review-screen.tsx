@@ -1,11 +1,22 @@
 import React from "react";
-import {ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {useForm} from "@/hooks/interaction/use-form";
 import useString from "@/hooks/primitive/use-string";
 import {validateReview} from "@/app/(tabs)/validators";
 import useProductReviewCreate from "@/app/(tabs)/review/use-product-review-create";
 import {useUserContext} from "@/utils/user/user-context";
+import useImagePicker from "@/hooks/interaction/use-image-picker";
 
 export default function ReviewScreen() {
   const apiResult = useString("");
@@ -35,9 +46,11 @@ export default function ReviewScreen() {
         // Replace this with the actual API call
         console.log(values)
         console.log("Review Submitted:", values);
-        await onCreateReview(values.title, values.description, parseInt(values.rating));
+        console.log(images)
+        await onCreateReview(values.title, values.description, parseInt(values.rating), images);
         apiResult.onChangeValue("Review submitted successfully!");
         resetForm();
+        setImages([]);
       } catch (error) {
         setErrors((prev) => ({
           ...prev,
@@ -48,6 +61,12 @@ export default function ReviewScreen() {
   };
 
   const {username, personalName} = useUserContext();
+
+  const {
+    images,
+    setImages,
+    handlePickImages,
+  } = useImagePicker();
 
   return (
     <ScrollView
@@ -98,12 +117,36 @@ export default function ReviewScreen() {
 
       {/* Add Media Section */}
       <View style={styles.rowBetween}>
-        <TouchableOpacity style={styles.addMediaBtn}>
+        <TouchableOpacity style={styles.addMediaBtn} onPress={handlePickImages}>
           <Icon name="add" size={28} color="#FFC107"/>
         </TouchableOpacity>
         <Text style={styles.charCount}>5000 Characters</Text>
       </View>
       <Text style={styles.addMediaLabel}>Add images, video</Text>
+      {images.length > 0 && (
+        <FlatList
+          horizontal
+          data={images}
+          keyExtractor={(item) => item.uri}
+          renderItem={({ item }) => (
+            <View style={styles.previewImageContainer}>
+              <Image
+                source={{ uri: item.uri }}
+                style={styles.previewImage}
+                resizeMode="cover"
+              />
+              <TouchableOpacity
+                style={styles.removeBtn}
+                onPress={() => setImages(images => images.filter(img => img.uri !== item.uri))}
+              >
+                <Icon name="close-circle" size={22} color="#F44336" />
+              </TouchableOpacity>
+            </View>
+          )}
+          style={{ marginBottom: 14 }}
+        />
+      )}
+
 
       <View style={styles.hr}/>
 
@@ -239,4 +282,25 @@ const styles = StyleSheet.create({
   postBtnText: {color: "#fff", fontWeight: "bold", fontSize: 20},
   inputError: {color: "#F44336", fontSize: 13, marginTop: 4},
   successMessage: {color: "#4CAF50", fontSize: 16, marginTop: 10},
+  previewImage: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: "#eee",
+  },
+  previewImageContainer: {
+    position: "relative",
+    marginRight: 10,
+  },
+  removeBtn: {
+    position: "absolute",
+    top: -10,
+    right: -10,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 1,
+    elevation: 3,
+  },
 });

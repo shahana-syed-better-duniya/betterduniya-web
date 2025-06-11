@@ -1,21 +1,30 @@
 import {useNavigation} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
-import {RegistrationResult} from "@/interfaces/users/registrationResult";
 import {Alert} from "react-native";
 import {productApi} from "@/api/product/product";
 
 const useProductReviewCreate = () => {
   const navigation = useNavigation();
-  const {onRequest, isLoading} = useRequest<RegistrationResult>();
+  const {onRequest, isLoading} = useRequest();
 
-  const onCreateReview = async (title: string, description: string, rating: number) => {
-    const body = {
-      title,
-      description,
-      rating,
+  const onCreateReview = async (title: string, description: string, rating: number, images: { uri: string }[]) => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('rating', `${rating}`);
+    for (let idx = 0; idx < images.length; idx++) {
+      const image = images[idx];
+      const response = await fetch(image.uri);
+      const blob = await response.blob();
+      // Guess the extension/type - customize as needed
+      const fileType = blob.type || "image/jpeg";
+      const fileName = `photo_${idx}.${fileType.split('/')[1] || "jpg"}`;
+      const file = new File([blob], fileName, {type: fileType});
+      formData.append("fileUpload", file);
     }
+    console.log(formData)
     try {
-      const response = await onRequest(productApi.ProductReview.createEntity, [], body, false);
+      await onRequest(productApi.createReview, [], formData, false);
     } catch (error) {
       console.error("Sign-up failed:", error);
       Alert.alert("An error occurred. Please try again later.");
