@@ -32,6 +32,9 @@ workflows:
       email:
         recipients:
           - sunnywongs523@gmail.com
+          - shahanahsyed@gmail.com
+          - 101463656@georgebrown.ca
+          - hans.casilao@gmail.com
         notify:
           success: true
           failure: true
