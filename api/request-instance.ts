@@ -33,7 +33,6 @@ export interface RequestResult<T> {
 
 const getRequestConfig = async (request: ApiRequest): Promise<AxiosRequestConfig> => {
   const token = await AsyncStorage.getItem('token')
-  console.log(token);
   if (!token) {
     console.log(`Invalid token: ${token}`);
   }

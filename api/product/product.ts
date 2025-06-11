@@ -8,5 +8,10 @@ export const productApi = {
     method: requestMethods.postForm,
     path: () => `/product/review/upload`,
     okMessage: `Product review is created`,
-  }
+  },
+  searchReview: {
+    method: requestMethods.get,
+    path: (name: string) => `/product/review/search?name=${name}`,
+    okMessage: `Product review is searched`,
+  },
 }

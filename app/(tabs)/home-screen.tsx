@@ -1,29 +1,34 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import React, {useState} from "react";
+import {Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import useRequest from "@/hooks/api/use-request";
+import {productApi} from "@/api/product/product";
+import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
+import {router, useNavigation} from "expo-router";
+import {useProductReviewContext} from "@/utils/products/product-review-context";
 
 export default function HomeScreen() {
+  const {setProductReviewContext} = useProductReviewContext();
+  const {onRequest} = useRequest<ProductReviewSummary>();
   const [search, setSearch] = useState("");
+
+  const onSearch = async () => {
+    const response = await onRequest(productApi.searchReview, [search], null, false);
+    if (response.result != null) {
+      setProductReviewContext({summary: response.result});
+      router.replace('/(tabs)/feed-screen');
+    }
+  }
 
   return (
     <View style={styles.container}>
-      {/* Logo Section */}
       <View style={styles.logoWrapper}>
         <View style={styles.logoCircle}>
-          <Icon name="arrow-up-outline" size={52} color="#FFC107" />
+          <Icon name="arrow-up-outline" size={52} color="#FFC107"/>
         </View>
         <Text style={styles.brandText}>better duniya</Text>
       </View>
 
-      {/* Search Bar */}
       <View style={styles.searchBar}>
         <TextInput
           style={styles.searchInput}
@@ -32,26 +37,24 @@ export default function HomeScreen() {
           value={search}
           onChangeText={setSearch}
         />
-        <Icon name="search" size={22} color="#bbb" style={{ marginLeft: 6 }} />
+        <Icon name="search" size={22} color="#bbb" style={{marginLeft: 6}}/>
       </View>
 
-      {/* Go Button */}
-      <TouchableOpacity style={styles.goButton}>
+      <TouchableOpacity style={styles.goButton} onPress={onSearch}>
         <Text style={styles.goButtonText}>Go !</Text>
       </TouchableOpacity>
 
-      {/* Floating Search Button */}
       <TouchableOpacity style={styles.fab}>
-        <Icon name="search" size={28} color="#FFC107" />
+        <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", alignItems: "center" },
+  container: {flex: 1, backgroundColor: "#fff", alignItems: "center"},
 
-  logoWrapper: { alignItems: "center", marginTop: 86, marginBottom: 64 },
+  logoWrapper: {alignItems: "center", marginTop: 86, marginBottom: 64},
   logoCircle: {
     width: 110,
     height: 110,

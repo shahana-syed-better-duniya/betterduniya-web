@@ -7,6 +7,7 @@ import 'react-native-reanimated';
 import {useColorScheme} from '@/hooks/useColorScheme';
 import React from "react";
 import {UserProvider} from "@/utils/user/user-provider";
+import {ProductReviewProvider} from "@/utils/products/product-review-provider";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -21,21 +22,23 @@ export default function RootLayout() {
 
   return (
     <UserProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-          <Stack.Screen name="+not-found"/>
-          <Stack.Screen
-            name="/auth/verify-email-screen"
-            options={{title: "Verify Email", headerShown: false}}
-          />
-          <Stack.Screen
-            name="/auth/verify-success-screen"
-            options={{title: "Verify Email", headerShown: false}}
-          />
-        </Stack>
-        <StatusBar style="auto"/>
-      </ThemeProvider>
+      <ProductReviewProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+            <Stack.Screen name="+not-found"/>
+            <Stack.Screen
+              name="/auth/verify-email-screen"
+              options={{title: "Verify Email", headerShown: false}}
+            />
+            <Stack.Screen
+              name="/auth/verify-success-screen"
+              options={{title: "Verify Email", headerShown: false}}
+            />
+          </Stack>
+          <StatusBar style="auto"/>
+        </ThemeProvider>
+      </ProductReviewProvider>
     </UserProvider>
 
   );

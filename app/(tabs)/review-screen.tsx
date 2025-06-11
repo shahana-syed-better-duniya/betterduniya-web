@@ -43,10 +43,6 @@ export default function ReviewScreen() {
     apiResult.onClear();
     if (isValid) {
       try {
-        // Replace this with the actual API call
-        console.log(values)
-        console.log("Review Submitted:", values);
-        console.log(images)
         await onCreateReview(values.title, values.description, parseInt(values.rating), images);
         apiResult.onChangeValue("Review submitted successfully!");
         resetForm();

@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import {useProductReviewContext} from "@/utils/products/product-review-context";
+import {fTimeAgo} from "@/utils/date";
 
 const FILTERS = ["All", "Sony", "iPhone 14", "Laptops", "Resume"];
 
@@ -9,7 +11,7 @@ const FEED = [
     id: "1",
     user: {
       name: "Vicky Hladynets",
-      username: "@vickyh",
+      username: "vickyh",
       avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     },
     reviewTime: "Reviewed 1d ago",
@@ -24,7 +26,7 @@ const FEED = [
     id: "2",
     user: {
       name: "Vicky Hladynets",
-      username: "@vickyh",
+      username: "vickyh",
       avatar: "https://randomuser.me/api/portraits/women/65.jpg",
     },
     reviewTime: "Reviewed 1d ago",
@@ -38,7 +40,29 @@ const FEED = [
 ];
 
 const FeedScreen = () => {
+  const {summary} = useProductReviewContext();
+
   const [selectedFilter, setSelectedFilter] = useState("Sony");
+
+  console.log(summary);
+
+  const feedItems = [
+    ...(summary?.reviews?.map(review => ({
+      id: review.id,
+      user: {
+        name: summary?.userById[review.userId].personalName,
+        username: summary?.userById[review.userId].username,
+        avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+      },
+      reviewTime: `Reviewed ${fTimeAgo(review.createdAt)}`,
+      rating: review.rating,
+      text: review.title,
+      description: review.description,
+      image: summary?.imageUriById[review.id],
+      liked: false,
+    })) ?? []),
+    ...FEED,
+  ]
 
   return (
     <View style={styles.container}>
@@ -65,7 +89,7 @@ const FeedScreen = () => {
       </ScrollView>
       {/* Feed List */}
       <FlatList
-        data={FEED}
+        data={feedItems}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => <FeedItem item={item}/>}
         showsVerticalScrollIndicator={false}
@@ -79,57 +103,70 @@ const FeedScreen = () => {
   );
 };
 
-const FeedItem = ({item}) => (
-  <View style={styles.feedItem}>
-    {/* User Info */}
-    <View style={{flexDirection: "row", alignItems: "center", marginBottom: 4}}>
-      <Image source={{uri: item.user.avatar}} style={styles.avatar}/>
-      <View style={{flex: 1, marginLeft: 8}}>
-        <Text style={styles.username}>{item.user.name}</Text>
-        <Text style={styles.handle}>{item.user.username}</Text>
-      </View>
-      <View style={{alignItems: "flex-end"}}>
-        <Text style={styles.reviewTime}>{item.reviewTime}</Text>
-        <View style={{flexDirection: "row", marginTop: 2}}>
-          {Array(5)
-            .fill(null)
-            .map((_, i) => (
-              <Icon
-                key={i}
-                name={i < item.rating ? "star" : "star-outline"}
-                size={16}
-                color="#FFC107"
-                style={{marginLeft: 1}}
-              />
-            ))}
+const FeedItem = ({ item }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  // If expanded, show both item.text and item.description
+  // Otherwise, show only the truncated text with "... more"
+  return (
+    <View style={styles.feedItem}>
+      {/* User Info */}
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 4 }}>
+        <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
+        <View style={{ flex: 1, marginLeft: 8 }}>
+          <Text style={styles.username}>{item.user.name}</Text>
+          <Text style={styles.handle}>@{item.user.username}</Text>
+        </View>
+        <View style={{ alignItems: "flex-end" }}>
+          <Text style={styles.reviewTime}>{item.reviewTime}</Text>
+          <View style={{ flexDirection: "row", marginTop: 2 }}>
+            {Array(5)
+              .fill(null)
+              .map((_, i) => (
+                <Icon
+                  key={i}
+                  name={i < item.rating ? "star" : "star-outline"}
+                  size={16}
+                  color="#FFC107"
+                  style={{ marginLeft: 1 }}
+                />
+              ))}
+          </View>
         </View>
       </View>
+      {/* Content */}
+      <Text numberOfLines={expanded ? undefined : 2} style={styles.feedText}>
+        {item.text}
+        {!expanded && !!item.description && (
+          <Text
+            style={{ color: "#888" }}
+            onPress={() => setExpanded(true)}
+          > ... more</Text>
+        )}
+      </Text>
+      {expanded && !!item.description && (
+        <Text style={styles.descriptionText}>{item.description}</Text>
+      )}
+      <Image source={{ uri: item.image }} style={styles.feedImage} />
+      {/* Actions */}
+      <View style={styles.feedActions}>
+        <TouchableOpacity>
+          <Icon name="heart-outline" size={22} color="#888" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Icon name="repeat-outline" size={22} color="#888" style={{ marginLeft: 16 }} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Icon name="share-social-outline" size={22} color="#888" style={{ marginLeft: 16 }} />
+        </TouchableOpacity>
+        <View style={{ flex: 1 }} />
+        <TouchableOpacity>
+          <Icon name="ellipsis-horizontal" size={22} color="#888" />
+        </TouchableOpacity>
+      </View>
     </View>
-    {/* Content */}
-    <Text numberOfLines={2} style={styles.feedText}>
-      {item.text}
-      <Text style={{color: "#888"}}> ... more</Text>
-    </Text>
-    <Image source={{uri: item.image}} style={styles.feedImage}/>
-    {/* Actions */}
-    <View style={styles.feedActions}>
-      <TouchableOpacity>
-        <Icon name="heart-outline" size={22} color="#888"/>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Icon name="repeat-outline" size={22} color="#888" style={{marginLeft: 16}}/>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Icon name="share-social-outline" size={22} color="#888" style={{marginLeft: 16}}/>
-      </TouchableOpacity>
-      <View style={{flex: 1}}/>
-      <TouchableOpacity>
-        <Icon name="ellipsis-horizontal" size={22} color="#888"/>
-      </TouchableOpacity>
-    </View>
-  </View>
-);
-
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -224,6 +261,12 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 6,
+  },
+  descriptionText: {
+    color: "#444",
+    fontSize: 14,
+    marginBottom: 5,
+    marginTop: 2,
   },
 });
 
