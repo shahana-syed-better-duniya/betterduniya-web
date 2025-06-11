@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {useForm} from "@/hooks/interaction/use-form";
 import useString from "@/hooks/primitive/use-string";
 import {validateReview} from "@/app/(tabs)/validators";
-import useProductReviewCreate from "@/app/(tabs)/review/use-product-review-create";
+import useProductReviewCreate from "@/hooks/product/use-product-review-create";
 import {useUserContext} from "@/utils/user/user-context";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
 
