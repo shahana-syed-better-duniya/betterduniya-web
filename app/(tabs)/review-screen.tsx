@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import DualRowRating from "../../components/ui/Rating";
 
 export default function ReviewScreen() {
   const [title, setTitle] = useState("");
@@ -32,11 +33,10 @@ export default function ReviewScreen() {
         </View>
       </View>
 
-      {/* Title */}
-      <Text style={styles.label}>Title:</Text>
+      {/* Product Name */}
       <TextInput
-        style={styles.titleInput}
-        placeholder="Enter a title..."
+        style={styles.prodBox}
+        placeholder="Enter product name..."
         value={title}
         onChangeText={setTitle}
         placeholderTextColor="#bbb"
@@ -52,40 +52,62 @@ export default function ReviewScreen() {
         onChangeText={setReview}
         placeholderTextColor="#bbb"
       />
+      <Text style={styles.charCount}>100,000 Characters</Text>
 
-      <View style={styles.rowBetween}>
-        <TouchableOpacity style={styles.addMediaBtn}>
-          <Icon name="add" size={28} color="#FFC107" />
-        </TouchableOpacity>
-        <Text style={styles.charCount}>100,000 Characters</Text>
-      </View>
-      <Text style={styles.addMediaLabel}>Add images, video</Text>
+      <Text style={{fontSize: 14, fontWeight: 300, color: "#696363", marginBottom: 7 }}>Add images, video</Text>
+      <TouchableOpacity style={styles.addMediaCircle}>
+        <Icon name="add" size={28} color="#FFC107" />
+      </TouchableOpacity>
+        
+      
 
-      <View style={styles.hr} />
 
-      {/* Rating */}
-      <Text style={styles.ratingLabel}>Overall Rating</Text>
-      <View style={styles.ratingRow}>
-        {[1, 2, 3, 4, 5].map((i) => (
-          <TouchableOpacity key={i} onPress={() => setRating(i)}>
-            <Icon
-              name="star"
-              size={28}
-              color={i <= rating ? (i <= 3 ? "#F44336" : "#FFC107") : "#ccc"}
+      <View style={{flexDirection: "row", alignItems: "center", alignSelf: "center", width: "100%", backgroundColor: "#fcfcfc", padding: 12, borderRadius: 15, marginBottom: 16, justifyContent: "space-between",}}>
+        <Text style={styles.recLabel}>Would you recommend?</Text>
+
+        <View style={{flexDirection: "row", gap: 10}}>
+          <TouchableOpacity style={styles.thumbsBtn}>
+            <Image
+            source={require("../../assets/images/thumbsup.png")}
+            style={{width: 40, height: 40}}
             />
           </TouchableOpacity>
-        ))}
-      </View>
-      <View style={styles.ratingTextRow}>
-        <Text style={styles.negativeRating}>-ve Rating</Text>
-        <Text style={styles.positiveRating}>+ve Rating</Text>
-      </View>
-      <View style={styles.ratingArrowRow}>
-        <Text style={styles.arrowLeft}>{"<——"}</Text>
-        <Text style={styles.arrowRight}>{"——>"}</Text>
+          <TouchableOpacity style={styles.thumbsBtn}>
+            <Image
+            source={require("../../assets/images/thumbsdown.png")}
+            style={{width: 40, height: 40}}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <View style={styles.hr} />
+      {/* Rating */}
+      <View style={{justifyContent: "center", alignItems: "center", alignSelf: "center", width: "100%", backgroundColor: "#fcfcfc", padding: 12, borderRadius: 15}}>
+        <Text style={styles.overallLabel}>Overall Rating</Text>
+        <DualRowRating/>
+
+        <View style={styles.ratingTextRow}>
+
+          <Text style={styles.negativeRating}>
+            -ve Rating
+            <Text style={{marginLeft: 5, fontSize: 16, lineHeight: 18, fontFamily: 'monospace', fontWeight: 900}}>
+              &#10229;
+            </Text>
+          </Text>
+
+
+          
+          <Text style={styles.positiveRating}>
+            <Text style={{marginRight: 5, fontSize: 16, lineHeight: 18, fontFamily: 'monospace', fontWeight: 900}}>
+              &#10230;
+            </Text>
+            +ve Rating</Text>
+
+        </View>
+
+      </View>
+
+
 
       {/* Post Button */}
       <TouchableOpacity style={styles.postBtn}>
@@ -96,55 +118,52 @@ export default function ReviewScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", paddingTop: 24, paddingHorizontal: 20 },
-  header: { fontWeight: "bold", fontSize: 28, marginBottom: 14 },
+  container: { flex: 1, backgroundColor: "white", paddingTop: 24, paddingHorizontal: 20 },
+  header: { fontWeight: "bold", fontSize: 24, marginBottom: 16 },
   profileRow: { flexDirection: "row", alignItems: "center", marginBottom: 24 },
   avatar: { width: 60, height: 60, borderRadius: 30 },
-  name: { fontWeight: "bold", fontSize: 18, color: "#222" },
-  username: { color: "#888", fontSize: 15 },
+  name: { fontWeight: "bold", fontSize: 17, color: "#222" },
+  username: { color: "#888", fontSize: 14 },
   label: { fontWeight: "500", color: "#555", fontSize: 15, marginBottom: 2 },
-  titleInput: {
-    borderBottomWidth: 2,
-    borderBottomColor: "#ededed",
+  prodBox: {
+    backgroundColor: "#f6f6f6",
+    borderRadius: 15,
+    padding: 12,
     fontSize: 16,
-    paddingVertical: 4,
-    marginBottom: 8,
+    marginBottom: 10,
   },
+  
   reviewBox: {
     backgroundColor: "#f6f6f6",
     minHeight: 110,
     textAlignVertical: "top",
-    borderRadius: 6,
+    borderRadius: 15,
     padding: 12,
     fontSize: 16,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: "#ededed",
+    marginBottom: 5,
   },
-  rowBetween: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 8,
-  },
-  addMediaBtn: {
+  thumbsBtn: {
     width: 42, height: 42, borderRadius: 21,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
+    borderWidth: 1.5,
+    borderColor: "#696363",
+    justifyContent: "center", alignItems: "center",
+    
+  },
+    addMediaCircle: {
+    width: 42, height: 42, borderRadius: 21,
+    backgroundColor: "white",
+    borderWidth: 1.5,
+    borderColor: "#696363",
     shadowColor: "#000", shadowOpacity: 0.07, shadowRadius: 3, elevation: 2,
     justifyContent: "center", alignItems: "center",
+    marginBottom: 5,
   },
-  charCount: { color: "#888", fontSize: 13, marginRight: 2 },
-  addMediaLabel: { color: "#888", fontSize: 14, marginTop: 3, marginBottom: 16 },
-  hr: {
-    height: 2,
-    backgroundColor: "#ededed",
-    marginVertical: 12,
-    borderRadius: 2,
-  },
-  ratingLabel: { fontSize: 16, fontWeight: "500", color: "#666", marginBottom: 10 },
-  ratingRow: { flexDirection: "row", alignItems: "center", marginBottom: 2 },
+  charCount: { color: "#888", fontSize: 13, marginRight: 2, flexDirection: "row", alignSelf: "flex-end", marginBottom: -10},
+  recLabel: { fontSize: 14, fontWeight: 300, color: "#696363"},
+  overallLabel: { fontSize: 14, fontWeight: 300, color: "#696363", marginBottom: 12 },
   ratingTextRow: {
-    flexDirection: "row", justifyContent: "space-between", marginHorizontal: 2,
+    flexDirection: "row", justifyContent: "space-between", gap: 20
   },
   negativeRating: { color: "#F44336", fontSize: 14, fontWeight: "600" },
   positiveRating: { color: "#FFC107", fontSize: 14, fontWeight: "600" },
@@ -160,10 +179,11 @@ const styles = StyleSheet.create({
     marginTop: 22,
     alignSelf: "center",
     backgroundColor: "#FFC107",
-    paddingHorizontal: 36,
+    paddingHorizontal: 50,
     paddingVertical: 12,
-    borderRadius: 22,
-    shadowColor: "#000", shadowOpacity: 0.14, shadowRadius: 6, elevation: 3,
+    borderRadius: 23,
+    borderWidth: 2.5,
+    borderColor: "#FFAE00"
   },
   postBtnText: { color: "#fff", fontWeight: "bold", fontSize: 20 },
 });
