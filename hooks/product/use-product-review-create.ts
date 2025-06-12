@@ -12,6 +12,7 @@ const useProductReviewCreate = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('rating', `${rating}`);
+    Alert.alert('uploading form');
     for (let idx = 0; idx < images.length; idx++) {
       const image = images[idx];
 
@@ -24,6 +25,7 @@ const useProductReviewCreate = () => {
         const file = new File([blob], fileName, {type: fileType});
         formData.append("fileUpload", file);
       } else { // mobile
+        Alert.alert('uploading file in mobile');
         formData.append('fileUpload', {
           uri: image.uri,
           type: image.type || 'image/jpeg',
