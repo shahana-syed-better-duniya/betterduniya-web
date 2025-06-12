@@ -1,11 +1,11 @@
-import { Tabs } from 'expo-router';
+import {Tabs} from 'expo-router';
 import React from 'react';
-import { Image, Platform } from 'react-native';
+import {Image, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { HapticTab } from '@/components/HapticTab';
+import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import {useColorScheme} from '@/hooks/useColorScheme';
 
 // Avatar URL for profile tab (replace with your user's avatar if needed)
 const AVATAR_URL = "https://randomuser.me/api/portraits/men/32.jpg";
@@ -16,6 +16,7 @@ export default function TabLayout() {
   // Icon color mapping (based on screenshot)
   const activeColor = "#222"; // strong black for active
   const inactiveColor = "#B8B8B8"; // gray for inactive
+
 
   return (
     <Tabs
@@ -30,7 +31,7 @@ export default function TabLayout() {
           borderTopWidth: 0,
           height: 64,
           ...Platform.select({
-            ios: { position: 'absolute' },
+            ios: {position: 'absolute'},
             default: {},
           }),
         },
@@ -40,8 +41,8 @@ export default function TabLayout() {
         name="home-screen"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, focused, size }) => (
-            <Icon name="home-outline" size={28} color={color} />
+          tabBarIcon: ({color, focused, size}) => (
+            <Icon name="home-outline" size={28} color={color}/>
           ),
         }}
       />
@@ -49,8 +50,8 @@ export default function TabLayout() {
         name="feed-screen"
         options={{
           title: "Feeds",
-          tabBarIcon: ({ color, focused, size }) => (
-            <Icon name="rss-outline" size={28} color={color} />
+          tabBarIcon: ({color, focused, size}) => (
+            <Icon name="rss-outline" size={28} color={color}/>
           ),
         }}
       />
@@ -58,12 +59,12 @@ export default function TabLayout() {
         name="review-screen"
         options={{
           title: "Review",
-          tabBarIcon: ({ color, focused, size }) => (
+          tabBarIcon: ({color, focused, size}) => (
             <Icon
               name="arrow-up-outline"
               size={28}
               color={color}
-              style={{ transform: [{ rotate: "15deg" }] }} // Optional: slant arrow
+              style={{transform: [{rotate: "15deg"}]}} // Optional: slant arrow
             />
           ),
         }}
@@ -72,8 +73,8 @@ export default function TabLayout() {
         name="product-screen"
         options={{
           title: "Product",
-          tabBarIcon: ({ color, focused, size }) => (
-            <Icon name="star-outline" size={28} color={color} />
+          tabBarIcon: ({color, focused, size}) => (
+            <Icon name="star-outline" size={28} color={color}/>
           ),
         }}
       />
@@ -81,9 +82,9 @@ export default function TabLayout() {
         name="profile-screen"
         options={{
           title: "Profile",
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({focused}) => (
             <Image
-              source={{ uri: AVATAR_URL }}
+              source={{uri: AVATAR_URL}}
               style={{
                 width: 30,
                 height: 30,

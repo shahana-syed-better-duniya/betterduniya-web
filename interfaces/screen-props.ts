@@ -6,6 +6,7 @@ export type RootStackParamList = {
   'auth/forget-password-screen': undefined;
   'auth/forget-password-verify-screen': { email: string };
   'auth/forget-password-reset-screen': { email: string, code: string };
+  'auth/login-screen': undefined;
   '/(tabs)/home-screen': undefined;
   'home/feed-screen': { summary: ProductReviewSummary };
 };

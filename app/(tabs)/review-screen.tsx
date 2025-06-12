@@ -1,6 +1,7 @@
 import React from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Image,
   ScrollView,
@@ -40,6 +41,11 @@ export default function ReviewScreen() {
   });
 
   const handlePostReview = async () => {
+    if (images.length === 0) {
+      Alert.alert('Please upload an image for product review.');
+      return;
+    }
+
     apiResult.onClear();
     if (isValid) {
       try {
@@ -124,10 +130,10 @@ export default function ReviewScreen() {
           horizontal
           data={images}
           keyExtractor={(item) => item.uri}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <View style={styles.previewImageContainer}>
               <Image
-                source={{ uri: item.uri }}
+                source={{uri: item.uri}}
                 style={styles.previewImage}
                 resizeMode="cover"
               />
@@ -135,11 +141,11 @@ export default function ReviewScreen() {
                 style={styles.removeBtn}
                 onPress={() => setImages(images => images.filter(img => img.uri !== item.uri))}
               >
-                <Icon name="close-circle" size={22} color="#F44336" />
+                <Icon name="close-circle" size={22} color="#F44336"/>
               </TouchableOpacity>
             </View>
           )}
-          style={{ marginBottom: 14 }}
+          style={{marginBottom: 14}}
         />
       )}
 

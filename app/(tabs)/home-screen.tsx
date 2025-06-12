@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import {Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {Alert, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import useRequest from "@/hooks/api/use-request";
 import {productApi} from "@/api/product/product";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
-import {router, useNavigation} from "expo-router";
+import {router} from "expo-router";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
 
 export default function HomeScreen() {
@@ -13,6 +13,10 @@ export default function HomeScreen() {
   const [search, setSearch] = useState("");
 
   const onSearch = async () => {
+    if (search.length === 0) {
+      Alert.alert('Please search for a product name.')
+      return;
+    }
     const response = await onRequest(productApi.searchReview, [search], null, false);
     if (response.result != null) {
       setProductReviewContext({summary: response.result});

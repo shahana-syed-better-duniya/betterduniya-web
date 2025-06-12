@@ -80,7 +80,6 @@ const requestInstance = async <T>(
   if (completePath.includes('undefined')) {
     Alert.alert(`Path argument undefined: ${completePath}\nargs=[${args}]`);
   }
-
   try {
     const response = await method(axiosInstance, completePath, config, body);
     const json = await response.data;

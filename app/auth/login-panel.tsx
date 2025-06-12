@@ -47,8 +47,12 @@ export default function LogInPanel() {
             personalName: userInfo.personalName,
             userRole: userInfo.userRole
           });
-          await AsyncStorage.setItem('token', userInfo.accessToken);
-          router.replace('/(tabs)/home-screen')
+          if (userInfo.accessToken.length > 0) {
+            await AsyncStorage.setItem('token', userInfo.accessToken);
+            router.replace('/(tabs)/home-screen')
+          } else {
+            loginError.onChangeValue("Email or password is invalid. Please try again.")
+          }
         } else {
           loginError.onChangeValue("Email or password is invalid. Please try again.");
         }
