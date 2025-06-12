@@ -41,16 +41,10 @@ export default function ReviewScreen() {
   });
 
   const handlePostReview = async () => {
-    Alert.alert('upload');
     if (images.length === 0) {
       Alert.alert('Please upload an image for product review.');
       return;
     }
-    Alert.alert('apiResult');
-    Alert.alert(`${isValid}`);
-    Alert.alert(`${errors.title}`);
-    Alert.alert(`${errors.description}`);
-    Alert.alert(`${errors.rating}`);
 
     apiResult.onClear();
     if (isValid) {

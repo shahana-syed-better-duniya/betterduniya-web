@@ -12,7 +12,6 @@ const useProductReviewCreate = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('rating', `${rating}`);
-    Alert.alert('uploading form');
     for (let idx = 0; idx < images.length; idx++) {
       const image = images[idx];
 
@@ -23,7 +22,7 @@ const useProductReviewCreate = () => {
         const fileType = blob.type || "image/jpeg";
         const fileName = `photo_${idx}.${fileType.split('/')[1] || "jpg"}`;
         const file = new File([blob], fileName, {type: fileType});
-        formData.append("fileUpload", file);
+        // formData.append("fileUpload", file);
       } else { // mobile
         Alert.alert('uploading file in mobile');
         formData.append('fileUpload', {
@@ -36,7 +35,9 @@ const useProductReviewCreate = () => {
     }
     console.log(formData)
     try {
-      await onRequest(productApi.createReview, [], formData, false);
+      const response = await onRequest(productApi.createReview, [], formData, false);
+      console.log(response?.response?.data?.errors)
+      console.log(response?.response?.data?.errors?.FileUpload)
     } catch (error) {
       console.error("Sign-up failed:", error);
       Alert.alert("An error occurred. Please try again later.");
