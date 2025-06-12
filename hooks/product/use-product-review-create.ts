@@ -36,7 +36,7 @@ const useProductReviewCreate = () => {
         });
         Alert.alert(uri);
         Alert.alert(type);
-        Alert.alert(fileName);
+        Alert.alert(name);
       }
 
     }
