@@ -40,8 +40,8 @@ const useProductReviewCreate = () => {
     console.log(formData)
     try {
       const response = await onRequest(productApi.createReview, [], formData, false);
-      console.log(response?.response?.data?.errors)
-      console.log(response?.response?.data?.errors?.FileUpload)
+      Alert.alert(response?.response?.data?.errors)
+      Alert.alert(response?.response?.data?.errors?.FileUpload)
     } catch (error) {
       console.error("Sign-up failed:", error);
       Alert.alert("An error occurred. Please try again later.");
