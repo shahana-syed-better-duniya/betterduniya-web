@@ -14,13 +14,23 @@ const useProductReviewCreate = () => {
     formData.append('rating', `${rating}`);
     for (let idx = 0; idx < images.length; idx++) {
       const image = images[idx];
-      const response = await fetch(image.uri);
-      const blob = await response.blob();
-      // Guess the extension/type - customize as needed
-      const fileType = blob.type || "image/jpeg";
-      const fileName = `photo_${idx}.${fileType.split('/')[1] || "jpg"}`;
-      const file = new File([blob], fileName, {type: fileType});
-      formData.append("fileUpload", file);
+
+      if (image.uri.startsWith('data')) { // web
+        const response = await fetch(image.uri);
+        const blob = await response.blob();
+        // Guess the extension/type - customize as needed
+        const fileType = blob.type || "image/jpeg";
+        const fileName = `photo_${idx}.${fileType.split('/')[1] || "jpg"}`;
+        const file = new File([blob], fileName, {type: fileType});
+        formData.append("fileUpload", file);
+      } else { // mobile
+        formData.append('fileUpload', {
+          uri: image.uri,
+          type: image.type || 'image/jpeg',
+          name: image.fileName || 'photo.jpg',
+        });
+      }
+
     }
     console.log(formData)
     try {
