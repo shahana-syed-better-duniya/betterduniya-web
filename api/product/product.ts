@@ -5,7 +5,7 @@ export const productApi = {
   ProductReview: CrudApiFactory('product', 'review'),
   ProductReviewImage: CrudApiFactory('product', 'image'),
   createReview: {
-    method: requestMethods.postForm,
+    method: requestMethods.post,
     path: () => `/product/review/upload`,
     okMessage: `Product review is created`,
   },
