@@ -30,9 +30,6 @@
     },
     "plugins": [
       "expo-router",
-      "expo-image-picker",
-      "expo-media-library",
-      "expo-asset",
       [
         "expo-splash-screen",
         {
