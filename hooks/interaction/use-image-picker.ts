@@ -3,7 +3,6 @@ import * as ImagePicker from 'expo-image-picker';
 import {Asset} from "expo-asset";
 import * as MediaLibrary from "expo-media-library";
 import {Alert} from "react-native";
-import useInit from "@/hooks/api/use-init";
 
 const saveSampleImageToGallery = async () => {
   // 1. Load the asset (require returns a module reference)
