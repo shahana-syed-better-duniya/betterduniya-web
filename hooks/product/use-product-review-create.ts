@@ -30,6 +30,10 @@ const useProductReviewCreate = () => {
           type: image.type || 'image/jpeg',
           name: image.fileName || 'photo.jpg',
         });
+        Alert.alert(image.uri);
+        Alert.alert(image.type);
+        Alert.alert(image.fileName);
+
       }
 
     }
