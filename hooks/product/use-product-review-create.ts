@@ -43,6 +43,7 @@ const useProductReviewCreate = () => {
       Alert.alert(response?.response?.data?.errors)
       Alert.alert(response?.response?.data?.errors?.FileUpload)
     } catch (error) {
+      Alert.alert(error)
       console.error("Sign-up failed:", error);
       Alert.alert("An error occurred. Please try again later.");
     }
