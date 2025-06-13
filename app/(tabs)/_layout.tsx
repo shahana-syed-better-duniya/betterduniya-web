@@ -7,8 +7,17 @@ import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+import { RxArrowTopRight } from "react-icons/rx";
+
+
+
+
+
 // Avatar URL for profile tab (replace with your user's avatar if needed)
 const AVATAR_URL = "https://randomuser.me/api/portraits/men/32.jpg";
+
+
+   
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -16,8 +25,10 @@ export default function TabLayout() {
   // Icon color mapping (based on screenshot)
   const activeColor = "#222"; // strong black for active
   const inactiveColor = "#B8B8B8"; // gray for inactive
+  
 
   return (
+    
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: activeColor,
@@ -26,8 +37,9 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: {
-          backgroundColor: "#F5F5F5",
-          borderTopWidth: 0,
+          backgroundColor: "#F7F7FA",
+          borderTopColor: "#F2F0FF",
+          borderTopWidth: 1,
           height: 64,
           ...Platform.select({
             ios: { position: 'absolute' },
@@ -39,48 +51,64 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home-screen"
         options={{
-          title: "Home",
+          title: "",
           tabBarIcon: ({ color, focused, size }) => (
-            <Icon name="home-outline" size={28} color={color} />
+            <Image
+              source={require("../../assets/images/homeicon.png")}
+              style={{
+                width: size,
+                height: size,
+                tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
+              }}
+              />
           ),
         }}
       />
       <Tabs.Screen
         name="feed-screen"
         options={{
-          title: "Feeds",
+          title: "",
           tabBarIcon: ({ color, focused, size }) => (
-            <Icon name="rss-outline" size={28} color={color} />
+            <Image
+              source={require("../../assets/images/networkicon.png")}
+              style={{
+                width: size,
+                height: size,
+                tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
+              }}
+              />
           ),
         }}
       />
       <Tabs.Screen
         name="review-screen"
         options={{
-          title: "Review",
+          title: "",
           tabBarIcon: ({ color, focused, size }) => (
-            <Icon
-              name="arrow-up-outline"
-              size={28}
-              color={color}
-              style={{ transform: [{ rotate: "15deg" }] }} // Optional: slant arrow
-            />
+            <RxArrowTopRight name="rss-outline" size={28} color={color} strokeWidth={0.5}/>
           ),
         }}
       />
       <Tabs.Screen
         name="product-screen"
         options={{
-          title: "Product",
+          title: "",
           tabBarIcon: ({ color, focused, size }) => (
-            <Icon name="star-outline" size={28} color={color} />
+            <Image
+              source={require("../../assets/images/staricon.png")}
+              style={{
+                width: size,
+                height: size,
+                tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
+              }}
+              />
           ),
         }}
       />
       <Tabs.Screen
         name="profile-screen"
         options={{
-          title: "Profile",
+          title: "",
           tabBarIcon: ({ focused }) => (
             <Image
               source={{ uri: AVATAR_URL }}

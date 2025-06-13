@@ -5,10 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  KeyboardAvoidingView,
   Platform,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+
+import { RxArrowTopRight } from "react-icons/rx";
 
 export default function HomeScreen() {
   const [search, setSearch] = useState("");
@@ -18,27 +19,28 @@ export default function HomeScreen() {
       {/* Logo Section */}
       <View style={styles.logoWrapper}>
         <View style={styles.logoCircle}>
-          <Icon name="arrow-up-outline" size={52} color="#FFC107" />
+          <RxArrowTopRight name="arrow-up-outline" size={70} color="#FFC107" strokeWidth={0.5} style={{position: "relative", left: -1, top: 1}}/>
         </View>
         <Text style={styles.brandText}>better duniya</Text>
       </View>
 
-      {/* Search Bar */}
-      <View style={styles.searchBar}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search..."
-          placeholderTextColor="#bbb"
-          value={search}
-          onChangeText={setSearch}
-        />
-        <Icon name="search" size={22} color="#bbb" style={{ marginLeft: 6 }} />
-      </View>
+      {/* Centered Search Section */}
+      <View style={styles.searchSection}>
+        <View style={styles.searchBar}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search..."
+            placeholderTextColor="#bbb"
+            value={search}
+            onChangeText={setSearch}
+          />
+          <Icon name="search" size={22} color="#bbb" style={{ marginLeft: 5 }} />
+        </View>
 
-      {/* Go Button */}
-      <TouchableOpacity style={styles.goButton}>
-        <Text style={styles.goButtonText}>Go !</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.goButton}>
+          <Text style={styles.goButtonText}>GO !</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Floating Search Button */}
       <TouchableOpacity style={styles.fab}>
@@ -49,46 +51,58 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", alignItems: "center" },
+  
 
-  logoWrapper: { alignItems: "center", marginTop: 86, marginBottom: 64 },
+  container: {
+    flex: 1,
+    backgroundColor: "#F7F6F6",
+    alignItems: "center",
+  },
+
+  logoWrapper: {
+    alignItems: "center",
+    marginTop: 70,
+  },
   logoCircle: {
-    width: 110,
-    height: 110,
+    width: 100,
+    height: 100,
     borderRadius: 55,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
-    elevation: 6,
-    shadowColor: "#000",
-    shadowOpacity: 0.09,
-    shadowRadius: 16,
-    marginBottom: 18,
+    marginBottom: 24,
   },
   brandText: {
     fontSize: 36,
-    fontWeight: "400",
-    fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
-    letterSpacing: 1.2,
-    color: "#222",
+    fontWeight: 700,
+    fontFamily: "Kanit-Regular.ttf",
+    color: "#1B1B1B",
+  },
+
+  searchSection: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    marginTop: -150,
   },
 
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fafafa",
+    backgroundColor: "#FCFCFF",
+    borderColor: "#E1E0E6",
+    borderWidth: 2,
     borderRadius: 28,
-    width: "84%",
     height: 52,
     paddingHorizontal: 24,
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    marginBottom: 18,
+    width: "84%",
+    marginBottom: 47,
   },
   searchInput: {
     flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     fontSize: 18,
     color: "#222",
   },
@@ -96,19 +110,14 @@ const styles = StyleSheet.create({
   goButton: {
     backgroundColor: "#FFC107",
     paddingHorizontal: 44,
-    paddingVertical: 13,
+    paddingVertical: 11,
     borderRadius: 24,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.07,
-    shadowRadius: 6,
-    elevation: 3,
-    marginTop: 6,
   },
   goButtonText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 19,
+    fontSize: 15,
   },
 
   fab: {
