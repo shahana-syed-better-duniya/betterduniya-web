@@ -1,9 +1,6 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native'
 import React from 'react'
-import { Image, Platform } from 'react-native';
-import { FaArrowRightLong } from "react-icons/fa6";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Dimensions } from "react-native";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -27,7 +24,7 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
         <View style={{marginBottom: 10, flexDirection: "row", justifyContent: "space-between", alignItems: 'center',}}>
 
             <View style={{flexDirection: "row", gap: 8, alignItems: 'center'}}>
-                <Image 
+                <Image
                 source={{ uri: userIcon }}
                 style={{ width: 60, height: 60, borderRadius: 30 }}/>
 
@@ -40,11 +37,11 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
 
             {type === "prod" &&
                 <TouchableOpacity style={{width: 40, height: 40, borderRadius: 30, backgroundColor: "#F8F8FC", justifyContent: "center", alignItems: "center", marginRight: 8}}>
-                    <FaArrowRightLong />
+                  <Icon name="chevron-forward" size={22} color="#333" />
                 </TouchableOpacity>
             }
 
-            {type === "feed" && 
+            {type === "feed" &&
                 <View>
                     {recommended ? (
                     <View style={{paddingLeft: 8, paddingRight: 11, backgroundColor: "#F5F5F5", flexDirection: "row", borderRadius: 30, alignItems: "center", justifyContent: "center"}}>
@@ -79,7 +76,7 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
 
         <Text style={{fontWeight: 700, marginBottom: 3, fontSize: 16}}>{prodName}</Text>
         <Text style={{marginBottom: 8, fontSize: 16}}>{desc}</Text>
-        <Image 
+        <Image
         source={{ uri: imgUrl }}
         style={{ width: "auto", height: windowWidth * 0.43, borderRadius: 10, resizeMode: "cover" }}/>
 
