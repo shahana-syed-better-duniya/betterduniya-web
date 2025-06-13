@@ -5,7 +5,7 @@ import {Image, Platform} from 'react-native';
 import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 
-import {RxArrowTopRight} from "react-icons/rx";
+import {Ionicons} from "@expo/vector-icons";
 
 
 // Avatar URL for profile tab (replace with your user's avatar if needed)
@@ -73,7 +73,7 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
-            <RxArrowTopRight name="rss-outline" size={28} color={color} strokeWidth={0.5}/>
+            <Ionicons name="arrow-up-outline" size={size} color={color} />
           ),
         }}
       />

@@ -1,20 +1,12 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Platform, Alert,
-} from "react-native";
+import React, {useState} from "react";
+import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-
-import { RxArrowTopRight } from "react-icons/rx";
 import {productApi} from "@/api/product/product";
 import {router} from "expo-router";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 import useRequest from "@/hooks/api/use-request";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
+import {Ionicons} from "@expo/vector-icons";
 
 export default function HomeScreen() {
   const {setProductReviewContext} = useProductReviewContext();
@@ -38,7 +30,7 @@ export default function HomeScreen() {
       {/* Logo Section */}
       <View style={styles.logoWrapper}>
         <View style={styles.logoCircle}>
-          <RxArrowTopRight name="arrow-up-outline" size={70} color="#FFC107" strokeWidth={0.5} style={{position: "relative", left: -1, top: 1}}/>
+          <Ionicons name="arrow-up-outline" size={70} color={"#FFC107"}/>
         </View>
         <Text style={styles.brandText}>better duniya</Text>
       </View>
@@ -53,7 +45,7 @@ export default function HomeScreen() {
             value={search}
             onChangeText={setSearch}
           />
-          <Icon name="search" size={22} color="#bbb" style={{ marginLeft: 5 }} />
+          <Icon name="search" size={22} color="#bbb" style={{marginLeft: 5}}/>
         </View>
 
         <TouchableOpacity style={styles.goButton} onPress={onSearch}>
@@ -63,7 +55,7 @@ export default function HomeScreen() {
 
       {/* Floating Search Button */}
       <TouchableOpacity style={styles.fab}>
-        <Icon name="search" size={28} color="#FFC107" />
+        <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>
     </View>
   );
