@@ -8,7 +8,7 @@ const Stacks = () => {
   if (userId.length === 0) {
     return (
       <Stack>
-        <Stack.Screen name="/auth/login-screen" options={{headerShown: false}}/>
+        <Stack.Screen name="auth/index" options={{ headerShown: false }} />
       </Stack>
     )
   }
@@ -18,11 +18,12 @@ const Stacks = () => {
         <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
         <Stack.Screen name="+not-found"/>
         <Stack.Screen
-          name="/auth/verify-email-screen"
+          name="auth/verify-email-screen" options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="/auth/verify-success-screen"
+          name="auth/verify-success-screen" options={{ headerShown: false }}
         />
+        <Stack.Screen name="auth/index" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto"/>
     </>

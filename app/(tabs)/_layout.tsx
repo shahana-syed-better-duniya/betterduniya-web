@@ -1,34 +1,22 @@
-import { Tabs } from 'expo-router';
+import {Tabs} from 'expo-router';
 import React from 'react';
-import { Image, Platform } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Image, Platform} from 'react-native';
 
-import { HapticTab } from '@/components/HapticTab';
+import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-import { RxArrowTopRight } from "react-icons/rx";
-
-
-
+import {RxArrowTopRight} from "react-icons/rx";
 
 
 // Avatar URL for profile tab (replace with your user's avatar if needed)
 const AVATAR_URL = "https://randomuser.me/api/portraits/men/32.jpg";
 
 
-   
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  // Icon color mapping (based on screenshot)
   const activeColor = "#222"; // strong black for active
   const inactiveColor = "#B8B8B8"; // gray for inactive
-  
 
   return (
-    
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: activeColor,
@@ -42,7 +30,7 @@ export default function TabLayout() {
           borderTopWidth: 1,
           height: 64,
           ...Platform.select({
-            ios: { position: 'absolute' },
+            ios: {position: 'absolute'},
             default: {},
           }),
         },
@@ -52,7 +40,7 @@ export default function TabLayout() {
         name="home-screen"
         options={{
           title: "",
-          tabBarIcon: ({ color, focused, size }) => (
+          tabBarIcon: ({color, focused, size}) => (
             <Image
               source={require("../../assets/images/homeicon.png")}
               style={{
@@ -60,7 +48,7 @@ export default function TabLayout() {
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
               }}
-              />
+            />
           ),
         }}
       />
@@ -68,7 +56,7 @@ export default function TabLayout() {
         name="feed-screen"
         options={{
           title: "",
-          tabBarIcon: ({ color, focused, size }) => (
+          tabBarIcon: ({color, focused, size}) => (
             <Image
               source={require("../../assets/images/networkicon.png")}
               style={{
@@ -76,7 +64,7 @@ export default function TabLayout() {
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
               }}
-              />
+            />
           ),
         }}
       />
@@ -84,7 +72,7 @@ export default function TabLayout() {
         name="review-screen"
         options={{
           title: "",
-          tabBarIcon: ({ color, focused, size }) => (
+          tabBarIcon: ({color, focused, size}) => (
             <RxArrowTopRight name="rss-outline" size={28} color={color} strokeWidth={0.5}/>
           ),
         }}
@@ -93,7 +81,7 @@ export default function TabLayout() {
         name="product-screen"
         options={{
           title: "",
-          tabBarIcon: ({ color, focused, size }) => (
+          tabBarIcon: ({color, focused, size}) => (
             <Image
               source={require("../../assets/images/staricon.png")}
               style={{
@@ -101,7 +89,7 @@ export default function TabLayout() {
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
               }}
-              />
+            />
           ),
         }}
       />
@@ -109,9 +97,9 @@ export default function TabLayout() {
         name="profile-screen"
         options={{
           title: "",
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({focused}) => (
             <Image
-              source={{ uri: AVATAR_URL }}
+              source={{uri: AVATAR_URL}}
               style={{
                 width: 30,
                 height: 30,
