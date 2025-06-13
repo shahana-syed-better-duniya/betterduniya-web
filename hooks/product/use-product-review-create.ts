@@ -8,11 +8,14 @@ const useProductReviewCreate = () => {
   const navigation = useNavigation();
   const {onRequest, isLoading} = useRequest();
 
-  const onCreateReview = async (title: string, description: string, rating: number, images: { uri: string }[]) => {
+  const onCreateReview = async (title: string, description: string, rating: number, isRecommended: boolean, images: {
+    uri: string
+  }[]) => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
     formData.append('rating', `${rating}`);
+    formData.append('productReviewState', isRecommended ? 'recommended' : 'notRecommended');
     for (let idx = 0; idx < images.length; idx++) {
       const image = images[idx];
 

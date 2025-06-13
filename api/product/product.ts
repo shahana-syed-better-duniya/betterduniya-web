@@ -14,4 +14,9 @@ export const productApi = {
     path: (name: string) => `/product/review/search?name=${name}`,
     okMessage: `Product review is searched`,
   },
+  listReviews: {
+    method: requestMethods.get,
+    path: () => `/product/review/list`,
+    okMessage: `Product reviews are listed`,
+  },
 }

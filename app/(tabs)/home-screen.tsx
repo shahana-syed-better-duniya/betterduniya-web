@@ -5,14 +5,33 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Platform,
+  Platform, Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { RxArrowTopRight } from "react-icons/rx";
+import {productApi} from "@/api/product/product";
+import {router} from "expo-router";
+import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
+import useRequest from "@/hooks/api/use-request";
+import {useProductReviewContext} from "@/utils/products/product-review-context";
 
 export default function HomeScreen() {
+  const {setProductReviewContext} = useProductReviewContext();
+  const {onRequest} = useRequest<ProductReviewSummary>();
   const [search, setSearch] = useState("");
+
+  const onSearch = async () => {
+    if (search.length === 0) {
+      Alert.alert('Please search for a product name.')
+      return;
+    }
+    const response = await onRequest(productApi.searchReview, [search], null, false);
+    if (response.result != null) {
+      setProductReviewContext({summary: response.result});
+      router.replace('/(tabs)/feed-screen');
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -37,7 +56,7 @@ export default function HomeScreen() {
           <Icon name="search" size={22} color="#bbb" style={{ marginLeft: 5 }} />
         </View>
 
-        <TouchableOpacity style={styles.goButton}>
+        <TouchableOpacity style={styles.goButton} onPress={onSearch}>
           <Text style={styles.goButtonText}>GO !</Text>
         </TouchableOpacity>
       </View>
@@ -51,7 +70,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  
+
 
   container: {
     flex: 1,
