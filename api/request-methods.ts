@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 
 const requestMethods = {
   delete: (
@@ -6,7 +6,7 @@ const requestMethods = {
     url: string,
     config: AxiosRequestConfig,
     body?: unknown
-  ): Promise<AxiosResponse> => connection.delete(url, { data: body, ...config }),
+  ): Promise<AxiosResponse> => connection.delete(url, {data: body, ...config}),
 
   get: (
     connection: AxiosInstance,
@@ -35,10 +35,12 @@ const requestMethods = {
     body: any
   ): Promise<AxiosResponse> => {
     const header = {
-      'Content-Type': `multipart/form-data; boundary=${body._boundary}`,
+      Accept: 'application/json',
       ...config?.headers, // Ensure headers are properly merged
     };
-    return connection.post(url, body, { ...config, headers: header });
+    return connection.post(url, body, {
+      ...config, headers: header,
+    });
   },
 };
 

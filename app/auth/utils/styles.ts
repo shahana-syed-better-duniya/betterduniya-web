@@ -1,5 +1,6 @@
 import {Dimensions, Platform, StyleSheet} from "react-native";
-const { width, height } = Dimensions.get("window");
+
+const {width, height} = Dimensions.get("window");
 
 
 const LOGO_SIZE = Math.min(110, Math.max(64, width * 0.28)); // between 64 and 110 px
@@ -54,7 +55,7 @@ export const styles = StyleSheet.create({
     letterSpacing: 2,
     color: "#222",
     textShadowColor: "#ddd",
-    textShadowOffset: { width: 0, height: 2 },
+    textShadowOffset: {width: 0, height: 2},
     textShadowRadius: 2,
     marginTop: 8,
     marginBottom: 10,
@@ -125,9 +126,16 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginBottom: 10,
   },
+  forgotPasswordTitle: {
+    color: "#888",
+    fontSize: 16,
+    fontWeight: 600,
+  },
   forgotPasswordText: {
     color: "#888",
     fontSize: 13,
+    marginTop: 8,
+    marginBottom: 16,
   },
   loginBtn: {
     width: "100%",
@@ -171,4 +179,21 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
   },
+  verifyBtn: {
+    width: "85%",
+    backgroundColor: "#FFD740",
+    borderRadius: 30,
+    paddingVertical: 12,
+    alignItems: "center",
+    shadowColor: "#FFD740",
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 2,
+    marginBottom: 16,
+  },
+  verifyBtnText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  }
 });

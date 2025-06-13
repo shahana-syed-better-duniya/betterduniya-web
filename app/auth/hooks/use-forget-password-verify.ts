@@ -3,20 +3,20 @@ import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {Alert} from "react-native";
 
-const useRegistrationVerify = () => {
+const useForgetPasswordVerify = () => {
   const navigation = useNavigation();
-  const {onRequest} = useRequest<boolean>();
+  const {onRequest, isLoading} = useRequest<boolean>();
 
   const onVerify = async (email: string, code: string) => {
-    const response = await onRequest(userApi.verifyAccount, [email, code], null, false);
+    const response = await onRequest(userApi.verifyForgetPassword, [email, code], null, false);
     if (response.result) {
-      navigation.navigate("auth/verify-success-screen", {email});
+      navigation.navigate("auth/forget-password-reset-screen", {email, code});
     } else {
       Alert.alert('verification failed');
     }
   };
 
-  return {onVerify}
+  return {onVerify, isLoading}
 }
 
-export default useRegistrationVerify;
+export default useForgetPasswordVerify;

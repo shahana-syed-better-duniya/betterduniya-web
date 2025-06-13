@@ -1,15 +1,11 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import React, {useState} from "react";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import ReviewCard from "../../components/ui/ReviewCard"
+import {fTimeAgo} from "@/utils/date";
+import useInitObject from "@/hooks/api/use-init-object";
+import {productApi} from "@/api/product/product";
+import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 
 // Sample Data
 const FILTERS = ["All", "Sony", "iPhone 14", "Laptops", "Resume"];
@@ -37,45 +33,57 @@ const PRODUCTS = [
 ];
 
 export default function ProductPage() {
+  const {valueHook: {value: summary}} = useInitObject<ProductReviewSummary>(productApi.listReviews, []);
   const [selected, setSelected] = useState("All");
+
+  const feedItems = summary?.reviews?.map(review => ({
+    id: review.id,
+    brand: summary?.userById[review.userId].personalName,
+    handle: summary?.userById[review.userId].username,
+    logo: "https://randomuser.me/api/portraits/women/65.jpg",
+    reviewTime: `Reviewed ${fTimeAgo(review.createdAt)}`,
+    productName: review.title,
+    review: review.description,
+    image: summary?.imageUriById[review.id],
+  })) ?? [];
 
   return (
     <View style={styles.container}>
-        <View style={{marginBottom: 5}}>
-          <FlatList
-            data={FILTERS}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item}
-            contentContainerStyle={styles.filterRow}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[
-                  styles.filterPill,
-                  selected === item && styles.selectedPill,
-                ]}
-                onPress={() => setSelected(item)}
-              >
-                <Text
-                  style={[
-                    styles.pillText,
-                    selected === item && styles.selectedPillText,
-                  ]}
-                >
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-
+      <View style={{marginBottom: 5}}>
         <FlatList
-        data={PRODUCTS}
+          data={FILTERS}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item}
+          contentContainerStyle={styles.filterRow}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              style={[
+                styles.filterPill,
+                selected === item && styles.selectedPill,
+              ]}
+              onPress={() => setSelected(item)}
+            >
+              <Text
+                style={[
+                  styles.pillText,
+                  selected === item && styles.selectedPillText,
+                ]}
+              >
+                {item}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+
+      <FlatList
+        data={feedItems}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <ReviewCard
-            prodName={"Product Name"}
+            prodName={item.productName}
             desc={item.review}
             imgUrl={item.image}
             username={item.brand}
@@ -88,7 +96,7 @@ export default function ProductPage() {
 
       {/* Floating Search Button */}
       <TouchableOpacity style={styles.fab}>
-        <Icon name="search" size={28} color="#FFC107" />
+        <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>
     </View>
   );
@@ -101,7 +109,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 12,
   },
-    filterRow: {
+  filterRow: {
     paddingVertical: 16,
     paddingHorizontal: 8,
   },

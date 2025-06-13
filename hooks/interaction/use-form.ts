@@ -1,5 +1,5 @@
 // useForm.ts
-import { useState, useEffect } from "react";
+import {useEffect, useState} from "react";
 
 type Validator<T> = (values: T) => Partial<Record<keyof T, string>>;
 
@@ -19,11 +19,11 @@ export function useForm<T extends Record<string, any>>({
   }, [values, validate]);
 
   const handleChange = (field: keyof T) => (value: any) => {
-    setValues((prev) => ({ ...prev, [field]: value }));
+    setValues((prev) => ({...prev, [field]: value}));
   };
 
   const handleBlur = (field: keyof T) => () => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
+    setTouched((prev) => ({...prev, [field]: true}));
   };
 
   const resetForm = () => {
@@ -33,7 +33,6 @@ export function useForm<T extends Record<string, any>>({
   };
 
   const isValid = Object.keys(errors).length === 0;
-
   return {
     values,
     errors,

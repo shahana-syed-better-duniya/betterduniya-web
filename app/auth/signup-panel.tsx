@@ -1,14 +1,14 @@
 import React from "react";
 import {ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {styles} from "@/app/auth/styles";
+import {styles} from "@/app/auth/utils/styles";
 import useString from "@/hooks/primitive/use-string";
-import useRegistration from "@/app/auth/use-registration";
+import useRegistration from "@/app/auth/hooks/use-registration";
 import {useForm} from "@/hooks/interaction/use-form";
-import {validateSignUp} from "@/app/auth/validators";
+import {validateSignUp} from "@/app/auth/utils/validators";
 
 export default function SignUpPanel() {
   const {onSignUp, isLoading} = useRegistration();
-  const success = useString('');
+  const apiResult = useString('');
 
   const {
     values,
@@ -22,6 +22,7 @@ export default function SignUpPanel() {
   } = useForm({
     initialValues: {
       username: "",
+      personalName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -30,11 +31,11 @@ export default function SignUpPanel() {
   });
 
   const handleSignUp = async () => {
-    success.onClear();
+    apiResult.onClear();
     if (isValid) {
       try {
-        await onSignUp(values.email, values.username, values.password);
-        success.onChangeValue("Registration successful! Please verify your email.");
+        await onSignUp(values.email, values.username, values.password, values.personalName);
+        apiResult.onChangeValue("Registration successful! Please verify your email.");
         resetForm();
       } catch (error) {
         setErrors((prev) => ({
@@ -59,6 +60,18 @@ export default function SignUpPanel() {
         />
         {touched.username && errors.username?.length && (
           <Text style={styles.inputError}>{errors.username}</Text>
+        )}
+        <TextInput
+          style={styles.input}
+          placeholder="Personal Name"
+          placeholderTextColor="#888"
+          value={values.personalName}
+          onChangeText={handleChange('personalName')}
+          onBlur={handleBlur("personalName")}
+          autoCapitalize="none"
+        />
+        {touched.personalName && errors.personalName?.length && (
+          <Text style={styles.inputError}>{errors.personalName}</Text>
         )}
 
         <TextInput
@@ -117,7 +130,7 @@ export default function SignUpPanel() {
         </TouchableOpacity>
       )}
 
-      {!success.isEmpty && <Text style={styles.successMessage}>{success.value}</Text>}
+      {!apiResult.isEmpty && <Text style={styles.successMessage}>{apiResult.value}</Text>}
     </>
   );
 }

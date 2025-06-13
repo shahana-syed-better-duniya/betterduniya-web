@@ -1,7 +1,9 @@
 import axios, {AxiosInstance} from 'axios';
-import Config from 'react-native-config';
 
-const backendUrl: string = Config.BACKEND_URL ?? 'https://duniya-gwfjh3h9h5e4eran.canadacentral-01.azurewebsites.net';
+const prodUrl = 'https://duniya-gwfjh3h9h5e4eran.canadacentral-01.azurewebsites.net';
+const localUrl = 'https://localhost:7029';
+
+export const backendUrl: string = prodUrl;
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: backendUrl,
