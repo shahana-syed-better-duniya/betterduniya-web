@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 2,
-    marginBottom: 12,
+    marginBottom: 15,
   },
   logoImage: {
     width: "60%",
@@ -45,19 +45,10 @@ export const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   title: {
-    fontSize: TITLE_SIZE,
-    fontFamily: Platform.select({
-      ios: "Menlo",
-      android: "monospace",
-      default: "monospace",
-    }),
-    fontWeight: "400",
-    letterSpacing: 2,
-    color: "#222",
-    textShadowColor: "#ddd",
-    textShadowOffset: {width: 0, height: 2},
-    textShadowRadius: 2,
-    marginTop: 8,
+    fontSize: 36,
+    fontWeight: 700,
+    fontFamily: "Kanit-Regular.ttf",
+    color: "#1B1B1B",
     marginBottom: 10,
   },
   card: {
@@ -76,6 +67,9 @@ export const styles = StyleSheet.create({
   },
   tabRow: {
     flexDirection: "row",
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#D9D9D9",
     width: "100%",
     justifyContent: "center",
     marginBottom: 26,
@@ -86,22 +80,17 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     borderRadius: 30,
-    marginHorizontal: 2,
-    borderWidth: 1,
-    borderColor: "#FFD740",
   },
   tabBtnActive: {
-    backgroundColor: "#FFD740",
-    borderColor: "#FFD740",
+    backgroundColor: "#FFBF00",
   },
   tabText: {
     fontSize: 16,
-    fontWeight: "500",
-    color: "#FFD740",
+    fontWeight: 700,
+    color: "#FFBF00",
   },
   tabTextActive: {
     color: "#fff",
-    fontWeight: "700",
   },
   inputSection: {
     width: "100%",

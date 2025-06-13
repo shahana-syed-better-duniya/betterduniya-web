@@ -5,7 +5,7 @@ import {Image, Platform} from 'react-native';
 import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 
-import {Ionicons} from "@expo/vector-icons";
+import Feather from 'react-native-vector-icons/Feather';
 
 
 // Avatar URL for profile tab (replace with your user's avatar if needed)
@@ -73,7 +73,7 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
-            <Ionicons name="arrow-up-outline" size={size} color={color} />
+            <Feather name="arrow-up-right" size={size + 11} color={color}/>
           ),
         }}
       />

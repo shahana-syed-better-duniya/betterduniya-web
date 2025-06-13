@@ -6,7 +6,7 @@ import {router} from "expo-router";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 import useRequest from "@/hooks/api/use-request";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
-import {Ionicons} from "@expo/vector-icons";
+import Feather from 'react-native-vector-icons/Feather';
 
 export default function HomeScreen() {
   const {setProductReviewContext} = useProductReviewContext();
@@ -30,7 +30,7 @@ export default function HomeScreen() {
       {/* Logo Section */}
       <View style={styles.logoWrapper}>
         <View style={styles.logoCircle}>
-          <Ionicons name="arrow-up-outline" size={70} color={"#FFC107"}/>
+          <Feather  name="arrow-up-right" size={70} color={"#FFC107"}/>
         </View>
         <Text style={styles.brandText}>better duniya</Text>
       </View>
