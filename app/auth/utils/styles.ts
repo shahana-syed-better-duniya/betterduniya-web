@@ -58,17 +58,20 @@ export const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingHorizontal: "5%",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.11,
-    shadowRadius: 12,
-    elevation: 4,
+
     marginTop: 6,
     minHeight: 340,
+
+      shadowColor: "#000",
+  shadowOffset: { width: 0, height: 8 }, // more height to push shadow down only
+  shadowOpacity: 0.1,
+  shadowRadius: 12,
+  elevation: 5, // slightly higher for thicker shadow on Android
   },
   tabRow: {
     flexDirection: "row",
     borderRadius: 30,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#D9D9D9",
     width: "100%",
     justifyContent: "center",
@@ -80,9 +83,15 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     borderRadius: 30,
+    
   },
   tabBtnActive: {
     backgroundColor: "#FFBF00",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   tabText: {
     fontSize: 16,
@@ -133,9 +142,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 13,
     alignItems: "center",
     marginVertical: 10,
-    shadowColor: "#FFD740",
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    shadowColor: "black",
+    shadowOpacity: 0.55,
+    shadowRadius: 5,
     elevation: 2,
   },
   loginBtnText: {

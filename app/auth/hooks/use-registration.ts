@@ -8,7 +8,7 @@ const useRegistration = () => {
   const navigation = useNavigation();
   const {onRequest, isLoading} = useRequest<RegistrationResult>();
 
-  const onSignUp = async (email: string, username: string, password: string, personalName: string) => {
+  const onSignUp = async (email: string, username: string, password: string, personalName: string, middleName?: string, lastName?: string) => {
     const body = {
       email,
       username,

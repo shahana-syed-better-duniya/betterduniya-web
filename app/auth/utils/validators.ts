@@ -1,6 +1,8 @@
 type SignUpErrors = {
   username?: string;
-  personalName?: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;
@@ -42,7 +44,9 @@ export function validateLogin(values: { email: string; password: string }) {
 
 export function validateSignUp(values: {
   username: string;
-  personalName: string;
+  firstName: string;
+  middleName?: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -57,12 +61,26 @@ export function validateSignUp(values: {
     errors.username = "Username can't exceed 50 characters.";
   }
 
-  if (!values.personalName) {
-    errors.personalName = "Personal name is required.";
-  } else if (values.personalName.length < 4) {
-    errors.personalName = "Personal name must be at least 4 characters.";
-  } else if (values.personalName.length > 150) {
-    errors.personalName = "Personal name can't exceed 150 characters.";
+  if (!values.firstName) {
+    errors.firstName = "First name is required.";
+  } else if (values.firstName.length < 4) {
+    errors.firstName = "First name must be at least 4 characters.";
+  } else if (values.firstName.length > 150) {
+    errors.firstName = "First name can't exceed 150 characters.";
+  }
+
+  if (values.lastName.length < 4) {
+    errors.lastName = "Middle name must be at least 4 characters.";
+  } else if (values.lastName.length > 150) {
+    errors.lastName = "Middle name can't exceed 150 characters.";
+  }
+
+    if (!values.lastName) {
+    errors.lastName = "Last name is required.";
+  } else if (values.lastName.length < 4) {
+    errors.lastName = "Last name must be at least 4 characters.";
+  } else if (values.lastName.length > 150) {
+    errors.lastName = "Last name can't exceed 150 characters.";
   }
 
   if (!values.email) {

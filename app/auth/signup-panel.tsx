@@ -22,7 +22,9 @@ export default function SignUpPanel() {
   } = useForm({
     initialValues: {
       username: "",
-      personalName: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -34,7 +36,7 @@ export default function SignUpPanel() {
     apiResult.onClear();
     if (isValid) {
       try {
-        await onSignUp(values.email, values.username, values.password, values.personalName);
+        await onSignUp(values.email, values.username, values.password, values.firstName, values.middleName, values.lastName);
         apiResult.onChangeValue("Registration successful! Please verify your email.");
         resetForm();
       } catch (error) {
@@ -51,7 +53,7 @@ export default function SignUpPanel() {
       <View style={styles.inputSection}>
         <TextInput
           style={styles.input}
-          placeholder="Username"
+          placeholder="Username *"
           placeholderTextColor="#888"
           value={values.username}
           onChangeText={handleChange('username')}
@@ -63,20 +65,44 @@ export default function SignUpPanel() {
         )}
         <TextInput
           style={styles.input}
-          placeholder="Personal Name"
+          placeholder="First Name *"
           placeholderTextColor="#888"
-          value={values.personalName}
-          onChangeText={handleChange('personalName')}
-          onBlur={handleBlur("personalName")}
+          value={values.firstName}
+          onChangeText={handleChange('firstName')}
+          onBlur={handleBlur("firstName")}
           autoCapitalize="none"
         />
-        {touched.personalName && errors.personalName?.length && (
-          <Text style={styles.inputError}>{errors.personalName}</Text>
+        {touched.firstName && errors.firstName?.length && (
+          <Text style={styles.inputError}>{errors.firstName}</Text>
+        )}
+        <TextInput
+          style={styles.input}
+          placeholder="Middle Name"
+          placeholderTextColor="#888"
+          value={values.middleName}
+          onChangeText={handleChange('middleName')}
+          onBlur={handleBlur("middleName")}
+          autoCapitalize="none"
+        />
+        {touched.middleName && errors.middleName?.length && (
+          <Text style={styles.inputError}>{errors.middleName}</Text>
+        )}
+        <TextInput
+          style={styles.input}
+          placeholder="Last Name *"
+          placeholderTextColor="#888"
+          value={values.lastName}
+          onChangeText={handleChange('lastName')}
+          onBlur={handleBlur("lastName")}
+          autoCapitalize="none"
+        />
+        {touched.lastName && errors.lastName?.length && (
+          <Text style={styles.inputError}>{errors.lastName}</Text>
         )}
 
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="Email *"
           placeholderTextColor="#888"
           value={values.email}
           onChangeText={handleChange('email')}
@@ -90,7 +116,7 @@ export default function SignUpPanel() {
 
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Password *"
           placeholderTextColor="#888"
           secureTextEntry
           value={values.password}
@@ -103,7 +129,7 @@ export default function SignUpPanel() {
 
         <TextInput
           style={styles.input}
-          placeholder="Confirm Password"
+          placeholder="Confirm Password *"
           placeholderTextColor="#888"
           secureTextEntry
           value={values.confirmPassword}
