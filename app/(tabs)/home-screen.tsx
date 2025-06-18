@@ -1,16 +1,16 @@
 import React, {useState} from "react";
-import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {productApi} from "@/api/product/product";
 import {router} from "expo-router";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 import useRequest from "@/hooks/api/use-request";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
-import BetterDuniyaLogo from "@/components/ui/BetterDuniyaLogo";
+import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
 
 export default function HomeScreen() {
   const {setProductReviewContext} = useProductReviewContext();
-  const {onRequest} = useRequest<ProductReviewSummary>();
+  const {onRequest, isLoading} = useRequest<ProductReviewSummary>();
   const [search, setSearch] = useState("");
 
   const onSearch = async () => {
@@ -47,7 +47,11 @@ export default function HomeScreen() {
         </View>
 
         <TouchableOpacity style={styles.goButton} onPress={onSearch}>
-          <Text style={styles.goButtonText}>GO !</Text>
+          {isLoading ? (
+            <ActivityIndicator color="#fff"/>
+          ) : (
+            <Text style={styles.goButtonText}>GO !</Text>
+          )}
         </TouchableOpacity>
       </View>
 

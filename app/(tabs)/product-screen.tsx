@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import ReviewCard from "../../components/ui/ReviewCard"
+import ReviewCard from "../../components/products/ReviewCard"
 import {fTimeAgo} from "@/utils/date";
 import useInitObject from "@/hooks/api/use-init-object";
 import {productApi} from "@/api/product/product";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
+import ComingSoonCard from "@/components/products/ComingSoonCard";
 
 // Sample Data
 const FILTERS = ["All", "Sony", "iPhone 14", "Laptops", "Resume"];
@@ -76,25 +77,25 @@ export default function ProductPage() {
           )}
         />
       </View>
+      {selected !== 'All' ? <ComingSoonCard/> :
 
-      <FlatList
-        data={feedItems}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => (
-          <ReviewCard
-            prodName={item.productName}
-            desc={item.review}
-            imgUrl={item.image}
-            username={item.brand}
-            displayName={item.handle}
-            userIcon={item.logo}
-            type="prod"
-          />
-        )}
-      />
+        <FlatList
+          data={feedItems}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <ReviewCard
+              prodName={item.productName}
+              desc={item.review}
+              imgUrl={item.image}
+              username={item.brand}
+              displayName={item.handle}
+              userIcon={item.logo}
+              type="prod"
+            />
+          )}
+        />}
 
-      {/* Floating Search Button */}
       <TouchableOpacity style={styles.fab}>
         <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>

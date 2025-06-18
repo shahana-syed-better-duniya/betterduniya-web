@@ -1,7 +1,7 @@
 import {styles} from "@/app/auth/utils/styles";
 import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
 import React from "react";
-import BetterDuniyaLogo from "@/components/ui/BetterDuniyaLogo";
+import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
 
 interface LayoutProps {
   children: React.ReactElement;

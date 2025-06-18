@@ -3,44 +3,10 @@ import {FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native"
 import Icon from "react-native-vector-icons/Ionicons";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
 import {fTimeAgo} from "@/utils/date";
-import ReviewCard from "../../components/ui/ReviewCard"
+import ReviewCard from "../../components/products/ReviewCard"
+import ComingSoonCard from "@/components/products/ComingSoonCard";
 
 const FILTERS = ["All", "Sony", "iPhone 14", "Laptops", "Resume"];
-
-const FEED = [
-  {
-    id: "1",
-    user: {
-      name: "Vicky Hladynets",
-      username: "@vickyh",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    },
-    reviewTime: "Reviewed 1d ago",
-    rating: -4,
-    title: "test",
-    text:
-      "I really loved the sony earbuds xb700. The bass was awesome. The highs and lows hit the ...",
-    image:
-      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
-    liked: true,
-  },
-  {
-    id: "2",
-    user: {
-      name: "Vicky Hladynets",
-      username: "@vickyh",
-      avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-    },
-    reviewTime: "Reviewed 1d ago",
-    rating: 2,
-    title: "test",
-    text:
-      "The build quality is not good. It is all plastic. The battery backup is very poor, didn't last ev ...",
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
-    liked: false,
-  },
-];
 
 const FeedScreen = () => {
   const {summary} = useProductReviewContext();
@@ -92,27 +58,27 @@ const FeedScreen = () => {
           )}
         />
       </View>
+      {selected !== 'All' ? <ComingSoonCard/> :
 
-      <FlatList
-        data={feedItems}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => (
-          <ReviewCard
-            prodName={item.text}
-            desc={item.description}
-            imgUrl={item.image}
-            username={item.user.username}
-            displayName={item.user.name}
-            userIcon={item.user.avatar}
-            time={item.reviewTime}
-            rating={item.rating}
-            recommended={item.liked}
-            type="feed"
-          />
-        )}
-      />
-      {/* Search button (floating) */}
+        <FlatList
+          data={feedItems}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <ReviewCard
+              prodName={item.text}
+              desc={item.description}
+              imgUrl={item.image}
+              username={item.user.username}
+              displayName={item.user.name}
+              userIcon={item.user.avatar}
+              time={item.reviewTime}
+              rating={item.rating}
+              recommended={item.liked}
+              type="feed"
+            />
+          )}
+        />}
       <TouchableOpacity style={styles.fab}>
         <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>

@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import DualRowRating from "../../components/ui/Rating";
+import DualRowRating from "../../components/products/Rating";
 import {useUserContext} from "@/utils/user/user-context";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
 import {validateReview} from "@/app/validators";
