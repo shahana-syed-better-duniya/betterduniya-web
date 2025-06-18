@@ -81,7 +81,7 @@ export default function LogInPanel() {
       <View style={styles.inputSection}>
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="Email *"
           placeholderTextColor="#888"
           value={values.email}
           onChangeText={handleChange("email")}
@@ -94,7 +94,7 @@ export default function LogInPanel() {
 
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Password *"
           placeholderTextColor="#888"
           secureTextEntry
           value={values.password}

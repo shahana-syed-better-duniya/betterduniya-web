@@ -1,9 +1,8 @@
 import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 
 
@@ -19,6 +18,22 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
     rating?: number,
     type: string,
 }) => {
+    const [imgHeight, setImgHeight] = useState(200); // fallback height
+
+    useEffect(() => {
+        if (imgUrl) {
+        Image.getSize(
+            imgUrl,
+            (width, height) => {
+            const ratio = height / width;
+            setImgHeight(windowWidth * ratio);
+            },
+            (error) => {
+            console.log("Image.getSize error:", error);
+            }
+        );
+        }
+    }, [imgUrl]);
   return (
     <View style={{marginBottom: 25}}>
         <View style={{marginBottom: 10, flexDirection: "row", justifyContent: "space-between", alignItems: 'center',}}>
@@ -57,17 +72,20 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
 
                     <View style={{marginTop: 3}}>
                         <View style={{flexDirection: "row", marginTop: 2, justifyContent: "flex-end"}}>
-                            {Array(5)
-                            .fill(null)
-                            .map((_, i) => (
-                                <Icon
+                        {Array(5)
+                        .fill(null)
+                        .map((_, i) => {
+                            const safeRating = Number(rating) || 0; // ensures undefined, null, or NaN → 0
+                            return (
+                            <Icon
                                 key={i}
-                                name={i < (rating ?? 0) ? "star" : "star-outline"}
+                                name={i < Math.min(Math.abs(safeRating), 5) ? "star" : "star-outline"}
                                 size={18}
-                                color="#FFC107"
-                                style={{marginLeft: 1}}
-                                />
-                            ))}
+                                color={safeRating < 0 ? "#F44336" : "#FFC107"}
+                                style={{ marginLeft: 1 }}
+                            />
+                            );
+                        })}
                         </View>
                     </View>
                 </View>
@@ -78,7 +96,7 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
         <Text style={{marginBottom: 8, fontSize: 16}}>{desc}</Text>
         <Image
         source={{ uri: imgUrl }}
-        style={{ width: "auto", height: 190, borderRadius: 10, resizeMode: "cover" }}/>
+        style={{ width: "100%", height: imgHeight, borderRadius: 10, resizeMode: "cover" }}/>
 
 
 

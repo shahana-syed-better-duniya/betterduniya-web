@@ -16,7 +16,8 @@ const FEED = [
       avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     },
     reviewTime: "Reviewed 1d ago",
-    rating: 5,
+    rating: -4,
+    title: "test",
     text:
       "I really loved the sony earbuds xb700. The bass was awesome. The highs and lows hit the ...",
     image:
@@ -32,6 +33,7 @@ const FEED = [
     },
     reviewTime: "Reviewed 1d ago",
     rating: 2,
+    title: "test",
     text:
       "The build quality is not good. It is all plastic. The battery backup is very poor, didn't last ev ...",
     image:
@@ -51,7 +53,7 @@ const FeedScreen = () => {
         username: summary?.userById[review.userId].username,
         avatar: "https://randomuser.me/api/portraits/women/65.jpg",
       },
-      reviewTime: `Reviewed ${fTimeAgo(review.createdAt)}`,
+      reviewTime: `${fTimeAgo(review.createdAt)}`,
       rating: review.rating,
       text: review.title,
       description: review.description,
@@ -98,7 +100,7 @@ const FeedScreen = () => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ReviewCard
-            prodName={"Product Name"}
+            prodName={item.text}
             desc={item.text}
             imgUrl={item.image}
             username={item.user.username}
