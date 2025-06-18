@@ -10,7 +10,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [contextValue, setContextValue] = useState<Omit<UserContextType, 'setUserContext'>>({
     userId: '',
     username: '',
-    personalName: '',
+    firstName: '',
+    lastName: '',
     userRole: '',
   });
 
@@ -18,13 +19,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const fetchData = async () => {
       const userId = (await AsyncStorage.getItem('userId')) || '';
       const username = (await AsyncStorage.getItem('username')) || '';
-      const personalName = (await AsyncStorage.getItem('personalName')) || '';
+      const firstName = (await AsyncStorage.getItem('firstName')) || '';
+      const lastName = (await AsyncStorage.getItem('lastName')) || '';
       const userRole = (await AsyncStorage.getItem('userRole')) || '';
 
       setContextValue({
         userId,
         username,
-        personalName,
+        firstName,
+        lastName,
         userRole,
       });
     };

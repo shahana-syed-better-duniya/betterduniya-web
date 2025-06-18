@@ -38,7 +38,7 @@ export default function ProductPage() {
 
   const feedItems = summary?.reviews?.map(review => ({
     id: review.id,
-    brand: summary?.userById[review.userId].personalName,
+    brand: summary?.userById[review.userId].firstName + ' ' + summary?.userById[review.userId].lastName,
     handle: summary?.userById[review.userId].username,
     logo: "https://randomuser.me/api/portraits/women/65.jpg",
     reviewTime: `Reviewed ${fTimeAgo(review.createdAt)}`,

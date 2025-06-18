@@ -22,7 +22,7 @@ import useString from "@/hooks/primitive/use-string";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 
 export default function ReviewScreen() {
-  const {username, personalName} = useUserContext();
+  const {username, firstName, lastName} = useUserContext();
   const {onCreateReview, isLoading} = useProductReviewCreate();
 
   const isRecommended = useBoolean(true);
@@ -80,7 +80,7 @@ export default function ReviewScreen() {
           style={styles.avatar}
         />
         <View style={{marginLeft: 12}}>
-          <Text style={styles.name}>{personalName}</Text>
+          <Text style={styles.name}>{firstName} {lastName}</Text>
           <Text style={styles.username}>@{username}</Text>
         </View>
       </View>
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF8E1",
     shadowColor: "#FFC107",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowRadius: 5,
     elevation: 4,
   },
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFEBEE",
     shadowColor: "#F44336",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowRadius: 5,
     elevation: 4,
   },

@@ -18,7 +18,8 @@ const useRegistrationVerify = () => {
       setUserContext({
         userId: userInfo.userId,
         username: userInfo.userName,
-        personalName: userInfo.personalName,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
         userRole: userInfo.userRole
       });
       await AsyncStorage.setItem('token', userInfo.accessToken);

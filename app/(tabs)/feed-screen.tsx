@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
 import {fTimeAgo} from "@/utils/date";
@@ -49,7 +49,7 @@ const FeedScreen = () => {
     ...(summary?.reviews?.map(review => ({
       id: review.id,
       user: {
-        name: summary?.userById[review.userId].personalName,
+        name: summary?.userById[review.userId].firstName + ' ' + summary?.userById[review.userId].lastName,
         username: summary?.userById[review.userId].username,
         avatar: "https://randomuser.me/api/portraits/women/65.jpg",
       },
@@ -65,7 +65,7 @@ const FeedScreen = () => {
 
   return (
     <View style={styles.container}>
-            <View style={{marginBottom: 5}}>
+      <View style={{marginBottom: 5}}>
         <FlatList
           data={FILTERS}
           horizontal
@@ -97,7 +97,7 @@ const FeedScreen = () => {
         data={feedItems}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <ReviewCard
             prodName={item.text}
             desc={item.description}

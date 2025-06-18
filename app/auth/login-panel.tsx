@@ -44,7 +44,8 @@ export default function LogInPanel() {
           setUserContext({
             userId: userInfo.userId,
             username: userInfo.userName,
-            personalName: userInfo.personalName,
+            firstName: userInfo.firstName,
+            lastName: userInfo.lastName,
             userRole: userInfo.userRole
           });
           if (userInfo.accessToken.length > 0) {

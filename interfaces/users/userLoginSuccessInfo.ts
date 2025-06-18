@@ -1,7 +1,8 @@
 export interface UserLoginSuccessInfo {
   userId: string;
   userName: string;
-  personalName: string;
+  firstName: string;
+  lastName: string;
   userRole: string;
   accessToken: string;
   expiry: string;
