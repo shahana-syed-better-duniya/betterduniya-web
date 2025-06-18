@@ -5,24 +5,19 @@ import {Alert} from "react-native";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "@/utils/user/user-context";
+import useLoginSave from "@/app/auth/hooks/use-login-save";
 
 const useRegistrationVerify = () => {
   const navigation = useNavigation();
   const {onRequest, isLoading} = useRequest<UserLoginSuccessInfo>();
-  const {setUserContext} = useUserContext();
+
+  const saveLoginResult = useLoginSave();
 
   const onVerify = async (email: string, code: string) => {
     const response = await onRequest(userApi.verifyAccount, [email, code], null, false);
     const userInfo = response.result;
     if (userInfo != null) {
-      setUserContext({
-        userId: userInfo.userId,
-        username: userInfo.userName,
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        userRole: userInfo.userRole
-      });
-      await AsyncStorage.setItem('token', userInfo.accessToken);
+      await saveLoginResult(userInfo);
       navigation.navigate("auth/verify-success-screen", {email});
     } else {
       Alert.alert('verification failed');

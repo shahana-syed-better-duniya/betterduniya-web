@@ -1,5 +1,5 @@
 import React from "react";
-import {ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Image, Text, TouchableOpacity, View} from "react-native";
 import {styles} from "@/app/auth/utils/styles";
 import {useForm} from "@/hooks/interaction/use-form";
 import {validateLogin} from "@/app/auth/utils/validators";
@@ -8,12 +8,13 @@ import {router} from "expo-router";
 import useString from "@/hooks/primitive/use-string";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import ForgotPasswordScreen from "@/app/auth/forget-password-screen";
-import {useUserContext} from "@/utils/user/user-context";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import TextInputRequired from "@/components/inputs/TextInputRequired";
+import useLoginSave from "@/app/auth/hooks/use-login-save";
 
 export default function LogInPanel() {
   const {onLogin, isLoading,} = useLogin();
+  const saveLoginResult = useLoginSave();
+
   const loginError = useString("");
   const isForgetPassword = useBoolean(false);
 
@@ -34,23 +35,14 @@ export default function LogInPanel() {
     validate: validateLogin,
   });
 
-
-  const {setUserContext} = useUserContext();
   const handleLogin = async () => {
     loginError.onClear();
     if (isValid) {
       try {
         const userInfo = await onLogin(values.email, values.password);
         if (userInfo != null) {
-          setUserContext({
-            userId: userInfo.userId,
-            username: userInfo.userName,
-            firstName: userInfo.firstName,
-            lastName: userInfo.lastName,
-            userRole: userInfo.userRole
-          });
+          await saveLoginResult(userInfo);
           if (userInfo.accessToken.length > 0) {
-            await AsyncStorage.setItem('token', userInfo.accessToken);
             router.replace('/(tabs)/home-screen')
           } else {
             loginError.onChangeValue("Email or password is invalid. Please try again.")
