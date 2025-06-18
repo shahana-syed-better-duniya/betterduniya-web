@@ -1,29 +1,30 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {router} from "expo-router";
+import {styles} from "@/app/auth/utils/styles";
 
 const VerifySuccessScreen = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.logoSection}>
-        <View style={styles.logoCircle}>
-          <Text style={styles.logoText}>✓</Text>
+    <View style={stylesLocal.container}>
+      <View style={stylesLocal.logoSection}>
+        <View style={stylesLocal.logoCircle}>
+          <Text style={stylesLocal.logoText}>✓</Text>
         </View>
       </View>
 
-      <Text style={styles.title}>Verification Successful!</Text>
-      <Text style={styles.subtitle}>
+      <Text style={stylesLocal.title}>Verification Successful!</Text>
+      <Text style={stylesLocal.subtitle}>
         Your email has been verified successfully. You can now proceed to use the app.
       </Text>
 
-      <TouchableOpacity style={styles.proceedBtn} onPress={() => router.replace('/(tabs)/home-screen')}>
-        <Text style={styles.proceedBtnText}>Proceed</Text>
+      <TouchableOpacity style={styles.loginBtn} onPress={() => router.replace('/(tabs)/home-screen')}>
+        <Text style={stylesLocal.proceedBtnText}>Go to Home Screen</Text>
       </TouchableOpacity>
     </View>
   )
 }
 
 
-const styles = StyleSheet.create({
+const stylesLocal = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",

@@ -60,7 +60,6 @@ const FeedScreen = () => {
       image: summary?.imageUriById[review.id],
       liked: false,
     })) ?? []),
-    ...FEED,
   ]
   const [selected, setSelected] = useState("All");
 
@@ -101,7 +100,7 @@ const FeedScreen = () => {
         renderItem={({ item }) => (
           <ReviewCard
             prodName={item.text}
-            desc={item.text}
+            desc={item.description}
             imgUrl={item.image}
             username={item.user.username}
             displayName={item.user.name}

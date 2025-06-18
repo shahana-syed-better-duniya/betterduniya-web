@@ -45,7 +45,6 @@ export function validateLogin(values: { email: string; password: string }) {
 export function validateSignUp(values: {
   username: string;
   firstName: string;
-  middleName?: string;
   lastName: string;
   email: string;
   password: string;
@@ -75,7 +74,7 @@ export function validateSignUp(values: {
     errors.lastName = "Middle name can't exceed 150 characters.";
   }
 
-    if (!values.lastName) {
+  if (!values.lastName) {
     errors.lastName = "Last name is required.";
   } else if (values.lastName.length < 4) {
     errors.lastName = "Last name must be at least 4 characters.";
@@ -88,7 +87,15 @@ export function validateSignUp(values: {
   } else if (!validateEmail(values.email)) {
     errors.email = "Please enter a valid email address.";
   }
+
+  if (
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(values.password)
+  ) {
+    errors.password =
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+  }
   Object.assign(errors, validatePasswords((values)));
+
   return errors;
 }
 

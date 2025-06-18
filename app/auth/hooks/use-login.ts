@@ -1,6 +1,5 @@
 import useRequest from "@/hooks/api/use-request";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
-import useString from "@/hooks/primitive/use-string";
 import {userApi} from "@/api/user/user";
 
 const useLogin = () => {

@@ -1,10 +1,12 @@
 import React from "react";
-import {ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {styles} from "@/app/auth/utils/styles";
 import useString from "@/hooks/primitive/use-string";
 import useRegistration from "@/app/auth/hooks/use-registration";
 import {useForm} from "@/hooks/interaction/use-form";
 import {validateSignUp} from "@/app/auth/utils/validators";
+
+
 
 export default function SignUpPanel() {
   const {onSignUp, isLoading} = useRegistration();
@@ -23,7 +25,6 @@ export default function SignUpPanel() {
     initialValues: {
       username: "",
       firstName: "",
-      middleName: "",
       lastName: "",
       email: "",
       password: "",
@@ -36,7 +37,7 @@ export default function SignUpPanel() {
     apiResult.onClear();
     if (isValid) {
       try {
-        await onSignUp(values.email, values.username, values.password, values.firstName, values.middleName, values.lastName);
+        await onSignUp(values.email, values.username, values.password, values.firstName, values.lastName);
         apiResult.onChangeValue("Registration successful! Please verify your email.");
         resetForm();
       } catch (error) {
@@ -53,55 +54,6 @@ export default function SignUpPanel() {
       <View style={styles.inputSection}>
         <TextInput
           style={styles.input}
-          placeholder="Username *"
-          placeholderTextColor="#888"
-          value={values.username}
-          onChangeText={handleChange('username')}
-          onBlur={handleBlur("username")}
-          autoCapitalize="none"
-        />
-        {touched.username && errors.username?.length && (
-          <Text style={styles.inputError}>{errors.username}</Text>
-        )}
-        <TextInput
-          style={styles.input}
-          placeholder="First Name *"
-          placeholderTextColor="#888"
-          value={values.firstName}
-          onChangeText={handleChange('firstName')}
-          onBlur={handleBlur("firstName")}
-          autoCapitalize="none"
-        />
-        {touched.firstName && errors.firstName?.length && (
-          <Text style={styles.inputError}>{errors.firstName}</Text>
-        )}
-        <TextInput
-          style={styles.input}
-          placeholder="Middle Name"
-          placeholderTextColor="#888"
-          value={values.middleName}
-          onChangeText={handleChange('middleName')}
-          onBlur={handleBlur("middleName")}
-          autoCapitalize="none"
-        />
-        {touched.middleName && errors.middleName?.length && (
-          <Text style={styles.inputError}>{errors.middleName}</Text>
-        )}
-        <TextInput
-          style={styles.input}
-          placeholder="Last Name *"
-          placeholderTextColor="#888"
-          value={values.lastName}
-          onChangeText={handleChange('lastName')}
-          onBlur={handleBlur("lastName")}
-          autoCapitalize="none"
-        />
-        {touched.lastName && errors.lastName?.length && (
-          <Text style={styles.inputError}>{errors.lastName}</Text>
-        )}
-
-        <TextInput
-          style={styles.input}
           placeholder="Email *"
           placeholderTextColor="#888"
           value={values.email}
@@ -114,6 +66,48 @@ export default function SignUpPanel() {
           <Text style={styles.inputError}>{errors.email}</Text>
         )}
 
+        <TextInput
+          style={styles.input}
+          placeholder="Username *"
+          placeholderTextColor="#888"
+          value={values.username}
+          onChangeText={handleChange('username')}
+          onBlur={handleBlur("username")}
+          autoCapitalize="none"
+        />
+        {touched.username && errors.username?.length && (
+          <Text style={styles.inputError}>{errors.username}</Text>
+        )}
+        <View style={stylesLocal.rowContainer}>
+          <View style={stylesLocal.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              placeholder="First Name *"
+              placeholderTextColor="#888"
+              value={values.firstName}
+              onChangeText={handleChange('firstName')}
+              onBlur={handleBlur("firstName")}
+              autoCapitalize="none"
+            />
+            {touched.firstName && errors.firstName?.length && (
+              <Text style={styles.inputError}>{errors.firstName}</Text>
+            )}
+          </View>
+          <View style={stylesLocal.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              placeholder="Last Name *"
+              placeholderTextColor="#888"
+              value={values.lastName}
+              onChangeText={handleChange('lastName')}
+              onBlur={handleBlur("lastName")}
+              autoCapitalize="none"
+            />
+            {touched.lastName && errors.lastName?.length && (
+              <Text style={styles.inputError}>{errors.lastName}</Text>
+            )}
+          </View>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Password *"
@@ -160,3 +154,26 @@ export default function SignUpPanel() {
     </>
   );
 }
+const stylesLocal = StyleSheet.create({
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Add spacing between the inputs
+    alignItems: 'flex-start', // Align inputs to the top
+  },
+  inputWrapper: {
+    flex: 1, // Allow inputs to share available space
+    marginRight: 8, // Add spacing between the two inputs
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 5,
+    fontSize: 16,
+  },
+  inputError: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 4,
+  },
+});

@@ -1,7 +1,7 @@
 import {styles} from "@/app/auth/utils/styles";
-import {Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
+import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
 import React from "react";
-import Feather from 'react-native-vector-icons/Feather';
+import BetterDuniyaLogo from "@/components/ui/BetterDuniyaLogo";
 
 interface LayoutProps {
   children: React.ReactElement;
@@ -22,9 +22,9 @@ const ScreenLayout: React.FC<LayoutProps> = ({children}) => {
         >
           <View style={styles.logoSection}>
             <View style={styles.logoCircle}>
-              <Feather name="arrow-up-right" size={70} color="#FFC107" />
+              <BetterDuniyaLogo/>
             </View>
-            <Text style={styles.title}>better duniya</Text>
+            <Text style={styles.title}>Better Duniya</Text>
           </View>
           <View style={styles.card}>
             {children}

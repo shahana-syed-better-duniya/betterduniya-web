@@ -1,12 +1,9 @@
-import {Dimensions, Platform, StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
 
 const {width, height} = Dimensions.get("window");
-
-
 const LOGO_SIZE = Math.min(110, Math.max(64, width * 0.28)); // between 64 and 110 px
 const TITLE_SIZE = Math.min(34, Math.max(22, width * 0.08)); // between 22 and 34 px
 const CARD_WIDTH = Math.min(width * 0.92, 420);
-
 
 export const styles = StyleSheet.create({
   safe: {
@@ -62,11 +59,11 @@ export const styles = StyleSheet.create({
     marginTop: 6,
     minHeight: 340,
 
-      shadowColor: "#000",
-  shadowOffset: { width: 0, height: 8 }, // more height to push shadow down only
-  shadowOpacity: 0.1,
-  shadowRadius: 12,
-  elevation: 5, // slightly higher for thicker shadow on Android
+    shadowColor: "#000",
+    shadowOffset: {width: 0, height: 8}, // more height to push shadow down only
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5, // slightly higher for thicker shadow on Android
   },
   tabRow: {
     flexDirection: "row",
@@ -83,12 +80,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     borderRadius: 30,
-    
+
   },
   tabBtnActive: {
     backgroundColor: "#FFBF00",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -193,5 +190,5 @@ export const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
-  }
+  },
 });

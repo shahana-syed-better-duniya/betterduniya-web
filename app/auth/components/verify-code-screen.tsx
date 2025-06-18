@@ -1,6 +1,8 @@
 import React from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import useString from "@/hooks/primitive/use-string";
+import {styles} from "@/app/auth/utils/styles";
+import BetterDuniyaLogo from "@/components/ui/BetterDuniyaLogo";
 
 export interface VerifyCodeScreenProps {
   email: string;
@@ -24,20 +26,22 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
   const code = useString('');
 
   return (
-    <View style={styles.container}>
-      <View style={styles.logoSection}>
-        <View style={styles.logoCircle}>
-          <Text style={styles.logoText}>★</Text>
+    <View style={stylesLocal.container}>
+      <View style={stylesLocal.logoSection}>
+        <View style={stylesLocal.logoCircle}>
+          <Text style={stylesLocal.logoText}>
+            <BetterDuniyaLogo size={48}/>
+          </Text>
         </View>
       </View>
 
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>
+      <Text style={stylesLocal.title}>{title}</Text>
+      <Text style={stylesLocal.subtitle}>
         {subtitle || `A ${codeLength}-digit code has been sent to ${email}.`}
       </Text>
 
       <TextInput
-        style={styles.input}
+        style={stylesLocal.input}
         keyboardType="numeric"
         placeholder={`Enter verification code`}
         value={code.value}
@@ -46,22 +50,22 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
       />
 
       <TouchableOpacity
-        style={styles.verifyBtn}
+        style={styles.loginBtn}
         onPress={() => onVerify(email, code.value)}
         disabled={isLoading || code.value.length !== codeLength}
       >
-        <Text style={styles.verifyBtnText}>
+        <Text style={stylesLocal.verifyBtnText}>
           {isLoading ? "Verifying..." : "Verify"}
         </Text>
       </TouchableOpacity>
-      <Text style={styles.resendText} onPress={() => onResend(email, code.value)}>
-        Didn't receive the code? <Text style={styles.resendLink}>Resend</Text>
+      <Text style={stylesLocal.resendText} onPress={() => onResend(email, code.value)}>
+        Didn't receive the code? <Text style={stylesLocal.resendLink}>Resend</Text>
       </Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const stylesLocal = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",

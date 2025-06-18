@@ -6,7 +6,7 @@ import {router} from "expo-router";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 import useRequest from "@/hooks/api/use-request";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
-import Feather from 'react-native-vector-icons/Feather';
+import BetterDuniyaLogo from "@/components/ui/BetterDuniyaLogo";
 
 export default function HomeScreen() {
   const {setProductReviewContext} = useProductReviewContext();
@@ -15,7 +15,7 @@ export default function HomeScreen() {
 
   const onSearch = async () => {
     if (search.length === 0) {
-      Alert.alert('Please search for a product name.')
+      Alert.alert('Please enter a keyword/service you want to search for.')
       return;
     }
     const response = await onRequest(productApi.searchReview, [search], null, false);
@@ -27,15 +27,13 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Logo Section */}
       <View style={styles.logoWrapper}>
         <View style={styles.logoCircle}>
-          <Feather  name="arrow-up-right" size={70} color={"#FFC107"}/>
+          <BetterDuniyaLogo/>
         </View>
-        <Text style={styles.brandText}>better duniya</Text>
+        <Text style={styles.brandText}>Better Duniya</Text>
       </View>
 
-      {/* Centered Search Section */}
       <View style={styles.searchSection}>
         <View style={styles.searchBar}>
           <TextInput

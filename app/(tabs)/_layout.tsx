@@ -1,20 +1,16 @@
 import {Tabs} from 'expo-router';
 import React from 'react';
 import {Image, Platform} from 'react-native';
-
 import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-
 import Feather from 'react-native-vector-icons/Feather';
-
 
 // Avatar URL for profile tab (replace with your user's avatar if needed)
 const AVATAR_URL = "https://randomuser.me/api/portraits/men/32.jpg";
 
-
 export default function TabLayout() {
-  const activeColor = "#222"; // strong black for active
-  const inactiveColor = "#B8B8B8"; // gray for inactive
+  const activeColor = "#222";
+  const inactiveColor = "#B8B8B8";
 
   return (
     <Tabs
@@ -42,7 +38,7 @@ export default function TabLayout() {
           title: "",
           tabBarIcon: ({color, focused, size}) => (
             <Image
-              source={require("../../assets/images/homeicon.png")}
+              source={require("../../assets/images/home.png")}
               style={{
                 width: size,
                 height: size,
