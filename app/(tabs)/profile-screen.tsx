@@ -5,18 +5,17 @@ import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useUserContext} from "@/utils/user/user-context";
 
 export default function ProfileScreen() {
-  const {} = useUserContext();
+  const {username, firstName, lastName} = useUserContext();
   return (
     <View style={styles.container}>
-      {/* Search Bar */}
       <View style={styles.searchRow}>
         <View style={styles.searchBar}>
           <Icon name="at-outline" size={20} color="#999" style={{marginRight: 6}}/>
           <TextInput
             style={styles.searchInput}
-            placeholder="@benp"
+            placeholder={`${username}`}
             editable={false}
-            value="@benp"
+            value={`${username}`}
           />
         </View>
         <TouchableOpacity style={styles.goButton}>
@@ -33,8 +32,8 @@ export default function ProfileScreen() {
           style={styles.avatar}
         />
         <View style={{flex: 1, marginLeft: 12}}>
-          <Text style={styles.displayName}>Ben Parker</Text>
-          <Text style={styles.username}>@benp</Text>
+          <Text style={styles.displayName}>{firstName} {lastName}</Text>
+          <Text style={styles.username}>@{username}</Text>
           <View style={{flexDirection: "row", marginTop: 2}}>
             <Text style={styles.mutedText}>100 Interests</Text>
             <Text style={styles.mutedText}> 50 Followers</Text>
