@@ -5,6 +5,7 @@ import useString from "@/hooks/primitive/use-string";
 import useRegistration from "@/app/auth/hooks/use-registration";
 import {useForm} from "@/hooks/interaction/use-form";
 import {validateSignUp} from "@/app/auth/utils/validators";
+import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 
 
@@ -52,87 +53,79 @@ export default function SignUpPanel() {
   return (
     <>
       <View style={styles.inputSection}>
-        <TextInput
+        <TextInputRequired
           style={styles.input}
-          placeholder="Email *"
-          placeholderTextColor="#888"
           value={values.email}
           onChangeText={handleChange('email')}
           onBlur={handleBlur("email")}
+          touched={touched.email}
+          error={errors.email}
+          placeholder="Email *"
+          placeholderTextColor="#888"
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        {touched.email && errors?.email && (
-          <Text style={styles.inputError}>{errors.email}</Text>
-        )}
-
-        <TextInput
+        <TextInputRequired
           style={styles.input}
-          placeholder="Username *"
-          placeholderTextColor="#888"
           value={values.username}
           onChangeText={handleChange('username')}
           onBlur={handleBlur("username")}
+          touched={touched.username}
+          error={errors.username}
+          placeholder="Username *"
+          placeholderTextColor="#888"
           autoCapitalize="none"
         />
-        {touched.username && errors.username?.length && (
-          <Text style={styles.inputError}>{errors.username}</Text>
-        )}
         <View style={stylesLocal.rowContainer}>
           <View style={stylesLocal.inputWrapper}>
-            <TextInput
+            <TextInputRequired
               style={styles.input}
-              placeholder="First Name *"
-              placeholderTextColor="#888"
               value={values.firstName}
               onChangeText={handleChange('firstName')}
               onBlur={handleBlur("firstName")}
+              touched={touched.lastName}
+              error={errors.lastName}
+              placeholder="First Name *"
+              placeholderTextColor="#888"
               autoCapitalize="none"
             />
-            {touched.firstName && errors.firstName?.length && (
-              <Text style={styles.inputError}>{errors.firstName}</Text>
-            )}
           </View>
           <View style={stylesLocal.inputWrapper}>
-            <TextInput
+            <TextInputRequired
               style={styles.input}
-              placeholder="Last Name *"
-              placeholderTextColor="#888"
               value={values.lastName}
               onChangeText={handleChange('lastName')}
               onBlur={handleBlur("lastName")}
+              touched={touched.lastName}
+              error={errors.lastName}
+              placeholder="Last Name *"
+              placeholderTextColor="#888"
               autoCapitalize="none"
             />
-            {touched.lastName && errors.lastName?.length && (
-              <Text style={styles.inputError}>{errors.lastName}</Text>
-            )}
           </View>
         </View>
-        <TextInput
+        <TextInputRequired
           style={styles.input}
-          placeholder="Password *"
-          placeholderTextColor="#888"
-          secureTextEntry
           value={values.password}
           onChangeText={handleChange('password')}
           onBlur={handleBlur("password")}
+          touched={touched.password}
+          error={errors.password}
+          placeholder="Password *"
+          placeholderTextColor="#888"
+          secureTextEntry
         />
-        {touched.password && errors?.password && (
-          <Text style={styles.inputError}>{errors.password}</Text>
-        )}
-
-        <TextInput
+        <TextInputRequired
           style={styles.input}
           placeholder="Confirm Password *"
           placeholderTextColor="#888"
-          secureTextEntry
           value={values.confirmPassword}
           onChangeText={handleChange('confirmPassword')}
           onBlur={handleBlur("confirmPassword")}
+          touched={touched.confirmPassword}
+          error={errors.confirmPassword}
+          secureTextEntry
         />
-        {touched.confirmPassword && errors?.confirmPassword && (
-          <Text style={styles.inputError}>{errors.confirmPassword}</Text>
-        )}
       </View>
 
       {isLoading ? (

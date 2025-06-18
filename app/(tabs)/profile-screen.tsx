@@ -1,26 +1,17 @@
 import React from "react";
-import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useUserContext} from "@/utils/user/user-context";
+import SearchBar from "@/components/layouts/SearchBar";
 
 export default function ProfileScreen() {
   const {username, firstName, lastName} = useUserContext();
   return (
     <View style={styles.container}>
       <View style={styles.searchRow}>
-        <View style={styles.searchBar}>
-          <Icon name="at-outline" size={20} color="#999" style={{marginRight: 6}}/>
-          <TextInput
-            style={styles.searchInput}
-            placeholder={`${username}`}
-            editable={false}
-            value={`${username}`}
-          />
-        </View>
-        <TouchableOpacity style={styles.goButton}>
-          <Text style={styles.goButtonText}>Go !</Text>
-        </TouchableOpacity>
+        <SearchBar searchValue={username} placeholder={username} onSearch={async () => {
+        }}/>
       </View>
 
       {/* Profile Header */}

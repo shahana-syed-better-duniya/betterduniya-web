@@ -7,7 +7,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -20,6 +19,7 @@ import {useForm} from "@/hooks/interaction/use-form";
 import useProductReviewCreate from "@/hooks/product/use-product-review-create";
 import useString from "@/hooks/primitive/use-string";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
+import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 export default function ReviewScreen() {
   const {username, firstName, lastName} = useUserContext();
@@ -85,24 +85,21 @@ export default function ReviewScreen() {
         </View>
       </View>
 
-      <TextInput
-        style={styles.prodBox}
-        placeholder="Enter product name..."
+
+      <TextInputRequired
         value={values.title}
         onChangeText={handleChange('title')}
         onBlur={handleBlur("title")}
-        placeholderTextColor="#bbb"
+        placeholder="Enter product name..."
       />
-
-      <TextInput
+      <TextInputRequired
         style={styles.reviewBox}
-        multiline
-        numberOfLines={6}
-        placeholder="Please write your review..."
         value={values.description}
         onChangeText={handleChange('description')}
         onBlur={handleBlur("description")}
-        placeholderTextColor="#bbb"
+        placeholder="Please write your review..."
+        multiline
+        numberOfLines={6}
       />
       <Text style={styles.charCount}>100,000 Characters</Text>
 

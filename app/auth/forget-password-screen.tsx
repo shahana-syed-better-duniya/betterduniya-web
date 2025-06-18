@@ -7,6 +7,7 @@ import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {useNavigation} from "expo-router";
 import {validateForgotPassword} from "@/app/auth/utils/validators";
+import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 
 interface ForgotPasswordScreen {
@@ -51,21 +52,19 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreen> = ({onGoBack}) => {
       <View style={styles.inputSection}>
         <Text style={styles.forgotPasswordTitle}>Forgot Password</Text>
         <Text style={styles.forgotPasswordText}>Please enter your registered email address.</Text>
-        <TextInput
+        <TextInputRequired
           style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#888"
-          autoCapitalize="none"
           value={values.email}
           onChangeText={handleChange("email")}
           onBlur={handleBlur("email")}
+          touched={touched.email}
+          error={errors.email}
+          placeholder="Email"
+          placeholderTextColor="#888"
+          autoCapitalize="none"
           keyboardType="email-address"
         />
       </View>
-
-      {touched.email && errors.email && (
-        <Text style={styles.inputError}>{errors.email}</Text>
-      )}
       {apiResult.value !== "" && (
         <Text style={styles.inputError}>{apiResult.value}</Text>
       )}

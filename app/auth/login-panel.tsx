@@ -10,6 +10,7 @@ import {useBoolean} from "@/hooks/primitive/use-boolean";
 import ForgotPasswordScreen from "@/app/auth/forget-password-screen";
 import {useUserContext} from "@/utils/user/user-context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 export default function LogInPanel() {
   const {onLogin, isLoading,} = useLogin();
@@ -80,31 +81,28 @@ export default function LogInPanel() {
   return (
     <>
       <View style={styles.inputSection}>
-        <TextInput
+        <TextInputRequired
           style={styles.input}
-          placeholder="Email *"
-          placeholderTextColor="#888"
           value={values.email}
           onChangeText={handleChange("email")}
           onBlur={handleBlur("email")}
+          touched={touched.email}
+          error={errors.email}
+          placeholder="Email *"
+          placeholderTextColor="#888"
           autoCapitalize="none"
         />
-        {touched.email && errors.email && (
-          <Text style={styles.inputError}>{errors.email}</Text>
-        )}
-
-        <TextInput
+        <TextInputRequired
           style={styles.input}
-          placeholder="Password *"
-          placeholderTextColor="#888"
           secureTextEntry
           value={values.password}
           onChangeText={handleChange("password")}
           onBlur={handleBlur("password")}
+          touched={touched.password}
+          error={errors.password}
+          placeholder="Password *"
+          placeholderTextColor="#888"
         />
-        {touched.password && errors.password && (
-          <Text style={styles.inputError}>{errors.password}</Text>
-        )}
 
         <TouchableOpacity onPress={isForgetPassword.onToggle} style={styles.forgotPassword}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>

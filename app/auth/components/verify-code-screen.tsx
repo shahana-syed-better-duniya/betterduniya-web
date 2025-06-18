@@ -42,10 +42,10 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
 
       <TextInput
         style={stylesLocal.input}
-        keyboardType="numeric"
-        placeholder={`Enter verification code`}
         value={code.value}
         onChangeText={code.onChangeValue}
+        keyboardType="numeric"
+        placeholder={`Enter verification code`}
         maxLength={codeLength}
       />
 

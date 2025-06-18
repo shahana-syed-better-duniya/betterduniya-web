@@ -1,30 +1,15 @@
-import React, {useState} from "react";
-import {ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import React from "react";
+import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import {productApi} from "@/api/product/product";
-import {router} from "expo-router";
-import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
-import useRequest from "@/hooks/api/use-request";
-import {useProductReviewContext} from "@/utils/products/product-review-context";
 import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
+import useSearchProductReview from "@/app/(tabs)/hooks/use-search-product-review";
 
 export default function HomeScreen() {
-  const {setProductReviewContext} = useProductReviewContext();
-  const {onRequest, isLoading} = useRequest<ProductReviewSummary>();
-  const [search, setSearch] = useState("");
-
-  const onSearch = async () => {
-    if (search.length === 0) {
-      Alert.alert('Please enter a keyword/service you want to search for.')
-      return;
-    }
-    const response = await onRequest(productApi.searchReview, [search], null, false);
-    if (response.result != null) {
-      setProductReviewContext({summary: response.result});
-      router.replace('/(tabs)/feed-screen');
-    }
-  }
-
+  const {
+    onSearch,
+    isLoading,
+    searchValue,
+  } = useSearchProductReview();
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -40,8 +25,8 @@ export default function HomeScreen() {
             style={styles.searchInput}
             placeholder="Search..."
             placeholderTextColor="#bbb"
-            value={search}
-            onChangeText={setSearch}
+            value={searchValue.value}
+            onChangeText={searchValue.onChangeValue}
           />
           <Icon name="search" size={22} color="#bbb" style={{marginLeft: 5}}/>
         </View>
@@ -55,7 +40,6 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Floating Search Button */}
       <TouchableOpacity style={styles.fab}>
         <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>

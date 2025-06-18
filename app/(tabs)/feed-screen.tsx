@@ -5,6 +5,7 @@ import {useProductReviewContext} from "@/utils/products/product-review-context";
 import {fTimeAgo} from "@/utils/date";
 import ReviewCard from "../../components/products/ReviewCard"
 import ComingSoonCard from "@/components/products/ComingSoonCard";
+import SearchBar from "@/components/layouts/SearchBar";
 
 const FILTERS = ["All", "Sony", "iPhone 14", "Laptops", "Resume"];
 
@@ -29,9 +30,12 @@ const FeedScreen = () => {
   ]
   const [selected, setSelected] = useState("All");
 
+
   return (
     <View style={styles.container}>
       <View style={{marginBottom: 5}}>
+        <SearchBar searchValue={''} placeholder={''} onSearch={async () => {
+        }}/>
         <FlatList
           data={FILTERS}
           horizontal
