@@ -7,9 +7,10 @@ import ScreenLayout from "@/app/auth/screen-layout";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");
+    const containerHeight = activeTab === "login" ? 420 : 550;  // example heights
 
   return (
-    <ScreenLayout>
+    <ScreenLayout containerHeight={containerHeight}>
       <>
         <View style={styles.tabRow}>
           <TouchableOpacity

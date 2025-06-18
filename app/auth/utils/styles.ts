@@ -62,18 +62,18 @@ export const styles = StyleSheet.create({
     marginTop: 6,
     minHeight: 340,
 
-      shadowColor: "#000",
+    shadowColor: "#000",
   shadowOffset: { width: 0, height: 8 }, // more height to push shadow down only
-  shadowOpacity: 0.1,
+  shadowOpacity: 0.0,
   shadowRadius: 12,
-  elevation: 5, // slightly higher for thicker shadow on Android
+  // elevation: 3, // slightly higher for thicker shadow on Android
   },
   tabRow: {
     flexDirection: "row",
     borderRadius: 30,
     borderWidth: 1,
     borderColor: "#D9D9D9",
-    width: "100%",
+    width: "70%",
     justifyContent: "center",
     marginBottom: 26,
   },
@@ -102,7 +102,7 @@ export const styles = StyleSheet.create({
     color: "#fff",
   },
   inputSection: {
-    width: "100%",
+    width: "70%",
     marginBottom: 10,
   },
   input: {
@@ -136,7 +136,7 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   loginBtn: {
-    width: "100%",
+    width: "70%",
     backgroundColor: "#FFD740",
     borderRadius: 30,
     paddingVertical: 13,

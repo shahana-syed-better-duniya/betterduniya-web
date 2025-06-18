@@ -7,6 +7,7 @@ import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 import useRequest from "@/hooks/api/use-request";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
 import Feather from 'react-native-vector-icons/Feather';
+import { Shadow } from 'react-native-shadow-2';
 
 export default function HomeScreen() {
   const {setProductReviewContext} = useProductReviewContext();
@@ -30,7 +31,7 @@ export default function HomeScreen() {
       {/* Logo Section */}
       <View style={styles.logoWrapper}>
         <View style={styles.logoCircle}>
-          <Feather  name="arrow-up-right" size={70} color={"#FFC107"}/>
+          <Feather  name="arrow-up-right" size={100} color={"#FFC107"}/>
         </View>
         <Text style={styles.brandText}>better duniya</Text>
       </View>
@@ -75,9 +76,9 @@ const styles = StyleSheet.create({
     marginTop: 70,
   },
   logoCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 55,
+    width: 150,
+    height: 150,
+    borderRadius: 100,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
@@ -102,13 +103,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#FCFCFF",
-    borderColor: "#E1E0E6",
-    borderWidth: 2,
     borderRadius: 28,
     height: 52,
     paddingHorizontal: 24,
     width: "84%",
     marginBottom: 47,
+    shadowColor: "black",
+    shadowRadius: 12,
+    shadowOpacity: 0.2,
+    elevation: 5,
   },
   searchInput: {
     flex: 1,
@@ -124,6 +127,11 @@ const styles = StyleSheet.create({
     paddingVertical: 11,
     borderRadius: 24,
     alignItems: "center",
+    shadowColor: "black",
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    elevation: 5,
   },
   goButtonText: {
     color: "#fff",
