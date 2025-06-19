@@ -19,10 +19,9 @@ const useSearchProductReview = () => {
     const response = await onRequest(productApi.searchReview, [searchValue.value], null, false);
     if (response.result != null) {
       setProductReviewContext({summary: response.result});
-      router.replace('/(tabs)/feed-screen');
+      router.replace('/(tabs)/feed');
     }
   }
-
 
   return {
     onSearch,

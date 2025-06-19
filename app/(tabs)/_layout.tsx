@@ -32,7 +32,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home-screen"
+        name="home"
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
@@ -48,7 +48,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="feed-screen"
+        name="feed"
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
@@ -64,7 +64,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="review-screen"
+        name="review"
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
@@ -73,7 +73,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="product-screen"
+        name="product"
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
@@ -89,7 +89,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile-screen"
+        name="profile"
         options={{
           title: "",
           tabBarIcon: ({focused}) => (

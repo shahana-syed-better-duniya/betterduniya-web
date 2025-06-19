@@ -63,7 +63,6 @@ const Feed = () => {
         />
       </View>
       {selected !== 'All' ? <ComingSoonCard/> :
-
         <FlatList
           data={feedItems}
           keyExtractor={(item) => item.id}

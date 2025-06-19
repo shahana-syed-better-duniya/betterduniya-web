@@ -6,7 +6,7 @@ import {useColorScheme} from '@/hooks/useColorScheme';
 import React from "react";
 import {UserProvider} from "@/utils/user/user-provider";
 import {ProductReviewProvider} from "@/utils/products/product-review-provider";
-import Stacks from "@/app/stacks";
+import {Stack} from "expo-router";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -23,7 +23,9 @@ export default function RootLayout() {
     <UserProvider>
       <ProductReviewProvider>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stacks/>
+          <Stack>
+            <Stack.Screen name="(auth)"/>
+          </Stack>
         </ThemeProvider>
       </ProductReviewProvider>
     </UserProvider>

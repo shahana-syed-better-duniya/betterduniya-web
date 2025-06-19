@@ -1,5 +1,5 @@
 import React from "react";
-import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
+import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {styles} from "@/utils/auth/styles";
 import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
 import {Stack} from "expo-router";
@@ -23,13 +23,11 @@ const Layout = () => {
             </View>
             <Text style={styles.title}>Better Duniya</Text>
           </View>
-          <View style={styles.card}>
-            <Stack>
-              <Stack.Screen name="main"/>
-              <Stack.Screen name="forget"/>
-              <Stack.Screen name="verify"/>
-            </Stack>
-          </View>
+          <Stack>
+            <Stack.Screen name="main" options={{headerShown: false}}/>
+            <Stack.Screen name="forget" options={{headerShown: false}}/>
+            <Stack.Screen name="verify" options={{headerShown: false}}/>
+          </Stack>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -37,3 +35,10 @@ const Layout = () => {
 }
 
 export default Layout;
+
+
+const stylesLocal = StyleSheet.create({
+  card: {
+    margin: 20,
+  }
+})

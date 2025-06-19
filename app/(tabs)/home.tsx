@@ -11,18 +11,18 @@ export default function Home() {
     searchValue,
   } = useSearchProductReview();
   return (
-    <View style={styles.container}>
-      <View style={styles.logoWrapper}>
-        <View style={styles.logoCircle}>
+    <View style={stylesLocal.container}>
+      <View style={stylesLocal.logoWrapper}>
+        <View style={stylesLocal.logoCircle}>
           <BetterDuniyaLogo/>
         </View>
-        <Text style={styles.brandText}>Better Duniya</Text>
+        <Text style={stylesLocal.brandText}>Better Duniya</Text>
       </View>
 
-      <View style={styles.searchSection}>
-        <View style={styles.searchBar}>
+      <View style={stylesLocal.searchSection}>
+        <View style={stylesLocal.searchBar}>
           <TextInput
-            style={styles.searchInput}
+            style={stylesLocal.searchInput}
             placeholder="Search..."
             placeholderTextColor="#bbb"
             value={searchValue.value}
@@ -31,31 +31,28 @@ export default function Home() {
           <Icon name="search" size={22} color="#bbb" style={{marginLeft: 5}}/>
         </View>
 
-        <TouchableOpacity style={styles.goButton} onPress={onSearch}>
+        <TouchableOpacity style={stylesLocal.goButton} onPress={onSearch}>
           {isLoading ? (
             <ActivityIndicator color="#fff"/>
           ) : (
-            <Text style={styles.goButtonText}>GO !</Text>
+            <Text style={stylesLocal.goButtonText}>GO !</Text>
           )}
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.fab}>
+      <TouchableOpacity style={stylesLocal.fab}>
         <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-
-
+const stylesLocal = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F7F6F6",
     alignItems: "center",
   },
-
   logoWrapper: {
     alignItems: "center",
     marginTop: 70,
@@ -75,15 +72,12 @@ const styles = StyleSheet.create({
     fontFamily: "Kanit-Regular.ttf",
     color: "#1B1B1B",
   },
-
   searchSection: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    marginTop: -150,
   },
-
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
@@ -103,7 +97,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#222",
   },
-
   goButton: {
     backgroundColor: "#FFC107",
     paddingHorizontal: 44,
@@ -116,7 +109,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
   },
-
   fab: {
     position: "absolute",
     bottom: 32,

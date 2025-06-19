@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
-import {Animated, Text, TouchableOpacity, View} from "react-native";
-import {styles} from "@/utils/auth/styles";
-import Signup from "@/app/auth/main/signup";
-import Login from "@/app/auth/main/login";
+import {Animated, Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import Signup from "@/app/(auth)/main/signup";
+import Login from "@/app/(auth)/main/login";
+import {THEMES} from "@/constants/themes";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");
@@ -10,11 +10,9 @@ export default function LoginScreen() {
 
   const handleTabPress = (tab: string) => {
     setActiveTab(tab);
-
-    // Animate the sliding effect
     Animated.timing(slideAnim, {
       toValue: tab === "login" ? 0 : 1, // 0 for login, 1 for signup
-      duration: 300, // Duration of animation in ms
+      duration: 300,
       useNativeDriver: false,
     }).start();
   };
@@ -26,8 +24,8 @@ export default function LoginScreen() {
   });
 
   return (
-    <View style={styles.card}>
-      <View style={styles.tabRow}>
+    <View style={stylesLocal.card}>
+      <View style={stylesLocal.tabRow}>
         <Animated.View
           style={[
             stylesForSlide.slidingBackground,
@@ -35,26 +33,26 @@ export default function LoginScreen() {
           ]}
         />
         <TouchableOpacity
-          style={styles.tabBtn}
+          style={stylesLocal.tabBtn}
           onPress={() => handleTabPress("login")}
         >
           <Text
             style={[
-              styles.tabText,
-              activeTab === "login" && styles.tabTextActive,
+              stylesLocal.tabText,
+              activeTab === "login" && stylesLocal.tabTextActive,
             ]}
           >
             Log In
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.tabBtn}
+          style={stylesLocal.tabBtn}
           onPress={() => handleTabPress("signup")}
         >
           <Text
             style={[
-              styles.tabText,
-              activeTab === "signup" && styles.tabTextActive,
+              stylesLocal.tabText,
+              activeTab === "signup" && stylesLocal.tabTextActive,
             ]}
           >
             Sign Up
@@ -65,6 +63,52 @@ export default function LoginScreen() {
     </View>
   );
 }
+
+const {width, height} = Dimensions.get("window");
+const CARD_WIDTH = Math.min(width * 0.92, 420);
+
+const stylesLocal = StyleSheet.create({
+  tabBtn: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    backgroundColor: "transparent",
+    borderRadius: 30,
+  },
+  tabRow: {
+    flexDirection: "row",
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: "#D9D9D9",
+    width: "100%",
+    justifyContent: "center",
+    marginBottom: 26,
+  },
+  tabTextActive: {
+    color: "#fff",
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: 700,
+    color: THEMES.PRIMARY,
+  },
+  card: {
+    width: CARD_WIDTH,
+    backgroundColor: "#fff",
+    borderRadius: 28,
+    paddingVertical: 24,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 6,
+    minHeight: 340,
+    shadowColor: "#000",
+    shadowOffset: {width: 0, height: 8}, // more height to push shadow down only
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5, // slightly higher for thicker shadow on Android
+  }
+})
 
 export const stylesForSlide = {
   tabRow: {
@@ -93,7 +137,7 @@ export const stylesForSlide = {
   },
   slidingBackground: {
     position: "absolute",
-    backgroundColor: "#fdb900",
+    backgroundColor: THEMES.PRIMARY,
     width: "50%",
     height: "100%",
     borderRadius: 25,

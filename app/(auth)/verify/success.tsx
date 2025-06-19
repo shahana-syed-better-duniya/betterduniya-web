@@ -16,7 +16,7 @@ const Success = () => {
         Your email has been verified successfully. You can now proceed to use the app.
       </Text>
 
-      <TouchableOpacity style={styles.loginBtn} onPress={() => router.replace('/(tabs)/home-screen')}>
+      <TouchableOpacity style={styles.loginBtn} onPress={() => router.replace('/(tabs)/home')}>
         <Text style={stylesLocal.proceedBtnText}>Go to Home Screen</Text>
       </TouchableOpacity>
     </View>

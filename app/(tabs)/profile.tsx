@@ -13,8 +13,6 @@ export default function Profile() {
         <SearchBar searchValue={username} placeholder={username} onSearch={async () => {
         }}/>
       </View>
-
-      {/* Profile Header */}
       <View style={styles.headerRow}>
         <Image
           source={{

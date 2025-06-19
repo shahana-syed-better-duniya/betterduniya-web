@@ -7,7 +7,7 @@ import useLogin from "@/hooks/auth/use-login";
 import {router} from "expo-router";
 import useString from "@/hooks/primitive/use-string";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
-import ForgotPasswordScreen from "@/app/auth/forget";
+import ForgotPasswordScreen from "@/app/(auth)/forget";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 import useLoginSave from "@/hooks/auth/use-login-save";
 
@@ -43,7 +43,7 @@ export default function Login() {
         if (userInfo != null) {
           await saveLoginResult(userInfo);
           if (userInfo.accessToken.length > 0) {
-            router.replace('/(tabs)/home-screen')
+            router.replace('/(tabs)/home')
           } else {
             loginError.onChangeValue("Email or password is invalid. Please try again.")
           }
@@ -71,10 +71,9 @@ export default function Login() {
   }
 
   return (
-    <View>
+    <>
       <View style={styles.inputSection}>
         <TextInputRequired
-          style={styles.input}
           value={values.email}
           onChangeText={handleChange("email")}
           onBlur={handleBlur("email")}
@@ -85,7 +84,6 @@ export default function Login() {
           autoCapitalize="none"
         />
         <TextInputRequired
-          style={styles.input}
           secureTextEntry
           value={values.password}
           onChangeText={handleChange("password")}
@@ -120,6 +118,6 @@ export default function Login() {
           <Image source={require("@/assets/images/google.png")} style={styles.socialIcon}/>
         </TouchableOpacity>
       </View>
-    </View>
+    </>
   );
 }
