@@ -3,20 +3,16 @@ import {ActivityIndicator, Text, TouchableOpacity, View} from "react-native";
 import {styles} from "@/utils/auth/styles";
 import {useForm} from "@/hooks/interaction/use-form";
 import useString from "@/hooks/primitive/use-string";
-import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/user";
-import {useRouter} from "expo-router";
 import {validateForgotPassword} from "@/utils/auth/validators";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
+import useForgetPasswordResend from "@/hooks/auth/use-forget-password-resend";
 
 interface ForgotPasswordScreen {
   onGoBack: () => void;
 }
 
 const ForgotPasswordScreen: React.FC<ForgotPasswordScreen> = ({onGoBack}) => {
-  const router = useRouter();
-
-  const {onRequest, isLoading} = useRequest();
+  const {onForgetPassword, isLoading} = useForgetPasswordResend();
   const apiResult = useString("");
 
   const {
@@ -37,8 +33,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreen> = ({onGoBack}) => {
     if (!isValid) return;
 
     try {
-      await onRequest(userApi.forgetPassword, [values.email], null, false);
-      router.navigate(`/(auth)/forget/verify?email=${values.email}`);
+      await onForgetPassword(values.email);
       resetForm();
     } catch (e) {
       apiResult.onChangeValue("Failed to send reset email. Please try again.");

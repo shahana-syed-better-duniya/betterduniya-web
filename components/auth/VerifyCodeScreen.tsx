@@ -2,8 +2,8 @@ import React from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity} from "react-native";
 import useString from "@/hooks/primitive/use-string";
 import {styles} from "@/utils/auth/styles";
-import {CARD_WIDTH} from "@/constants/themes";
 import ViewCard from "@/components/layouts/ViewCard";
+import useTimer from "@/hooks/auth/use-timer";
 
 export interface VerifyCodeScreenProps {
   email: string;
@@ -28,6 +28,15 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
                                                            }) => {
   const code = useString('');
 
+  const {timer, isTimerActive,} = useTimer();
+  const handleResend = async () => {
+    if (!isTimerActive.value) {
+      isTimerActive.onTrue();
+      timer.onChangeValue(10);
+      await onResend(email, code.value);
+    }
+  };
+
   return (
     <ViewCard>
       <Text style={stylesLocal.title}>{title}</Text>
@@ -51,8 +60,17 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
           {isLoading ? "Verifying..." : isLoadingResend ? 'Resending' : 'Verify'}
         </Text>
       </TouchableOpacity>
-      <Text style={stylesLocal.resendText} onPress={() => onResend(email, code.value)}>
-        Didn't receive the code? <Text style={stylesLocal.resendLink}>Resend</Text>
+
+      <Text style={stylesLocal.resendText}>
+        Didn't receive the code? {isTimerActive.value ? (
+        <Text style={stylesLocal.timerText}>
+          Resend in {timer.value}s
+        </Text>
+      ) : (
+        <Text style={stylesLocal.resendLink} onPress={handleResend}>
+          Resend
+        </Text>
+      )}
       </Text>
     </ViewCard>
   );
@@ -105,6 +123,10 @@ const stylesLocal = StyleSheet.create({
   },
   resendLink: {
     color: "#FFD740",
+    fontWeight: "600",
+  },
+  timerText: {
+    color: "#888",
     fontWeight: "600",
   },
 });
