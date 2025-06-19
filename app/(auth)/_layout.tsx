@@ -1,8 +1,9 @@
 import React from "react";
-import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import {styles} from "@/utils/auth/styles";
-import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
+import AppLogo from "@/components/layouts/AppLogo";
 import {Stack} from "expo-router";
+import {AppConfigs} from "@/constants/app-configs";
 
 const Layout = () => {
   return (
@@ -12,23 +13,18 @@ const Layout = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.logoSection}>
-            <View style={styles.logoCircle}>
-              <BetterDuniyaLogo/>
-            </View>
-            <Text style={styles.title}>Better Duniya</Text>
+        <View style={styles.logoSection}>
+          <View style={styles.logoCircle}>
+            <AppLogo/>
           </View>
-          <Stack>
-            <Stack.Screen name="main" options={{headerShown: false}}/>
-            <Stack.Screen name="forget" options={{headerShown: false}}/>
-            <Stack.Screen name="verify" options={{headerShown: false}}/>
-          </Stack>
-        </ScrollView>
+          <Text style={styles.title}>{AppConfigs.APP_NAME}</Text>
+        </View>
+        <Stack initialRouteName="main/index">
+          <Stack.Screen name="main/index" options={{headerShown: false}}/>
+          <Stack.Screen name="main/email" options={{headerShown: false}}/>
+          <Stack.Screen name="forget" options={{headerShown: false}}/>
+          <Stack.Screen name="verify/success" options={{headerShown: false}}/>
+        </Stack>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )

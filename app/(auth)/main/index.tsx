@@ -4,6 +4,8 @@ import Signup from "@/app/(auth)/main/signup";
 import Login from "@/app/(auth)/main/login";
 import {CARD_WIDTH, THEMES} from "@/constants/themes";
 import ViewCard from "@/components/layouts/ViewCard";
+import {styles} from "@/utils/auth/styles";
+import AppLogo from "@/components/layouts/AppLogo";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");
@@ -82,6 +84,8 @@ const stylesLocal = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     marginBottom: 26,
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   tabTextActive: {
     color: "#fff",

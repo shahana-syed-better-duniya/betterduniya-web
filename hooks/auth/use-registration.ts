@@ -1,11 +1,11 @@
 import {userApi} from "@/api/user/user";
-import {useNavigation} from "expo-router";
+import {useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
 import {RegistrationResult} from "@/interfaces/users/registrationResult";
 import {Alert} from "react-native";
 
 const useRegistration = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const {onRequest, isLoading} = useRequest<RegistrationResult>();
 
   const onSignUp = async (email: string, username: string, password: string, firstName: string, lastName: string) => {
@@ -19,7 +19,7 @@ const useRegistration = () => {
     try {
       const response = await onRequest(userApi.registerAccount, [], body, false);
       if (response.result?.isRegistered) {
-        navigation.navigate("auth/verify-email-screen", {email});
+        router.navigate(`/(auth)/main/email?email=${email}`);
       } else {
         // Handle validation errors from the backend
         if (!response.result?.isEmailValid) {

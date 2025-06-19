@@ -1,4 +1,4 @@
-import {useNavigation} from "expo-router";
+import {useNavigation, useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {Alert} from "react-native";
@@ -8,7 +8,7 @@ import {useUserContext} from "@/utils/user/user-context";
 import useLoginSave from "@/hooks/auth/use-login-save";
 
 const useRegistrationVerify = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const {onRequest, isLoading} = useRequest<UserLoginSuccessInfo>();
 
   const saveLoginResult = useLoginSave();
@@ -16,15 +16,19 @@ const useRegistrationVerify = () => {
   const onVerify = async (email: string, code: string) => {
     const response = await onRequest(userApi.verifyAccount, [email, code], null, false);
     const userInfo = response.result;
-    if (userInfo != null) {
+    if (userInfo != null && userInfo?.accessToken.length >0) {
       await saveLoginResult(userInfo);
-      navigation.navigate("auth/verify-success-screen", {email});
+      router.navigate("/(auth)/verify/success");
     } else {
       Alert.alert('verification failed');
     }
   };
 
-  return {onVerify, isLoading}
+  const onResend = async (email: string, code: string) => {
+    await onRequest(userApi.verifyAccount, [email, code], null, false);
+  };
+
+  return {onVerify, onResend, isLoading}
 }
 
 export default useRegistrationVerify;

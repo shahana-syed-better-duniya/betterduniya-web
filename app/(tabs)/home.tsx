@@ -1,8 +1,9 @@
 import React from "react";
 import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
+import AppLogo from "@/components/layouts/AppLogo";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
+import {AppConfigs} from "@/constants/app-configs";
 
 export default function Home() {
   const {
@@ -14,9 +15,9 @@ export default function Home() {
     <View style={stylesLocal.container}>
       <View style={stylesLocal.logoWrapper}>
         <View style={stylesLocal.logoCircle}>
-          <BetterDuniyaLogo/>
+          <AppLogo/>
         </View>
-        <Text style={stylesLocal.brandText}>Better Duniya</Text>
+        <Text style={stylesLocal.brandText}>{AppConfigs.APP_NAME}</Text>
       </View>
 
       <View style={stylesLocal.searchSection}>

@@ -1,7 +1,7 @@
 import {styles} from "@/utils/auth/styles";
 import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
 import React from "react";
-import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
+import AppLogo from "@/components/layouts/AppLogo";
 
 interface LayoutProps {
   children: React.ReactElement;
@@ -22,7 +22,7 @@ const AuthScreenLayout: React.FC<LayoutProps> = ({children}) => {
         >
           <View style={styles.logoSection}>
             <View style={styles.logoCircle}>
-              <BetterDuniyaLogo/>
+              <AppLogo/>
             </View>
             <Text style={styles.title}>Better Duniya</Text>
           </View>
