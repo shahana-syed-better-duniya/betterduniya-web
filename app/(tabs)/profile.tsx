@@ -5,7 +5,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useUserContext} from "@/utils/user/user-context";
 import SearchBar from "@/components/layouts/SearchBar";
 
-export default function ProfileScreen() {
+export default function Profile() {
   const {username, firstName, lastName} = useUserContext();
   return (
     <View style={styles.container}>

@@ -1,8 +1,8 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {router} from "expo-router";
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 
-const VerifySuccessScreen = () => {
+const Success = () => {
   return (
     <View style={stylesLocal.container}>
       <View style={stylesLocal.logoSection}>
@@ -85,4 +85,4 @@ const stylesLocal = StyleSheet.create({
   },
 });
 
-export default VerifySuccessScreen;
+export default Success;

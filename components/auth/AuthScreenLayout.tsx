@@ -1,4 +1,4 @@
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
 import React from "react";
 import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactElement;
 }
 
-const ScreenLayout: React.FC<LayoutProps> = ({children}) => {
+const AuthScreenLayout: React.FC<LayoutProps> = ({children}) => {
   return (
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
@@ -35,4 +35,4 @@ const ScreenLayout: React.FC<LayoutProps> = ({children}) => {
   )
 }
 
-export default ScreenLayout;
+export default AuthScreenLayout;

@@ -1,9 +1,8 @@
-import React, { useState, useRef } from "react";
-import { Animated, Text, TouchableOpacity, View } from "react-native";
-import { styles } from "@/app/auth/utils/styles";
-import SignUpPanel from "@/app/auth/signup-panel";
-import LogInPanel from "@/app/auth/login-panel";
-import ScreenLayout from "@/app/auth/screen-layout";
+import React, {useRef, useState} from "react";
+import {Animated, Text, TouchableOpacity, View} from "react-native";
+import {styles} from "@/utils/auth/styles";
+import Signup from "@/app/auth/main/signup";
+import Login from "@/app/auth/main/login";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");
@@ -27,45 +26,43 @@ export default function LoginScreen() {
   });
 
   return (
-    <ScreenLayout>
-      <>
-        <View style={styles.tabRow}>
-          <Animated.View
+    <View style={styles.card}>
+      <View style={styles.tabRow}>
+        <Animated.View
+          style={[
+            stylesForSlide.slidingBackground,
+            {left: slidePosition},
+          ]}
+        />
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => handleTabPress("login")}
+        >
+          <Text
             style={[
-              stylesForSlide.slidingBackground,
-              { left: slidePosition },
+              styles.tabText,
+              activeTab === "login" && styles.tabTextActive,
             ]}
-          />
-          <TouchableOpacity
-            style={styles.tabBtn}
-            onPress={() => handleTabPress("login")}
           >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === "login" && styles.tabTextActive,
-              ]}
-            >
-              Log In
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.tabBtn}
-            onPress={() => handleTabPress("signup")}
+            Log In
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => handleTabPress("signup")}
+        >
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === "signup" && styles.tabTextActive,
+            ]}
           >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === "signup" && styles.tabTextActive,
-              ]}
-            >
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {activeTab === "login" ? <LogInPanel /> : <SignUpPanel />}
-      </>
-    </ScreenLayout>
+            Sign Up
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {activeTab === "login" ? <Login/> : <Signup/>}
+    </View>
   );
 }
 

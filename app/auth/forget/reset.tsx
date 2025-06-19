@@ -1,16 +1,16 @@
 import useString from "@/hooks/primitive/use-string";
 import {useForm} from "@/hooks/interaction/use-form";
-import {validateResetPassword} from "@/app/auth/utils/validators";
+import {validateResetPassword} from "@/utils/auth/validators";
 import {Text, TextInput, TouchableOpacity, View} from "react-native";
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 import React from "react";
-import useResetPassword from "@/app/auth/hooks/use-reset-password";
+import useResetPassword from "@/hooks/auth/use-reset-password";
 import {RouteProp, useRoute} from "@react-navigation/core";
 import {RootStackParamList} from "@/interfaces/screen-props";
-import ScreenLayout from "@/app/auth/screen-layout";
+import AuthScreenLayout from "@/components/auth/AuthScreenLayout";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 
-const ForgetPasswordResetScreen = () => {
+const Reset = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, "auth/forget-password-reset-screen">>();
 
   const {onResetPassword, isLoading} = useResetPassword();
@@ -47,7 +47,7 @@ const ForgetPasswordResetScreen = () => {
 
 
   return (
-    <ScreenLayout>
+    <AuthScreenLayout>
       <View style={styles.inputSection}>
         <TextInputRequired
           style={styles.input}
@@ -82,8 +82,8 @@ const ForgetPasswordResetScreen = () => {
           {isLoading ? "Verifying..." : "Verify"}
         </Text>
       </TouchableOpacity>
-    </ScreenLayout>
+    </AuthScreenLayout>
   )
 }
 
-export default ForgetPasswordResetScreen;
+export default Reset;

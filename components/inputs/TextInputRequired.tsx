@@ -1,5 +1,5 @@
 import {KeyboardTypeOptions, Text, TextInput} from "react-native";
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 import React from "react";
 
 interface TextInputRequiredProps {

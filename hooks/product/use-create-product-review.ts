@@ -1,11 +1,9 @@
-import {useNavigation} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
 import {productApi} from "@/api/product/product";
 import mime from 'mime';
 
 
-const useProductReviewCreate = () => {
-  const navigation = useNavigation();
+const useCreateProductReview = () => {
   const {onRequest, isLoading} = useRequest();
 
   const onCreateReview = async (title: string, description: string, rating: number, isRecommended: boolean, images: {
@@ -44,4 +42,4 @@ const useProductReviewCreate = () => {
   return {onCreateReview, isLoading}
 }
 
-export default useProductReviewCreate;
+export default useCreateProductReview;

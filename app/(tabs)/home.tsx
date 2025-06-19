@@ -2,9 +2,9 @@ import React from "react";
 import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
-import useSearchProductReview from "@/app/(tabs)/hooks/use-search-product-review";
+import useSearchProductReview from "@/hooks/product/use-search-product-review";
 
-export default function HomeScreen() {
+export default function Home() {
   const {
     onSearch,
     isLoading,

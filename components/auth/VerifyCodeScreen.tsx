@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import useString from "@/hooks/primitive/use-string";
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
 
 export interface VerifyCodeScreenProps {

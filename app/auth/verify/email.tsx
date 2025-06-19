@@ -1,10 +1,10 @@
 import React from "react";
 import {RootStackParamList} from "@/interfaces/screen-props";
 import {RouteProp, useRoute} from "@react-navigation/core";
-import useRegistrationVerify from "@/app/auth/hooks/use-registration-verify";
-import VerifyCodeScreen from "@/app/auth/components/verify-code-screen";
+import useRegistrationVerify from "@/hooks/auth/use-registration-verify";
+import VerifyCodeScreen from "@/components/auth/VerifyCodeScreen";
 
-export default function VerifyEmailScreen() {
+export default function Email() {
   const {params} = useRoute<RouteProp<RootStackParamList, "auth/verify-email-screen">>();
   const {onVerify, isLoading} = useRegistrationVerify();
 

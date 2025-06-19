@@ -1,12 +1,12 @@
 import React from "react";
 import {ActivityIndicator, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 import {useForm} from "@/hooks/interaction/use-form";
 import useString from "@/hooks/primitive/use-string";
 import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {useNavigation} from "expo-router";
-import {validateForgotPassword} from "@/app/auth/utils/validators";
+import {validateForgotPassword} from "@/utils/auth/validators";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 

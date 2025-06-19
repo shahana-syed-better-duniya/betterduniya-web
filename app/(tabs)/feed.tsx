@@ -9,7 +9,7 @@ import SearchBar from "@/components/layouts/SearchBar";
 
 const FILTERS = ["All", "Sony", "iPhone 14", "Laptops", "Resume"];
 
-const FeedScreen = () => {
+const Feed = () => {
   const {summary} = useProductReviewContext();
 
   const feedItems = [
@@ -152,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FeedScreen;
+export default Feed;

@@ -1,17 +1,17 @@
 import React from "react";
 import {ActivityIndicator, Image, Text, TouchableOpacity, View} from "react-native";
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 import {useForm} from "@/hooks/interaction/use-form";
-import {validateLogin} from "@/app/auth/utils/validators";
-import useLogin from "@/app/auth/hooks/use-login";
+import {validateLogin} from "@/utils/auth/validators";
+import useLogin from "@/hooks/auth/use-login";
 import {router} from "expo-router";
 import useString from "@/hooks/primitive/use-string";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
-import ForgotPasswordScreen from "@/app/auth/forget-password-screen";
+import ForgotPasswordScreen from "@/app/auth/forget";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
-import useLoginSave from "@/app/auth/hooks/use-login-save";
+import useLoginSave from "@/hooks/auth/use-login-save";
 
-export default function LogInPanel() {
+export default function Login() {
   const {onLogin, isLoading,} = useLogin();
   const saveLoginResult = useLoginSave();
 
@@ -71,7 +71,7 @@ export default function LogInPanel() {
   }
 
   return (
-    <>
+    <View>
       <View style={styles.inputSection}>
         <TextInputRequired
           style={styles.input}
@@ -120,6 +120,6 @@ export default function LogInPanel() {
           <Image source={require("@/assets/images/google.png")} style={styles.socialIcon}/>
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   );
 }

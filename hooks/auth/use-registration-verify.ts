@@ -2,24 +2,19 @@ import {useNavigation} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {Alert} from "react-native";
-import ForgetPasswordInfo from "@/interfaces/users/forgetPasswordInfo";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
-import {useUserContext} from "@/utils/user/user-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import useLoginSave from "@/app/auth/hooks/use-login-save";
+import {useUserContext} from "@/utils/user/user-context";
+import useLoginSave from "@/hooks/auth/use-login-save";
 
-const useResetPassword = () => {
+const useRegistrationVerify = () => {
   const navigation = useNavigation();
   const {onRequest, isLoading} = useRequest<UserLoginSuccessInfo>();
+
   const saveLoginResult = useLoginSave();
 
-  const onResetPassword = async (email: string, code: string, password: string) => {
-    const body: ForgetPasswordInfo = {
-      code,
-      email,
-      password,
-    };
-    const response = await onRequest(userApi.resetPassword, [], body, false);
+  const onVerify = async (email: string, code: string) => {
+    const response = await onRequest(userApi.verifyAccount, [email, code], null, false);
     const userInfo = response.result;
     if (userInfo != null) {
       await saveLoginResult(userInfo);
@@ -29,7 +24,7 @@ const useResetPassword = () => {
     }
   };
 
-  return {onResetPassword, isLoading}
+  return {onVerify, isLoading}
 }
 
-export default useResetPassword;
+export default useRegistrationVerify;

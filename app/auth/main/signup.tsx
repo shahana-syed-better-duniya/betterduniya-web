@@ -1,15 +1,15 @@
 import React from "react";
 import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {styles} from "@/app/auth/utils/styles";
+import {styles} from "@/utils/auth/styles";
 import useString from "@/hooks/primitive/use-string";
-import useRegistration from "@/app/auth/hooks/use-registration";
+import useRegistration from "@/hooks/auth/use-registration";
 import {useForm} from "@/hooks/interaction/use-form";
-import {validateSignUp} from "@/app/auth/utils/validators";
+import {validateSignUp} from "@/utils/auth/validators";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 
 
-export default function SignUpPanel() {
+export default function Signup() {
   const {onSignUp, isLoading} = useRegistration();
   const apiResult = useString('');
 

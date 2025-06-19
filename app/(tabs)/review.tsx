@@ -14,16 +14,16 @@ import Icon from "react-native-vector-icons/Ionicons";
 import DualRowRating from "../../components/products/Rating";
 import {useUserContext} from "@/utils/user/user-context";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
-import {validateReview} from "@/app/validators";
+import {validateReview} from "@/utils/products/validators";
 import {useForm} from "@/hooks/interaction/use-form";
-import useProductReviewCreate from "@/hooks/product/use-product-review-create";
+import useCreateProductReview from "@/hooks/product/use-create-product-review";
 import useString from "@/hooks/primitive/use-string";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 
-export default function ReviewScreen() {
+export default function Review() {
   const {username, firstName, lastName} = useUserContext();
-  const {onCreateReview, isLoading} = useProductReviewCreate();
+  const {onCreateReview, isLoading} = useCreateProductReview();
 
   const isRecommended = useBoolean(true);
   const apiResult = useString("");

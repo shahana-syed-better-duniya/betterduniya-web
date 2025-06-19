@@ -19,7 +19,6 @@ export default function RootLayout() {
     return null;
   }
 
-
   return (
     <UserProvider>
       <ProductReviewProvider>
@@ -28,6 +27,5 @@ export default function RootLayout() {
         </ThemeProvider>
       </ProductReviewProvider>
     </UserProvider>
-
   );
 }

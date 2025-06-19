@@ -5,7 +5,6 @@ import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import Feather from 'react-native-vector-icons/Feather';
 
-// Avatar URL for profile tab (replace with your user's avatar if needed)
 const AVATAR_URL = "https://randomuser.me/api/portraits/men/32.jpg";
 
 export default function TabLayout() {
