@@ -16,6 +16,11 @@ export const userApi = {
     path: (email: string, code: string) => `/user/register/verify?email=${email}&code=${code}`,
     okMessage: `Account is verified`,
   },
+  resendVerify: {
+    method: requestMethods.post,
+    path: (email: string) => `/user/register/verify/resend?email=${email}`,
+    okMessage: `Account is verified`,
+  },
   forgetPassword: {
     method: requestMethods.post,
     path: (email: string) => `/user/forget-password?email=${email}`,
