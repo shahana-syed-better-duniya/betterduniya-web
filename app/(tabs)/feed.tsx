@@ -6,6 +6,7 @@ import {fTimeAgo} from "@/utils/date";
 import ReviewCard from "../../components/products/ReviewCard"
 import ComingSoonCard from "@/components/products/ComingSoonCard";
 import SearchBar from "@/components/layouts/SearchBar";
+import useSearchProductReview from "@/hooks/product/use-search-product-review";
 
 const FILTERS = ["All", "Sony", "iPhone 14", "Laptops", "Resume"];
 
@@ -29,13 +30,16 @@ const Feed = () => {
     })) ?? []),
   ]
   const [selected, setSelected] = useState("All");
-
+  const {
+    onSearch,
+    searchValue,
+  } = useSearchProductReview()
 
   return (
     <View style={styles.container}>
       <View style={{marginBottom: 5}}>
-        <SearchBar searchValue={''} placeholder={''} onSearch={async () => {
-        }}/>
+        <SearchBar searchValue={searchValue.value} onChangeText={searchValue.onChangeValue} placeholder={''}
+                   onSearch={onSearch}/>
         <FlatList
           data={FILTERS}
           horizontal

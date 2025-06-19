@@ -4,11 +4,12 @@ import React from "react";
 
 interface SearchBarProps {
   searchValue: string;
+  onChangeText: (val: string) => void;
   placeholder: string;
   onSearch: () => Promise<void>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({searchValue, placeholder, onSearch}) => {
+const SearchBar: React.FC<SearchBarProps> = ({searchValue, onChangeText, placeholder, onSearch}) => {
   return (
     <View style={styles.searchRow}>
       <View style={styles.searchBar}>
@@ -16,8 +17,8 @@ const SearchBar: React.FC<SearchBarProps> = ({searchValue, placeholder, onSearch
         <TextInput
           style={styles.searchInput}
           placeholder={placeholder}
-          editable={false}
           value={searchValue}
+          onChangeText={onChangeText}
         />
       </View>
       <TouchableOpacity style={styles.goButton} onPress={onSearch}>
