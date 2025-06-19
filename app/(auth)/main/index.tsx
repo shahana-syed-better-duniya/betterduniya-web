@@ -2,7 +2,8 @@ import React, {useRef, useState} from "react";
 import {Animated, Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Signup from "@/app/(auth)/main/signup";
 import Login from "@/app/(auth)/main/login";
-import {THEMES} from "@/constants/themes";
+import {CARD_WIDTH, THEMES} from "@/constants/themes";
+import ViewCard from "@/components/layouts/ViewCard";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");
@@ -24,7 +25,7 @@ export default function LoginScreen() {
   });
 
   return (
-    <View style={stylesLocal.card}>
+    <ViewCard>
       <View style={stylesLocal.tabRow}>
         <Animated.View
           style={[
@@ -60,12 +61,10 @@ export default function LoginScreen() {
         </TouchableOpacity>
       </View>
       {activeTab === "login" ? <Login/> : <Signup/>}
-    </View>
+    </ViewCard>
   );
 }
 
-const {width, height} = Dimensions.get("window");
-const CARD_WIDTH = Math.min(width * 0.92, 420);
 
 const stylesLocal = StyleSheet.create({
   tabBtn: {
@@ -92,22 +91,6 @@ const stylesLocal = StyleSheet.create({
     fontWeight: 700,
     color: THEMES.PRIMARY,
   },
-  card: {
-    width: CARD_WIDTH,
-    backgroundColor: "#fff",
-    borderRadius: 28,
-    paddingVertical: 24,
-    paddingHorizontal: 24,
-    alignItems: "center",
-    alignSelf: "center",
-    marginTop: 6,
-    minHeight: 340,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 8}, // more height to push shadow down only
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5, // slightly higher for thicker shadow on Android
-  }
 })
 
 export const stylesForSlide = {

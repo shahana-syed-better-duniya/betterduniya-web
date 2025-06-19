@@ -2,7 +2,7 @@ import {KeyboardTypeOptions, Text, TextInput} from "react-native";
 import {styles} from "@/utils/auth/styles";
 import React from "react";
 
-interface TextInputRequiredProps {
+export interface TextInputRequiredProps {
   value: string;
   onChangeText: (val: string) => void;
   onBlur: () => void;

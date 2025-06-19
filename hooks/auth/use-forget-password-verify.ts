@@ -1,16 +1,16 @@
-import {useNavigation} from "expo-router";
+import {useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {Alert} from "react-native";
 
 const useForgetPasswordVerify = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const {onRequest, isLoading} = useRequest<boolean>();
 
   const onVerify = async (email: string, code: string) => {
     const response = await onRequest(userApi.verifyForgetPassword, [email, code], null, false);
     if (response.result) {
-      navigation.navigate("auth/forget-password-reset-screen", {email, code});
+      router.navigate(`/(auth)/forget/reset?email=${email}&code=${code}`);
     } else {
       Alert.alert('verification failed');
     }

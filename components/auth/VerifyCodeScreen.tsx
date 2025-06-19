@@ -1,8 +1,9 @@
 import React from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TextInput, TouchableOpacity} from "react-native";
 import useString from "@/hooks/primitive/use-string";
 import {styles} from "@/utils/auth/styles";
-import BetterDuniyaLogo from "@/components/layouts/BetterDuniyaLogo";
+import {CARD_WIDTH} from "@/constants/themes";
+import ViewCard from "@/components/layouts/ViewCard";
 
 export interface VerifyCodeScreenProps {
   email: string;
@@ -12,6 +13,7 @@ export interface VerifyCodeScreenProps {
   subtitle?: string | null;
   codeLength: number;
   isLoading: boolean;
+  isLoadingResend: boolean;
 }
 
 const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
@@ -22,24 +24,16 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
                                                              subtitle = null,
                                                              codeLength = 6,
                                                              isLoading = false,
+                                                             isLoadingResend = false,
                                                            }) => {
   const code = useString('');
 
   return (
-    <View style={stylesLocal.container}>
-      <View style={stylesLocal.logoSection}>
-        <View style={stylesLocal.logoCircle}>
-          <Text style={stylesLocal.logoText}>
-            <BetterDuniyaLogo size={48}/>
-          </Text>
-        </View>
-      </View>
-
+    <ViewCard>
       <Text style={stylesLocal.title}>{title}</Text>
       <Text style={stylesLocal.subtitle}>
         {subtitle || `A ${codeLength}-digit code has been sent to ${email}.`}
       </Text>
-
       <TextInput
         style={stylesLocal.input}
         value={code.value}
@@ -48,52 +42,23 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
         placeholder={`Enter verification code`}
         maxLength={codeLength}
       />
-
       <TouchableOpacity
         style={styles.loginBtn}
         onPress={() => onVerify(email, code.value)}
         disabled={isLoading || code.value.length !== codeLength}
       >
         <Text style={stylesLocal.verifyBtnText}>
-          {isLoading ? "Verifying..." : "Verify"}
+          {isLoading ? "Verifying..." : isLoadingResend ? 'Resending' : 'Verify'}
         </Text>
       </TouchableOpacity>
       <Text style={stylesLocal.resendText} onPress={() => onResend(email, code.value)}>
         Didn't receive the code? <Text style={stylesLocal.resendLink}>Resend</Text>
       </Text>
-    </View>
+    </ViewCard>
   );
 }
 
 const stylesLocal = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5F5F5",
-    paddingHorizontal: 16,
-  },
-  logoSection: {
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  logoCircle: {
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    width: 80,
-    height: 80,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  logoText: {
-    fontSize: 36,
-    color: "#FFD740",
-    fontWeight: "bold",
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",

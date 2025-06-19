@@ -1,10 +1,11 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {router} from "expo-router";
 import {styles} from "@/utils/auth/styles";
+import ViewCard from "@/components/layouts/ViewCard";
 
 const Success = () => {
   return (
-    <View style={stylesLocal.container}>
+    <ViewCard>
       <View style={stylesLocal.logoSection}>
         <View style={stylesLocal.logoCircle}>
           <Text style={stylesLocal.logoText}>✓</Text>
@@ -19,19 +20,12 @@ const Success = () => {
       <TouchableOpacity style={styles.loginBtn} onPress={() => router.replace('/(tabs)/home')}>
         <Text style={stylesLocal.proceedBtnText}>Go to Home Screen</Text>
       </TouchableOpacity>
-    </View>
+    </ViewCard>
   )
 }
 
 
 const stylesLocal = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5F5F5",
-    paddingHorizontal: 16,
-  },
   logoSection: {
     alignItems: "center",
     marginBottom: 24,

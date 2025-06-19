@@ -4,10 +4,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 const ComingSoonCard = () => {
   return (
     <View style={stylesLocal.container}>
-      <View style={stylesLocal.card}>
         <Text style={stylesLocal.title}>Coming Soon</Text>
         <Text style={stylesLocal.subtitle}>Stay tuned for exciting updates!</Text>
-      </View>
     </View>
   );
 };
@@ -15,9 +13,17 @@ const ComingSoonCard = () => {
 const stylesLocal = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f8f8",
     justifyContent: "center",
     alignItems: "center",
+    width: "80%",
+    padding: 20,
+    borderRadius: 28,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
   },
   card: {
     width: "90%",

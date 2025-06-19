@@ -1,17 +1,19 @@
 import useString from "@/hooks/primitive/use-string";
 import {useForm} from "@/hooks/interaction/use-form";
 import {validateResetPassword} from "@/utils/auth/validators";
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Text, TouchableOpacity, View} from "react-native";
 import {styles} from "@/utils/auth/styles";
 import React from "react";
 import useResetPassword from "@/hooks/auth/use-reset-password";
-import {RouteProp, useRoute} from "@react-navigation/core";
-import {RootStackParamList} from "@/interfaces/screen-props";
-import AuthScreenLayout from "@/components/auth/AuthScreenLayout";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
+import {parseParamsSingle} from "@/utils/params";
+import {useLocalSearchParams} from "expo-router";
+import ViewCard from "@/components/layouts/ViewCard";
 
 const Reset = () => {
-  const {params} = useRoute<RouteProp<RootStackParamList, "auth/forget-password-reset-screen">>();
+  const {email, code} = useLocalSearchParams();
+  const emailString = parseParamsSingle(email);
+  const codeString = parseParamsSingle(code);
 
   const {onResetPassword, isLoading} = useResetPassword();
   const apiResult = useString('');
@@ -34,20 +36,18 @@ const Reset = () => {
 
   const handleSubmit = async () => {
     apiResult.onClear();
-
     if (!isValid) return;
 
     try {
-      await onResetPassword(params.email, params.code, values.password,);
+      await onResetPassword(emailString, codeString, values.password,);
       resetForm();
     } catch (e) {
       apiResult.onChangeValue("Failed to reset password. Please try again.");
     }
   };
 
-
   return (
-    <AuthScreenLayout>
+    <ViewCard>
       <View style={styles.inputSection}>
         <TextInputRequired
           style={styles.input}
@@ -62,7 +62,6 @@ const Reset = () => {
         />
 
         <TextInputRequired
-          style={styles.input}
           value={values.confirmPassword}
           onChangeText={handleChange('confirmPassword')}
           onBlur={handleBlur("confirmPassword")}
@@ -82,7 +81,7 @@ const Reset = () => {
           {isLoading ? "Verifying..." : "Verify"}
         </Text>
       </TouchableOpacity>
-    </AuthScreenLayout>
+    </ViewCard>
   )
 }
 

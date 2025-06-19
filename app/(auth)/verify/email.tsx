@@ -7,9 +7,10 @@ import VerifyCodeScreen from "@/components/auth/VerifyCodeScreen";
 export default function Email() {
   const {params} = useRoute<RouteProp<RootStackParamList, "auth/verify-email-screen">>();
   const {onVerify, isLoading} = useRegistrationVerify();
+  const {onVerify: onResend, isLoading: isLoadingResend} = useRegistrationVerify();
 
   return (
     <VerifyCodeScreen onVerify={onVerify} email={params.email} codeLength={6} isLoading={isLoading}
-                      onResend={onVerify}/>
+                      onResend={onResend} isLoadingResend={isLoadingResend}/>
   );
 }

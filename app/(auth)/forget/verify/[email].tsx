@@ -2,15 +2,16 @@ import VerifyCodeScreen from "@/components/auth/VerifyCodeScreen";
 import React from "react";
 import useForgetPasswordVerify from "@/hooks/auth/use-forget-password-verify";
 import {useLocalSearchParams} from "expo-router";
-import {parseParamsSingle} from "@/utils/params";
 
 export default function Verify() {
   const {email} = useLocalSearchParams();
   const {onVerify, isLoading} = useForgetPasswordVerify();
+  const {onVerify: onResend, isLoading: isLoadingResend} = useForgetPasswordVerify();
 
-  const emailString = parseParamsSingle(email);
+
+  const emailString = Array.isArray(email) ? email[0] : email;
   return (
     <VerifyCodeScreen onVerify={onVerify} email={emailString} codeLength={6} isLoading={isLoading}
-                      onResend={onVerify} isLoadingResend={isLoading}/>
+                      onResend={onResend} isLoadingResend={isLoadingResend}/>
   );
 }

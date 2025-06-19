@@ -18,6 +18,11 @@ const validatePasswords = (values: { password?: string; confirmPassword?: string
     errors.password = "Password is required.";
   } else if (values.password.length < 8) {
     errors.password = "Password must be at least 8 characters.";
+  } else if (
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(values.password)
+  ) {
+    errors.password =
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
   }
 
   if (!values.confirmPassword) {
@@ -88,12 +93,6 @@ export function validateSignUp(values: {
     errors.email = "Please enter a valid email address.";
   }
 
-  if (
-    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(values.password)
-  ) {
-    errors.password =
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
-  }
   Object.assign(errors, validatePasswords((values)));
 
   return errors;
