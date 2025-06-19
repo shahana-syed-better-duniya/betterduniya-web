@@ -11,7 +11,6 @@ import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 export default function Signup() {
   const {onSignUp, isLoading} = useRegistration();
-  const apiResult = useString('');
 
   const {
     values,
@@ -35,11 +34,9 @@ export default function Signup() {
   });
 
   const handleSignUp = async () => {
-    apiResult.onClear();
     if (isValid) {
       try {
         await onSignUp(values.email, values.username, values.password, values.firstName, values.lastName);
-        apiResult.onChangeValue("Registration successful! Please verify your email.");
         resetForm();
       } catch (error) {
         setErrors((prev) => ({
@@ -142,8 +139,6 @@ export default function Signup() {
           <Text style={styles.loginBtnText}>Sign Up</Text>
         </TouchableOpacity>
       )}
-
-      {!apiResult.isEmpty && <Text style={styles.successMessage}>{apiResult.value}</Text>}
     </>
   );
 }

@@ -24,8 +24,8 @@ const useRegistrationVerify = () => {
     }
   };
 
-  const onResend = async (email: string, code: string) => {
-    await onRequest(userApi.verifyAccount, [email, code], null, false);
+  const onResend = async (email: string, _: string) => {
+    await onRequest(userApi.resendVerify, [email], null, false);
   };
 
   return {onVerify, onResend, isLoading}
