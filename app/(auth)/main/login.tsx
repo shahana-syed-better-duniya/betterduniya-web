@@ -10,6 +10,7 @@ import {useBoolean} from "@/hooks/primitive/use-boolean";
 import ForgotPasswordScreen from "@/app/(auth)/forget";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 import useLoginSave from "@/hooks/auth/use-login-save";
+import useLoginGoogle from "@/hooks/auth/use-login-google";
 
 export default function Login() {
   const {onLogin, isLoading,} = useLogin();
@@ -60,7 +61,11 @@ export default function Login() {
     }
   };
 
-  const onSocialPress = (provider: string) => {
+
+  const {onLogin:onLoginGoogle} = useLoginGoogle();
+
+  const onSocialPress = async (provider: string) => {
+    await onLoginGoogle();
     // Your social login logic here
   };
 
