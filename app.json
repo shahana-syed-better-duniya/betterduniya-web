@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/main.png",
-    "scheme": "com.googleusercontent.apps.365559828766-e3ebe5cujt9r4s7vb6o2v1rfbuojgs4v",
+    "scheme": "com.enactus.duniya.reactnative",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
