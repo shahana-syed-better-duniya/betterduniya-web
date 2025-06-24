@@ -38,36 +38,3 @@ workflows:
         notify:
           success: true
           failure: true
-
-  ios-workflow:
-    name: iOS Sample Workflow
-    environment:
-      vars:
-        BUNDLE_ID: "io.enactus.duniya.reactnative"
-        XCODE_WORKSPACE: "EnactusDuniya.xcworkspace"
-        XCODE_SCHEME: "EnactusDuniya"
-    scripts:
-      - name: Install npm dependencies
-        script: |
-          npm install
-      - name: Run Expo Prebuild
-        script: |
-          npx expo prebuild -p ios
-      - name: Set Info.plist values
-        script: |
-          PLIST=$CM_BUILD_DIR/$XCODE_SCHEME/Info.plist
-          PLIST_BUDDY=/usr/libexec/PlistBuddy
-          $PLIST_BUDDY -c "Add :ITSAppUsesNonExemptEncryption bool false" $PLIST
-      - name: Install CocoaPods dependencies
-        script: |
-          cd ios && pod install
-      - name: Build ipa for distribution
-        script: |
-          xcode-project build-ipa \
-            --workspace "$CM_BUILD_DIR/ios/$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
