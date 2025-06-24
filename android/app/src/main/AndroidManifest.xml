@@ -24,7 +24,6 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.googleusercontent.apps.365559828766-e3ebe5cujt9r4s7vb6o2v1rfbuojgs4v"/>
         <data android:scheme="exp+duniya-mobile"/>
       </intent-filter>
     </activity>
