@@ -4,20 +4,25 @@ import useRequest from "@/hooks/api/use-request";
 import {userApi} from "@/api/user/user";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
 import useLoginSave from "@/hooks/auth/use-login-save";
+import {router} from "expo-router";
 
 
 const useLoginGoogle = () => {
   const {onRequest} = useRequest<UserLoginSuccessInfo>();
 
-  const onSave = useLoginSave();
+  const saveLoginResult = useLoginSave();
 
   const onLogin = async () => {
     try {
       const result = await authorize(oauthConfig);
       const body = {credential: result.idToken};
       const response = await onRequest(userApi.loginAccountByGoogle, [], body, false)
-      if (response.result) {
-        await onSave(response.result);
+      const userInfo = response.result;
+      if (userInfo) {
+        await saveLoginResult(userInfo);
+        if (userInfo.accessToken.length > 0) {
+          router.replace('/(tabs)/home')
+        }
       } else {
         console.error('UserLoginSuccessInfo is null');
       }
