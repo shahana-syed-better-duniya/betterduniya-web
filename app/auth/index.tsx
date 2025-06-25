@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {Text, TouchableOpacity, View,} from "react-native";
-import {styles} from "@/app/auth/utils/styles";
-import SignUpPanel from "@/app/auth/signup-panel";
-import LogInPanel from "@/app/auth/login-panel";
-import ScreenLayout from "@/app/auth/screen-layout";
+import {styles} from "@/utils/auth/styles";
+import SignUpPanel from "@/app/(auth)/main/signup";
+import LogInPanel from "@/app/(auth)/main/login";
+import ScreenLayout from "@/components/auth/AuthScreenLayout";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");

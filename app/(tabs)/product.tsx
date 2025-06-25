@@ -50,7 +50,8 @@ export default function ProductPage() {
 
   return (
     <View style={styles.container}>
-      <View style={{marginBottom: 5}}>
+      <ComingSoonCard/>
+      {/* <View style={{marginBottom: 5}}>
         <FlatList
           data={FILTERS}
           horizontal
@@ -98,7 +99,7 @@ export default function ProductPage() {
 
       <TouchableOpacity style={styles.fab}>
         <Icon name="search" size={28} color="#FFC107"/>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

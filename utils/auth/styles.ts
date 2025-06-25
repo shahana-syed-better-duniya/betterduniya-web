@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   card: {
-    width: "90%",
+    width: "100%",
     padding: 20,
     borderRadius: 10,
     backgroundColor: "#fff",
@@ -65,24 +65,23 @@ export const styles = StyleSheet.create({
     color: "#1B1B1B",
     marginBottom: 10,
   },
-<<<<<<< HEAD:app/auth/utils/styles.ts
-  card: {
-    width: CARD_WIDTH,
-    backgroundColor: "#fff",
-    borderRadius: 28,
-    paddingVertical: 24,
-    paddingHorizontal: "5%",
-    alignItems: "center",
+  // card: {
+  //   width: CARD_WIDTH,
+  //   backgroundColor: "#fff",
+  //   borderRadius: 28,
+  //   paddingVertical: 24,
+  //   paddingHorizontal: "5%",
+  //   alignItems: "center",
 
-    marginTop: 6,
-    minHeight: 340,
+  //   marginTop: 6,
+  //   minHeight: 340,
 
-    shadowColor: "#000",
-  shadowOffset: { width: 0, height: 8 }, // more height to push shadow down only
-  shadowOpacity: 0.0,
-  shadowRadius: 12,
-  // elevation: 3, // slightly higher for thicker shadow on Android
-  },
+  //   shadowColor: "#000",
+  // shadowOffset: { width: 0, height: 8 }, // more height to push shadow down only
+  // shadowOpacity: 0.0,
+  // shadowRadius: 12,
+  // // elevation: 3, // slightly higher for thicker shadow on Android
+  // },
   tabRow: {
     flexDirection: "row",
     borderRadius: 30,
@@ -116,8 +115,6 @@ export const styles = StyleSheet.create({
   tabTextActive: {
     color: "#fff",
   },
-=======
->>>>>>> b0f807f818e79cecc41536bff2da71b75014629e:utils/auth/styles.ts
   inputSection: {
     width: "70%",
     marginBottom: 10,

@@ -1,23 +1,16 @@
 import {styles} from "@/utils/auth/styles";
 import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
 import React from "react";
-<<<<<<< HEAD:app/auth/screen-layout.tsx
 import Feather from 'react-native-vector-icons/Feather';
 import { Shadow } from 'react-native-shadow-2';
-=======
 import AppLogo from "@/components/layouts/AppLogo";
->>>>>>> b0f807f818e79cecc41536bff2da71b75014629e:components/auth/AuthScreenLayout.tsx
 
 interface LayoutProps {
   children: React.ReactElement;
   containerHeight?: number;
 }
 
-<<<<<<< HEAD:app/auth/screen-layout.tsx
-const ScreenLayout: React.FC<LayoutProps> = ({children, containerHeight}) => {
-=======
 const AuthScreenLayout: React.FC<LayoutProps> = ({children}) => {
->>>>>>> b0f807f818e79cecc41536bff2da71b75014629e:components/auth/AuthScreenLayout.tsx
   return (
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
@@ -34,7 +27,7 @@ const AuthScreenLayout: React.FC<LayoutProps> = ({children}) => {
             <View style={styles.logoCircle}>
               <AppLogo/>
             </View>
-            <Text style={styles.title}>Better Duniya</Text>
+            <Text style={styles.title}>better dunyia</Text>
           </View>
           <Shadow
           distance={20}                // slightly larger spread for softer edge
@@ -42,7 +35,7 @@ const AuthScreenLayout: React.FC<LayoutProps> = ({children}) => {
           startColor={'#00000025'}     // slightly darker but still subtle
           sides={{ top: false }}       // no top shadow — clean drop effect
           >
-            <View style={{height: containerHeight, width: '100%', overflow: 'visible', borderRadius: 30}}>
+            <View style={{height: '100%', width: '100%', overflow: 'visible', borderRadius: 30}}>
               
               <View style={styles.card}>
                 {children}

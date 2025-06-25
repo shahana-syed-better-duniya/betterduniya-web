@@ -1,36 +1,9 @@
 import React from "react";
 import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-<<<<<<< HEAD:app/(tabs)/home-screen.tsx
-import {productApi} from "@/api/product/product";
-import {router} from "expo-router";
-import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
-import useRequest from "@/hooks/api/use-request";
-import {useProductReviewContext} from "@/utils/products/product-review-context";
-import Feather from 'react-native-vector-icons/Feather';
-import { Shadow } from 'react-native-shadow-2';
-
-export default function HomeScreen() {
-  const {setProductReviewContext} = useProductReviewContext();
-  const {onRequest} = useRequest<ProductReviewSummary>();
-  const [search, setSearch] = useState("");
-
-  const onSearch = async () => {
-    if (search.length === 0) {
-      Alert.alert('Please search for a product name.')
-      return;
-    }
-    const response = await onRequest(productApi.searchReview, [search], null, false);
-    if (response.result != null) {
-      setProductReviewContext({summary: response.result});
-      router.replace('/(tabs)/feed-screen');
-    }
-  }
-=======
 import AppLogo from "@/components/layouts/AppLogo";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {AppConfigs} from "@/constants/app-configs";
->>>>>>> b0f807f818e79cecc41536bff2da71b75014629e:app/(tabs)/home.tsx
 
 export default function Home() {
   const {
@@ -39,18 +12,10 @@ export default function Home() {
     searchValue,
   } = useSearchProductReview();
   return (
-<<<<<<< HEAD:app/(tabs)/home-screen.tsx
-    <View style={styles.container}>
-      {/* Logo Section */}
-      <View style={styles.logoWrapper}>
-        <View style={styles.logoCircle}>
-          <Feather  name="arrow-up-right" size={100} color={"#FFC107"}/>
-=======
     <View style={stylesLocal.container}>
       <View style={stylesLocal.logoWrapper}>
         <View style={stylesLocal.logoCircle}>
           <AppLogo/>
->>>>>>> b0f807f818e79cecc41536bff2da71b75014629e:app/(tabs)/home.tsx
         </View>
         <Text style={stylesLocal.brandText}>{AppConfigs.APP_NAME}</Text>
       </View>
@@ -86,12 +51,12 @@ export default function Home() {
 const stylesLocal = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F7F6F6",
+    backgroundColor: "white",
     alignItems: "center",
   },
   logoWrapper: {
     alignItems: "center",
-    marginTop: 70,
+    top: 70,
   },
   logoCircle: {
     width: 150,
@@ -101,6 +66,10 @@ const stylesLocal = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 24,
+    shadowColor: "black",
+    shadowRadius: 12,
+    shadowOpacity: 0.1,
+    elevation: 4,
   },
   brandText: {
     fontSize: 36,
@@ -122,6 +91,7 @@ const stylesLocal = StyleSheet.create({
     height: 52,
     paddingHorizontal: 24,
     width: "84%",
+    marginTop: -160,
     marginBottom: 47,
     shadowColor: "black",
     shadowRadius: 12,
