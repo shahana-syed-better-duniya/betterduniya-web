@@ -4,7 +4,8 @@ import { BaseEntity } from "../baseEntity";
 export interface User extends BaseEntity {
   email: string;
   username: string;
-  personalName: string;
+  firstName: string;
+  lastName: string;
   isVerified: boolean;
   userAuthPassword: UserAuthPassword | null;
 }
