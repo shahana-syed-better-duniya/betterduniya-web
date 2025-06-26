@@ -38,7 +38,7 @@ const Feed = () => {
   return (
     <View style={styles.container}>
       <View style={{marginBottom: 5}}>
-        <SearchBar searchValue={searchValue.value} onChangeText={searchValue.onChangeValue} placeholder={''}
+        <SearchBar searchValue={searchValue.value} onChangeText={searchValue.onChangeValue} placeholder={'Search Product...'}
                    onSearch={onSearch}/>
         <FlatList
           data={FILTERS}
@@ -96,7 +96,7 @@ const Feed = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "white",
     paddingTop: 30,
     paddingHorizontal: 12,
   },

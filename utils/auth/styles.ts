@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   card: {
-    width: "90%",
+    width: "100%",
     padding: 20,
     borderRadius: 10,
     backgroundColor: "#fff",
@@ -65,8 +65,58 @@ export const styles = StyleSheet.create({
     color: "#1B1B1B",
     marginBottom: 10,
   },
+  // card: {
+  //   width: CARD_WIDTH,
+  //   backgroundColor: "#fff",
+  //   borderRadius: 28,
+  //   paddingVertical: 24,
+  //   paddingHorizontal: "5%",
+  //   alignItems: "center",
+
+  //   marginTop: 6,
+  //   minHeight: 340,
+
+  //   shadowColor: "#000",
+  // shadowOffset: { width: 0, height: 8 }, // more height to push shadow down only
+  // shadowOpacity: 0.0,
+  // shadowRadius: 12,
+  // // elevation: 3, // slightly higher for thicker shadow on Android
+  // },
+  tabRow: {
+    flexDirection: "row",
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: "#D9D9D9",
+    width: "70%",
+    justifyContent: "center",
+    marginBottom: 26,
+  },
+  tabBtn: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    backgroundColor: "transparent",
+    borderRadius: 30,
+    
+  },
+  tabBtnActive: {
+    backgroundColor: "#FFBF00",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: 700,
+    color: "#FFBF00",
+  },
+  tabTextActive: {
+    color: "#fff",
+  },
   inputSection: {
-    width: "100%",
+    width: "70%",
     marginBottom: 10,
   },
   input: {
@@ -100,7 +150,7 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   loginBtn: {
-    width: "100%",
+    width: "70%",
     backgroundColor: "#FFD740",
     borderRadius: 30,
     paddingVertical: 13,

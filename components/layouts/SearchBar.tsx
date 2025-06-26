@@ -13,9 +13,10 @@ const SearchBar: React.FC<SearchBarProps> = ({searchValue, onChangeText, placeho
   return (
     <View style={styles.searchRow}>
       <View style={styles.searchBar}>
-        <Icon name="at-outline" size={20} color="#999" style={{marginRight: 6}}/>
+        <Icon name="search-outline" size={20} color="#999" style={{marginRight: 6}}/>
         <TextInput
           style={styles.searchInput}
+          placeholderTextColor="#bbb"
           placeholder={placeholder}
           value={searchValue}
           onChangeText={onChangeText}

@@ -292,8 +292,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     paddingVertical: 12,
     borderRadius: 23,
-    borderWidth: 2.5,
-    borderColor: "#FFAE00"
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    elevation: 4,
   },
   inputError: {color: "#F44336", fontSize: 13},
   postBtnText: {color: "#fff", fontWeight: "bold", fontSize: 20},

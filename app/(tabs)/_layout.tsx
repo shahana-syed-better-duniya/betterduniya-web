@@ -21,9 +21,10 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: {
           backgroundColor: "#F7F7FA",
-          borderTopColor: "#F2F0FF",
-          borderTopWidth: 1,
-          height: 64,
+          shadowColor: '#e7e7e7',
+          shadowRadius: 15,
+          elevation: 15,
+          height: 68,
           ...Platform.select({
             ios: {position: 'absolute'},
             default: {},
@@ -37,11 +38,12 @@ export default function TabLayout() {
           title: "",
           tabBarIcon: ({color, focused, size}) => (
             <Image
-              source={require("../../assets/images/home.png")}
+              source={require("../../assets/images/homeicon.png")}
               style={{
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
+                
               }}
             />
           ),
@@ -58,6 +60,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
+                
               }}
             />
           ),
@@ -68,7 +71,15 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
-            <Feather name="arrow-up-right" size={size + 11} color={color}/>
+              <Image
+              source={require("../../assets/images/arrowicon.png")}
+              style={{
+                width: size,
+                height: size,
+                tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
+                
+              }}
+            />
           ),
         }}
       />
@@ -83,6 +94,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
+                
               }}
             />
           ),
@@ -101,6 +113,7 @@ export default function TabLayout() {
                 borderRadius: 15,
                 borderWidth: focused ? 2 : 0,
                 borderColor: focused ? "#FFC107" : "#fff",
+              
               }}
             />
           ),

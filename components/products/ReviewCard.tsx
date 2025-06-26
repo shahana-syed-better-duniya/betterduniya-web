@@ -96,7 +96,7 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
         <Text style={{marginBottom: 8, fontSize: 16}}>{desc}</Text>
         <Image
         source={{ uri: imgUrl }}
-        style={{ width: "100%", height: imgHeight, borderRadius: 10, resizeMode: "cover" }}/>
+        style={{ width: "100%", height: imgHeight, borderRadius: 10}}/>
 
 
 

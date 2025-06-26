@@ -4,6 +4,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 const ComingSoonCard = () => {
   return (
     <View style={stylesLocal.container}>
+      <View style={stylesLocal.circle}>
+        <Text style={stylesLocal.exclamation}>!</Text>
+      </View>
         <Text style={stylesLocal.title}>Coming Soon</Text>
         <Text style={stylesLocal.subtitle}>Stay tuned for exciting updates!</Text>
     </View>
@@ -15,28 +18,26 @@ const stylesLocal = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: "80%",
+    width: "100%",
     padding: 20,
     borderRadius: 28,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
+
   },
-  card: {
-    width: "90%",
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    alignItems: "center",
-    justifyContent: "center",
+  circle:{
+    top: -5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 75,
+    width: 75,
+    borderRadius: 50,
+    backgroundColor: '#F5F5F5',
+    marginBottom: 15,
+  },
+  exclamation:{
+    top: -1,
+    color: "#333",
+    fontSize: 50,
+    fontWeight: 800,
   },
   title: {
     fontSize: 24,
