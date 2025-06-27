@@ -9,10 +9,13 @@ export default function Profile() {
   const {username, firstName, lastName} = useUserContext();
   return (
     <View style={styles.container}>
-      <View style={styles.searchRow}>
-        <SearchBar searchValue={username} placeholder={username} onSearch={async () => {
-        }}/>
-      </View>
+
+        
+      <SearchBar searchValue={username}  placeholder={username} onSearch={async () => {
+      }}/>
+
+
+
       <View style={styles.headerRow}>
         <Image
           source={{
@@ -45,15 +48,22 @@ export default function Profile() {
       {/* Quick Actions */}
       <View style={styles.quickActionsRow}>
         <View style={styles.quickAction}>
-          <Icon name="arrow-up-outline" size={42} color="#222"/>
+          <View style={styles.quickImg}>
+            <Image source={require("../../assets/images/arrowicon.png")} style={{width: 35, height: 35, opacity: 0.7}}/>
+          </View>
           <Text style={styles.quickLabel}>betterdunya</Text>
         </View>
         <View style={styles.quickAction}>
-          <Icon name="bulb-outline" size={42} color="#222"/>
+          <View style={styles.quickImg}>
+            <Image source={require("../../assets/images/lightbulbicon.png")} style={{width: 50, height: 50, opacity: 0.7}}/>
+          </View>
           <Text style={styles.quickLabel}>Interests</Text>
+
         </View>
         <View style={styles.quickAction}>
-          <Icon name="heart-outline" size={42} color="#222"/>
+          <View style={styles.quickImg}>
+            <Image source={require("../../assets/images/hearticon.png")} style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.7}}/>
+          </View>
           <Text style={styles.quickLabel}>Followers</Text>
         </View>
       </View>
@@ -81,20 +91,8 @@ export default function Profile() {
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: "#fff", paddingTop: 20, paddingHorizontal: 14,},
-  searchRow: {flexDirection: "row", alignItems: "center", marginBottom: 16,},
-  searchBar: {
-    flex: 1,
-    backgroundColor: "#fafafa",
-    borderRadius: 18,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 14,
-    height: 40,
-    elevation: 2,
-    shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 2,
-  },
-  searchInput: {flex: 1, fontSize: 16, color: "#444"},
+  container: {flex: 1, backgroundColor: "#fff", paddingTop: 30, paddingHorizontal: 14,},
+
   goButton: {
     backgroundColor: "#FFC107",
     height: 38,
@@ -114,11 +112,12 @@ const styles = StyleSheet.create({
   bioBox: {backgroundColor: "#F4F4F4", borderRadius: 7, padding: 14, marginBottom: 4},
   bioText: {fontSize: 15, color: "#222"},
   charCount: {alignSelf: "flex-end", fontSize: 12, color: "#999", marginBottom: 14},
-  quickActionsRow: {flexDirection: "row", justifyContent: "space-between", marginTop: 12,},
-  quickAction: {alignItems: "center", flex: 1},
+  quickActionsRow: {flexDirection: "row", justifyContent: "center", gap: 20, marginTop: 12,},
+  quickAction: {alignItems: "center", width: 100, height: 100, justifyContent: 'center'},
+  quickImg: {borderWidth: 2, borderColor: '#84838f', justifyContent: 'center', alignItems: 'center', borderRadius: 100, width: 75, height: 75},
   quickLabel: {fontSize: 13, color: "#888", marginTop: 5},
   fabStack: {
-    position: "absolute", right: 18, top: 370, alignItems: "flex-end", zIndex: 10,
+    position: "absolute", right: 18, bottom: 32, alignItems: "flex-end", zIndex: 10,
   },
   fabWithBadge: {marginBottom: 22},
   fab: {
