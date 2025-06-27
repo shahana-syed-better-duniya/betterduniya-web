@@ -37,7 +37,7 @@ const Feed = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{marginBottom: 5}}>
+      <View style={{marginBottom: 20}}>
         <SearchBar searchValue={searchValue.value} onChangeText={searchValue.onChangeValue} placeholder={'Search Product...'}
                    onSearch={onSearch}/>
         <FlatList
@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   filterRow: {
-    paddingVertical: 16,
-    paddingHorizontal: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
   },
   filterPill: {
     paddingVertical: 6,

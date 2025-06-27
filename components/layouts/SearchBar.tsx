@@ -4,12 +4,13 @@ import React from "react";
 
 interface SearchBarProps {
   searchValue: string;
+  icon: string;
   onChangeText: (val: string) => void;
   placeholder: string;
   onSearch: () => Promise<void>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({searchValue, onChangeText, placeholder, onSearch}) => {
+const SearchBar: React.FC<SearchBarProps> = ({searchValue, icon, onChangeText, placeholder, onSearch}) => {
   return (
     <View style={styles.searchRow}>
       <View style={styles.searchBar}>

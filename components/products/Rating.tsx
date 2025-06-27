@@ -24,7 +24,7 @@ export default function Rating() {
           <TouchableOpacity key={`red-${i}`} onPress={() => handleLeftPress(i)}>
             <Icon
               name={i <= leftRating ? "star" : "star-outline"}
-              size={20}
+              size={18}
               color="#F44336"
             />
           </TouchableOpacity>
@@ -37,7 +37,7 @@ export default function Rating() {
           <TouchableOpacity key={`yellow-${i}`} onPress={() => handleRightPress(i)}>
             <Icon
               name={i <= rightRating ? "star" : "star-outline"}
-              size={20}
+              size={18}
               color="#FFC107"
             />
           </TouchableOpacity>
