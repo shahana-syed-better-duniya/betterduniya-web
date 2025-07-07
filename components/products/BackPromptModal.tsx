@@ -1,5 +1,6 @@
 import React from 'react';
-import {Modal, View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {styles} from "@/components/products/prompt-modal-styles";
 
 
 export default function BackPromptModal({visible, onCancel, onConfirm, title, desc}: {
@@ -28,41 +29,3 @@ export default function BackPromptModal({visible, onCancel, onConfirm, title, de
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: '#00000099',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modal: {
-    width: 300,
-    backgroundColor: '#FFBF00',
-    borderRadius: 25,
-    padding: 20,
-    alignItems: 'center',
-  },
-  title: {fontSize: 18, fontWeight: 'bold', color: 'white'},
-  message: {marginTop: 10, fontSize: 17, textAlign: 'center', color: 'white'},
-  buttonContainer: {
-    flexDirection: 'row',
-    marginTop: 20,
-    gap: 20,
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    backgroundColor: '#ddd',
-    borderRadius: 50,
-    shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
-  },
-  btnTxt: {
-    fontWeight: 800,
-    color: 'white',
-  }
-});

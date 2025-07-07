@@ -5,7 +5,7 @@ import {styles} from "@/utils/auth/styles";
 import ViewCard from "@/components/layouts/ViewCard";
 import useTimer from "@/hooks/auth/use-timer";
 import { useNavigation } from '@react-navigation/native';
-import BackPromptModal from '@/components/products/Alert';
+import BackPromptModal from '@/components/products/BackPromptModal';
 
 export interface VerifyCodeScreenProps {
   email: string;

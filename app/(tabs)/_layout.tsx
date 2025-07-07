@@ -107,7 +107,7 @@ export default function TabLayout() {
           title: "",
           tabBarIcon: ({focused}) => (
             <Image
-              source={{uri: AVATAR_URL}}
+              source={require("../../assets/images/profile-default.png")}
               style={{
                 width: 30,
                 height: 30,

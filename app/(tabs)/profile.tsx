@@ -8,6 +8,8 @@ import useUserProfileEdit from "@/hooks/user/use-user-profile-edit";
 import {useForm} from "@/hooks/interaction/use-form";
 import {validateBio} from "@/utils/products/validators";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
+import {useBoolean} from "@/hooks/primitive/use-boolean";
+import AlertPromptModal from "@/components/products/AlertPromptModal";
 
 export default function Profile() {
   const {username, firstName, lastName, bio} = useUserContext();
@@ -35,6 +37,9 @@ export default function Profile() {
     }
   };
 
+  const isClickedComingSoonButtons = useBoolean(false);
+
+
   return (
     <View style={styles.container}>
       <SearchBar searchValue={username} placeholder={username} onSearch={async () => {
@@ -42,17 +47,15 @@ export default function Profile() {
 
       <View style={styles.headerRow}>
         <Image
-          source={{
-            uri: "https://randomuser.me/api/portraits/men/32.jpg",
-          }}
+          source={require("../../assets/images/profile-default.png")}
           style={styles.avatar}
         />
         <View style={{flex: 1, marginLeft: 12}}>
           <Text style={styles.displayName}>{firstName} {lastName}</Text>
           <Text style={styles.username}>@{username}</Text>
           <View style={{flexDirection: "row", marginTop: 2}}>
-            <Text style={styles.mutedText}>100 Interests</Text>
-            <Text style={styles.mutedText}> 50 Followers</Text>
+            {/*<Text style={styles.mutedText}>100 Interests</Text>*/}
+            {/*<Text style={styles.mutedText}> 50 Followers</Text>*/}
           </View>
         </View>
         <TouchableOpacity>
@@ -63,7 +66,7 @@ export default function Profile() {
       {/* Bio */}
       <Text style={styles.bioTitle}>Bio</Text>
 
-      <View style={styles.container}>
+      <View>
         <TextInputRequired
           style={styles.bioBox}
           value={values.bio}
@@ -90,25 +93,36 @@ export default function Profile() {
       <Text style={styles.charCount}>{values.bio?.length}/1500 Characters</Text>
 
       {/* Quick Actions */}
+      <AlertPromptModal
+        visible={isClickedComingSoonButtons.value}
+        onCancel={isClickedComingSoonButtons.onFalse}
+        desc={''} title={'Coming Soon!'}/>
       <View style={styles.quickActionsRow}>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/arrowicon.png")} style={{width: 35, height: 35, opacity: 0.7}}/>
+            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}>
+              <Image source={require("../../assets/images/arrowicon.png")}
+                     style={{width: 35, height: 35, opacity: 0.7}}/>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.quickLabel}>betterdunya</Text>
+          <Text style={styles.quickLabel}>better duniya</Text>
         </View>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/lightbulbicon.png")}
-                   style={{width: 50, height: 50, opacity: 0.7}}/>
+            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}>
+              <Image source={require("../../assets/images/lightbulbicon.png")}
+                     style={{width: 50, height: 50, opacity: 0.7}}/>
+            </TouchableOpacity>
           </View>
           <Text style={styles.quickLabel}>Interests</Text>
 
         </View>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/hearticon.png")}
-                   style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.7}}/>
+            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}>
+              <Image source={require("../../assets/images/hearticon.png")}
+                     style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.7}}/>
+            </TouchableOpacity>
           </View>
           <Text style={styles.quickLabel}>Followers</Text>
         </View>
@@ -117,18 +131,18 @@ export default function Profile() {
       {/* Floating Buttons */}
       <View style={styles.fabStack}>
         <View style={styles.fabWithBadge}>
-          <TouchableOpacity style={styles.fab}>
+          <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
             <Icon name="mail-outline" size={24} color="#222"/>
           </TouchableOpacity>
-          <View style={styles.badge}><Text style={styles.badgeText}>2</Text></View>
+          {/*<View style={styles.badge}><Text style={styles.badgeText}></Text></View>*/}
         </View>
         <View style={styles.fabWithBadge}>
-          <TouchableOpacity style={styles.fab}>
+          <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
             <MaterialIcon name="flash-outline" size={24} color="#222"/>
           </TouchableOpacity>
-          <View style={styles.badge}><Text style={styles.badgeText}>3</Text></View>
+          {/*<View style={styles.badge}><Text style={styles.badgeText}></Text></View>*/}
         </View>
-        <TouchableOpacity style={styles.fab}>
+        <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
           <Icon name="settings-outline" size={24} color="#222"/>
         </TouchableOpacity>
       </View>

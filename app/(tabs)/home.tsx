@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import AppLogo from "@/components/layouts/AppLogo";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {AppConfigs} from "@/constants/app-configs";
-import BackPromptModal from '@/components/products/Alert';
+import BackPromptModal from '@/components/products/BackPromptModal';
 import {useFonts} from "expo-font";
 import {Jura_400Regular} from "@expo-google-fonts/jura";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
