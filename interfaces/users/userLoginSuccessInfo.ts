@@ -1,0 +1,9 @@
+export interface UserLoginSuccessInfo {
+  userId: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  userRole: string;
+  accessToken: string;
+  expiry: string;
+}
