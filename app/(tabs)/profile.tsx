@@ -10,7 +10,7 @@ export default function Profile() {
   return (
     <View style={styles.container}>
 
-        
+
       <SearchBar searchValue={username} icon={"at-outline"} placeholder={username} onSearch={async () => {
       }}/>
 
@@ -51,7 +51,7 @@ export default function Profile() {
           <View style={styles.quickImg}>
             <Image source={require("../../assets/images/arrowicon.png")} style={{width: 35, height: 35, opacity: 0.7}}/>
           </View>
-          <Text style={styles.quickLabel}>betterdunya</Text>
+          <Text style={styles.quickLabel}>better duniya</Text>
         </View>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>

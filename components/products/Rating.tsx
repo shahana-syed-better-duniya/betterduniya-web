@@ -1,19 +1,25 @@
-import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import React, {useState} from "react";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-export default function Rating() {
+interface RatingProps {
+  onChangeRating: (rating: number) => void;
+}
+
+const Rating: React.FC<RatingProps> = ({onChangeRating}) => {
   const [leftRating, setLeftRating] = useState(0);   // Red stars
   const [rightRating, setRightRating] = useState(0); // Yellow stars
 
   const handleLeftPress = (i: number) => {
     setLeftRating(i);
     setRightRating(0);
+    onChangeRating(-i);
   };
 
   const handleRightPress = (i: number) => {
     setRightRating(i);
     setLeftRating(0);
+    onChangeRating(i);
   };
 
   return (
@@ -47,6 +53,8 @@ export default function Rating() {
   );
 }
 
+export default Rating;
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -61,3 +69,4 @@ const styles = StyleSheet.create({
     gap: 6,
   },
 });
+

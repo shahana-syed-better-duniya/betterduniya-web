@@ -1,12 +1,23 @@
 import React from "react";
-import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View, BackHandler} from "react-native";
+import {ActivityIndicator, BackHandler, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppLogo from "@/components/layouts/AppLogo";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {AppConfigs} from "@/constants/app-configs";
-import { useNavigation } from '@react-navigation/native';
 import BackPromptModal from '@/components/products/Alert';
+import {useFonts} from "expo-font";
+import {Jura_400Regular} from "@expo-google-fonts/jura";
+import {useBoolean} from "@/hooks/primitive/use-boolean";
+import styles from "@/components/products/product-review-list-styles";
+import SearchBar from "@/components/layouts/SearchBar";
+import ProductReviewList from "@/components/products/ProductReviewList";
+import {useProductReviewContext} from "@/utils/products/product-review-context";
 
+
+export default function Home() {
+  let [fontsLoaded] = useFonts({
+    Jura_400Regular,
+  });
 
 
   const [showPrompt, setShowPrompt] = React.useState(false);
@@ -34,12 +45,45 @@ import BackPromptModal from '@/components/products/Alert';
     setShowPrompt(false);
   };
 
-export default function Home() {
   const {
     onSearch,
     isLoading,
     searchValue,
   } = useSearchProductReview();
+
+  const isSearched = useBoolean(false);
+  const isSearchValueChanged = useBoolean(false);
+
+  const handleSearch = async () => {
+    isSearched.onTrue();
+    await onSearch();
+  }
+
+  const handleChangeSearchText = (val: string) => {
+    isSearchValueChanged.onTrue();
+    searchValue.onChangeValue(val);
+  }
+
+  const {summary, previousSearchValue} = useProductReviewContext();
+  if (isSearched.value) {
+    return (
+      <View style={styles.container}>
+        <View style={{marginBottom: 20}}>
+          <SearchBar searchValue={searchValue.value || (isSearchValueChanged.value ? '' : previousSearchValue)}
+                     icon={"search-outline"}
+                     onChangeText={handleChangeSearchText}
+                     placeholder={'Search Product...'}
+                     onSearch={onSearch}/>
+        </View>
+        <ProductReviewList summary={summary ?? {reviews: [], userById: {}, imageUriById: {}}}/> <TouchableOpacity
+        style={styles.fab}>
+        <Icon name="search" size={28} color="#FFC107"/>
+      </TouchableOpacity>
+      </View>
+    )
+  }
+
+
   return (
     <View style={stylesLocal.container}>
       <BackPromptModal
@@ -68,7 +112,7 @@ export default function Home() {
           <Icon name="search" size={22} color="#bbb" style={{marginLeft: 5}}/>
         </View>
 
-        <TouchableOpacity style={stylesLocal.goButton} onPress={onSearch}>
+        <TouchableOpacity style={stylesLocal.goButton} onPress={handleSearch}>
           {isLoading ? (
             <ActivityIndicator color="#fff"/>
           ) : (
@@ -84,7 +128,7 @@ export default function Home() {
   );
 }
 
-const stylesLocal = StyleSheet.create({
+const stylesLocal= StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
@@ -110,7 +154,7 @@ const stylesLocal = StyleSheet.create({
   brandText: {
     fontSize: 36,
     fontWeight: 600,
-    fontFamily: "ClashGrotesk",
+    fontFamily: "Jura_400Regular",
     color: "#1B1B1B",
   },
   searchSection: {
@@ -132,7 +176,7 @@ const stylesLocal = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: {width: 0, height: 4},
     elevation: 3,
   },
   searchInput: {
@@ -150,7 +194,7 @@ const stylesLocal = StyleSheet.create({
     alignItems: "center",
     shadowColor: "black",
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.4,
     elevation: 4,
   },
@@ -172,7 +216,7 @@ const stylesLocal = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.4,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: {width: 0, height: 3},
     elevation: 5,
   },
 });
