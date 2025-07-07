@@ -1,6 +1,6 @@
 import {useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/userAuth";
+import {userAuthApi} from "@/api/user/userAuth";
 import {Alert} from "react-native";
 
 const useForgetPasswordVerify = () => {
@@ -8,7 +8,7 @@ const useForgetPasswordVerify = () => {
   const {onRequest, isLoading} = useRequest<boolean>();
 
   const onVerify = async (email: string, code: string) => {
-    const response = await onRequest(userApi.verifyForgetPassword, [email, code], null, false);
+    const response = await onRequest(userAuthApi.verifyForgetPassword, [email, code], null, false);
     if (response.result) {
       router.navigate(`/(auth)/forget/reset?email=${email}&code=${code}`);
     } else {

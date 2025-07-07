@@ -1,4 +1,4 @@
-import {userApi} from "@/api/user/userAuth";
+import {userAuthApi} from "@/api/user/userAuth";
 import {useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
 import {RegistrationResult} from "@/interfaces/users/registrationResult";
@@ -17,7 +17,7 @@ const useRegistration = () => {
       lastName,
     }
     try {
-      const response = await onRequest(userApi.registerAccount, [], body, false);
+      const response = await onRequest(userAuthApi.registerAccount, [], body, false);
       if (response.result?.isRegistered) {
         router.navigate(`/(auth)/main/email?email=${email}`);
       } else {
