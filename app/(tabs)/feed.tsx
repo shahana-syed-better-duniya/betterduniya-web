@@ -38,9 +38,10 @@ const Feed = () => {
   return (
     <View style={styles.container}>
       <View style={{marginBottom: 20}}>
-        <SearchBar searchValue={searchValue.value} onChangeText={searchValue.onChangeValue} placeholder={'Search Product...'}
+        <SearchBar searchValue={searchValue.value} icon={"search-outline"} onChangeText={searchValue.onChangeValue} placeholder={'Search Product...'}
                    onSearch={onSearch}/>
-        <FlatList
+        <View style={{marginLeft: 12}}>
+          <FlatList
           data={FILTERS}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -65,6 +66,8 @@ const Feed = () => {
             </TouchableOpacity>
           )}
         />
+        </View>
+
       </View>
       {selected !== 'All' ? <ComingSoonCard/> :
         <FlatList
@@ -98,7 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingTop: 30,
-    paddingHorizontal: 12,
   },
   title: {
     color: "#C1C1C1",
@@ -116,6 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDEDED",
     borderRadius: 18,
     marginRight: 9,
+    
   },
   selectedPill: {
     backgroundColor: "#FFC107",
@@ -141,17 +144,18 @@ const styles = StyleSheet.create({
   fab: {
     position: "absolute",
     bottom: 32,
-    right: 24,
-    width: 52,
-    height: 52,
-    borderRadius: 26,
+    right: 22,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 5,
   },
 });
 

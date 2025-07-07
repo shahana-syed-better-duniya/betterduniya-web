@@ -1,9 +1,38 @@
 import React from "react";
-import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View, BackHandler} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppLogo from "@/components/layouts/AppLogo";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {AppConfigs} from "@/constants/app-configs";
+import { useNavigation } from '@react-navigation/native';
+import BackPromptModal from '@/components/products/Alert';
+
+
+
+  const [showPrompt, setShowPrompt] = React.useState(false);
+
+  React.useEffect(() => {
+    const backAction = () => {
+      setShowPrompt(true); // show the modal
+      return true; // prevent default back action
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const handleConfirm = () => {
+    setShowPrompt(false);
+
+  };
+
+  const handleCancel = () => {
+    setShowPrompt(false);
+  };
 
 export default function Home() {
   const {
@@ -13,6 +42,13 @@ export default function Home() {
   } = useSearchProductReview();
   return (
     <View style={stylesLocal.container}>
+      <BackPromptModal
+        visible={showPrompt}
+        onCancel={handleCancel}
+        onConfirm={handleConfirm}
+        title={"Hold on!"}
+        desc={"Are you sure you want to cancel registration?"}
+      />
       <View style={stylesLocal.logoWrapper}>
         <View style={stylesLocal.logoCircle}>
           <AppLogo/>
@@ -73,8 +109,8 @@ const stylesLocal = StyleSheet.create({
   },
   brandText: {
     fontSize: 36,
-    fontWeight: 700,
-    fontFamily: "Kanit-Regular.ttf",
+    fontWeight: 600,
+    fontFamily: "ClashGrotesk",
     color: "#1B1B1B",
   },
   searchSection: {
@@ -94,9 +130,10 @@ const stylesLocal = StyleSheet.create({
     marginTop: -160,
     marginBottom: 47,
     shadowColor: "black",
-    shadowRadius: 12,
-    shadowOpacity: 0.2,
-    elevation: 5,
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
   searchInput: {
     flex: 1,
@@ -112,10 +149,10 @@ const stylesLocal = StyleSheet.create({
     borderRadius: 24,
     alignItems: "center",
     shadowColor: "black",
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    elevation: 5,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    elevation: 4,
   },
   goButtonText: {
     color: "#fff",
@@ -130,11 +167,12 @@ const stylesLocal = StyleSheet.create({
     height: 54,
     borderRadius: 27,
     backgroundColor: "#fff",
-    elevation: 6,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.13,
-    shadowRadius: 8,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 5,
   },
 });

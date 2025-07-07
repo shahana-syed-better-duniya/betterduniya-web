@@ -1,4 +1,4 @@
-import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native'
+import {Dimensions, Image, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native'
 import React, { useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -18,33 +18,36 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
     rating?: number,
     type: string,
 }) => {
-    const [imgHeight, setImgHeight] = useState(200); // fallback height
+    const [imgHeight, setImgHeight] = useState(200);
+    const [isPortrait, setIsPortrait] = useState(false);
+    const windowWidth = useWindowDimensions().width;
 
     useEffect(() => {
-        if (imgUrl) {
+    if (imgUrl) {
         Image.getSize(
-            imgUrl,
-            (width, height) => {
+        imgUrl,
+        (width, height) => {
             const ratio = height / width;
             setImgHeight(windowWidth * ratio);
-            },
-            (error) => {
+            setIsPortrait(height > width);
+        },
+        (error) => {
             console.log("Image.getSize error:", error);
-            }
-        );
         }
+        );
+    }
     }, [imgUrl]);
   return (
     <View style={{marginBottom: 25}}>
-        <View style={{marginBottom: 10, flexDirection: "row", justifyContent: "space-between", alignItems: 'center',}}>
+        <View style={{marginBottom: 10, flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginHorizontal: 12}}>
 
-            <View style={{flexDirection: "row", gap: 8, alignItems: 'center'}}>
+            <View style={{flexDirection: "row", gap: 8, alignItems: 'center' }}>
                 <Image
                 source={{ uri: userIcon }}
                 style={{ width: 60, height: 60, borderRadius: 30 }}/>
 
-                <View >
-                    <Text style={{fontWeight: 600, fontSize: 17, marginTop: -4}}>{displayName}</Text>
+                <View style={{justifyContent: 'flex-start'}}>
+                    <Text style={{fontWeight: 600, fontSize: 17,}}>{displayName}</Text>
                     <Text style={{color: "#696363", fontSize: 13}}>{username}</Text>
                     <Text style={{color: "#696363", fontSize: 11}}>{time}</Text>
                 </View>
@@ -92,11 +95,26 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
             }
         </View>
 
-        <Text style={{fontWeight: 700, marginBottom: 3, fontSize: 16}}>{prodName}</Text>
-        <Text style={{marginBottom: 8, fontSize: 16}}>{desc}</Text>
+        <Text style={{fontWeight: 700, marginBottom: 3, fontSize: 16, marginHorizontal: 12}}>{prodName}</Text>
+        <Text style={{marginBottom: 8, fontSize: 16, marginHorizontal: 12}}>{desc}</Text>
+        <View
+        style={{
+            width: "100%",
+            height: 200,
+            backgroundColor: '#181818',
+            overflow: 'hidden',
+        }}
+        >
         <Image
-        source={{ uri: imgUrl }}
-        style={{ width: "100%", height: imgHeight, borderRadius: 10}}/>
+            source={{ uri: imgUrl }}
+            style={{
+            width: "100%",
+            height: "100%",
+            resizeMode: isPortrait ? "contain" : "cover",
+            }}
+        />
+        </View>
+
 
 
 

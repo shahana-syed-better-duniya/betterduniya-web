@@ -1,8 +1,9 @@
 import {Dimensions, StyleSheet} from "react-native";
 
 const {width, height} = Dimensions.get("window");
-const LOGO_SIZE = Math.min(110, Math.max(64, width * 0.28)); // between 64 and 110 px
-const TITLE_SIZE = Math.min(34, Math.max(22, width * 0.08)); // between 22 and 34 px
+// const LOGO_SIZE = Math.min(150, Math.max(180, width * 0.28)); // between 64 and 110 px
+const LOGO_SIZE = 0.17;
+const TITLE_SIZE = Math.min(50, Math.max(35, width * 0.08)); // between 22 and 34 px
 
 export const styles = StyleSheet.create({
   safe: {
@@ -11,6 +12,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     width: "100%",
+    height: height * 0.5,
     padding: 20,
     borderRadius: 10,
     backgroundColor: "#fff",
@@ -25,6 +27,7 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     width: "100%",
+    height: height * 0.5,
   },
   scrollContent: {
     alignItems: "center",
@@ -36,13 +39,12 @@ export const styles = StyleSheet.create({
   logoSection: {
     alignItems: "center",
     marginBottom: height * 0.02,
-    marginTop: height * 0.01,
   },
   logoCircle: {
     backgroundColor: "#fff",
     borderRadius: 100,
-    width: LOGO_SIZE,
-    height: LOGO_SIZE,
+    width: LOGO_SIZE * height,
+    height: LOGO_SIZE * height,
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
@@ -50,20 +52,14 @@ export const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
     marginBottom: 15,
-  },
-  logoImage: {
-    width: "60%",
-    height: "60%",
-    maxWidth: LOGO_SIZE * 0.6,
-    maxHeight: LOGO_SIZE * 0.6,
-    resizeMode: "contain",
+    marginTop: height * 0.09
   },
   title: {
-    fontSize: 36,
-    fontWeight: 700,
-    fontFamily: "Kanit-Regular.ttf",
+    fontSize: height * 0.045,
+    fontWeight: 600,
+    fontFamily: "ClashGrotesk",
     color: "#1B1B1B",
-    marginBottom: 10,
+    marginBottom: height * 0.01,
   },
   // card: {
   //   width: CARD_WIDTH,
@@ -93,19 +89,11 @@ export const styles = StyleSheet.create({
   },
   tabBtn: {
     flex: 1,
-    paddingVertical: 10,
+    paddingVertical: height * 0.1,
     alignItems: "center",
     backgroundColor: "transparent",
     borderRadius: 30,
     
-  },
-  tabBtnActive: {
-    backgroundColor: "#FFBF00",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   tabText: {
     fontSize: 16,
@@ -117,14 +105,13 @@ export const styles = StyleSheet.create({
   },
   inputSection: {
     width: "70%",
-    marginBottom: 10,
   },
   input: {
     borderBottomWidth: 1,
     borderColor: "#eee",
-    paddingVertical: 10,
-    paddingHorizontal: 4,
-    fontSize: 16,
+    paddingVertical: height * 0.01,
+    paddingHorizontal: 5,
+    fontSize: height * 0.02,
     marginBottom: 12,
     color: "#222",
   },
@@ -136,39 +123,35 @@ export const styles = StyleSheet.create({
   },
   forgotPassword: {
     alignSelf: "flex-end",
-    marginBottom: 10,
-  },
-  forgotPasswordTitle: {
-    color: "#888",
-    fontSize: 16,
-    fontWeight: 600,
+    marginBottom: height * 0.012,
   },
   forgotPasswordText: {
     color: "#888",
-    fontSize: 13,
-    marginTop: 8,
-    marginBottom: 16,
+    fontSize: height * 0.0155,
+    marginTop: height * 0.01,
+    marginBottom: height * 0.03,
   },
   loginBtn: {
     width: "70%",
-    backgroundColor: "#FFD740",
+    backgroundColor: "#ffc107",
     borderRadius: 30,
-    paddingVertical: 13,
+    paddingVertical: height * 0.015,
     alignItems: "center",
     marginVertical: 10,
     shadowColor: "black",
-    shadowOpacity: 0.55,
+    shadowOpacity: 0.3,
     shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
   loginBtnText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: height * 0.022,
     fontWeight: "bold",
   },
   orText: {
-    marginVertical: 14,
-    fontSize: 15,
+    marginVertical: height * 0.02,
+    fontSize: height * 0.0155,
     color: "#A9A9A9",
     textAlign: "center",
   },
@@ -176,12 +159,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 4,
   },
   socialIcon: {
-    width: 38,
-    height: 38,
-    marginHorizontal: 8,
+    width: height * 0.045,
+    height: height * 0.045,
     resizeMode: "contain",
   },
   successMessage: {

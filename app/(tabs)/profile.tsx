@@ -11,7 +11,7 @@ export default function Profile() {
     <View style={styles.container}>
 
         
-      <SearchBar searchValue={username}  placeholder={username} onSearch={async () => {
+      <SearchBar searchValue={username} icon={"at-outline"} placeholder={username} onSearch={async () => {
       }}/>
 
 
@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
   badgeText: {color: "#fff", fontSize: 12, fontWeight: "bold"},
   navBar: {
     flexDirection: "row", alignItems: "center", justifyContent: "space-around",
-    borderTopWidth: 1, borderTopColor: "#eee",
     height: 58, backgroundColor: "#fff", position: "absolute", bottom: 0, left: 0, right: 0,
   },
   navAvatar: {width: 30, height: 30, borderRadius: 15, borderWidth: 2, borderColor: "#fff"},
