@@ -1,6 +1,6 @@
 import useRequest from "@/hooks/api/use-request";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
-import {userApi} from "@/api/user/user";
+import {userApi} from "@/api/user/userAuth";
 
 const useLogin = () => {
   const {onRequest, isLoading} = useRequest<UserLoginSuccessInfo>()

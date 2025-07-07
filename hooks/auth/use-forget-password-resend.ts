@@ -1,6 +1,6 @@
 import {useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/user";
+import {userApi} from "@/api/user/userAuth";
 
 const useForgetPasswordResend = () => {
   const router = useRouter();

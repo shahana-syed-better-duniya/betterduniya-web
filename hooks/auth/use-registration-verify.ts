@@ -1,6 +1,6 @@
 import {useNavigation, useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/user";
+import {userApi} from "@/api/user/userAuth";
 import {Alert} from "react-native";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";

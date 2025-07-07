@@ -1,4 +1,4 @@
-import {userApi} from "@/api/user/user";
+import {userApi} from "@/api/user/userAuth";
 import {useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
 import {RegistrationResult} from "@/interfaces/users/registrationResult";
