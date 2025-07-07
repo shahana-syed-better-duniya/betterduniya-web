@@ -4,17 +4,41 @@ import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useUserContext} from "@/utils/user/user-context";
 import SearchBar from "@/components/layouts/SearchBar";
+import useUserProfileEdit from "@/hooks/user/use-user-profile-edit";
+import {useForm} from "@/hooks/interaction/use-form";
+import {validateBio} from "@/utils/products/validators";
+import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 export default function Profile() {
-  const {username, firstName, lastName} = useUserContext();
+  const {username, firstName, lastName, bio} = useUserContext();
+
+
+  const {onEditBio} = useUserProfileEdit();
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    touched,
+    resetForm,
+    isValid,
+    setErrors,
+  } = useForm({
+    initialValues: {
+      bio,
+    },
+    validate: validateBio,
+  });
+
+  const handleSaveBio = async () => {
+    if (isValid) {
+      await onEditBio(values.bio);
+    }
+  };
+
   return (
     <View style={styles.container}>
-
-        
-      <SearchBar searchValue={username}  placeholder={username} onSearch={async () => {
+      <SearchBar searchValue={username} placeholder={username} onSearch={async () => {
       }}/>
-
-
 
       <View style={styles.headerRow}>
         <Image
@@ -38,12 +62,32 @@ export default function Profile() {
 
       {/* Bio */}
       <Text style={styles.bioTitle}>Bio</Text>
-      <View style={styles.bioBox}>
-        <Text style={styles.bioText}>
-          I love to help people to take informed decisions through my reviews and experiences!
-        </Text>
+
+      <View style={styles.container}>
+        <TextInputRequired
+          style={styles.bioBox}
+          value={values.bio}
+
+          onChangeText={handleChange('bio')}
+          onBlur={handleBlur("bio")}
+          placeholder="Please enter your bio"
+          multiline
+          numberOfLines={4}
+        />
+        {touched.bio && (
+          <TouchableOpacity
+            style={[
+              styles.saveButton,
+              !isValid && styles.saveButtonDisabled
+            ]}
+            onPress={handleSaveBio}
+            disabled={!isValid}
+          >
+            <Icon name="checkmark" size={20} color="#fff"/>
+          </TouchableOpacity>
+        )}
       </View>
-      <Text style={styles.charCount}>1500 Characters</Text>
+      <Text style={styles.charCount}>{values.bio?.length}/1500 Characters</Text>
 
       {/* Quick Actions */}
       <View style={styles.quickActionsRow}>
@@ -55,14 +99,16 @@ export default function Profile() {
         </View>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/lightbulbicon.png")} style={{width: 50, height: 50, opacity: 0.7}}/>
+            <Image source={require("../../assets/images/lightbulbicon.png")}
+                   style={{width: 50, height: 50, opacity: 0.7}}/>
           </View>
           <Text style={styles.quickLabel}>Interests</Text>
 
         </View>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/hearticon.png")} style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.7}}/>
+            <Image source={require("../../assets/images/hearticon.png")}
+                   style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.7}}/>
           </View>
           <Text style={styles.quickLabel}>Followers</Text>
         </View>
@@ -114,7 +160,15 @@ const styles = StyleSheet.create({
   charCount: {alignSelf: "flex-end", fontSize: 12, color: "#999", marginBottom: 14},
   quickActionsRow: {flexDirection: "row", justifyContent: "center", gap: 20, marginTop: 12,},
   quickAction: {alignItems: "center", width: 100, height: 100, justifyContent: 'center'},
-  quickImg: {borderWidth: 2, borderColor: '#84838f', justifyContent: 'center', alignItems: 'center', borderRadius: 100, width: 75, height: 75},
+  quickImg: {
+    borderWidth: 2,
+    borderColor: '#84838f',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    width: 75,
+    height: 75
+  },
   quickLabel: {fontSize: 13, color: "#888", marginTop: 5},
   fabStack: {
     position: "absolute", right: 18, bottom: 32, alignItems: "flex-end", zIndex: 10,
@@ -138,4 +192,16 @@ const styles = StyleSheet.create({
     height: 58, backgroundColor: "#fff", position: "absolute", bottom: 0, left: 0, right: 0,
   },
   navAvatar: {width: 30, height: 30, borderRadius: 15, borderWidth: 2, borderColor: "#fff"},
+  saveButton: {
+    backgroundColor: '#4CAF50',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 2,
+  },
+  saveButtonDisabled: {
+    backgroundColor: '#BDBDBD',
+  },
 });

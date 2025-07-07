@@ -12,6 +12,7 @@ const useLoginSave = () => {
         username: userInfo.userName,
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
+        bio: userInfo.bio,
         userRole: userInfo.userRole
       });
       await AsyncStorage.setItem('token', userInfo.accessToken);

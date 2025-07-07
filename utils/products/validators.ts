@@ -25,3 +25,16 @@ export function validateReview(values: {
 
   return errors;
 }
+
+export function validateBio(values: {
+  bio?: string;
+}) {
+  const errors: { bio?: string } = {};
+
+  if (!values.bio) {
+    errors.bio = "B is required.";
+  } else if (values.bio.length > 1500) {
+    errors.bio = "Title must be less than 1500 characters.";
+  }
+  return errors;
+}
