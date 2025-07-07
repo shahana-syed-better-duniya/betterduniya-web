@@ -33,6 +33,7 @@ export default function Review() {
     handleChange,
     resetForm,
     isValid,
+    errors,
     setErrors,
   } = useForm({
     initialValues: {
@@ -85,7 +86,6 @@ export default function Review() {
         </View>
       </View>
 
-
       <TextInputRequired
         style={styles.prodBox}
         value={values.title}
@@ -104,7 +104,8 @@ export default function Review() {
       />
       <Text style={styles.charCount}>100,000 Characters</Text>
 
-      <Text style={{fontSize: 14, fontWeight: 300, color: "#696363", marginBottom: 7, marginHorizontal: 7}}>Add images</Text>
+      <Text style={{fontSize: 14, fontWeight: 300, color: "#696363", marginBottom: 7, marginHorizontal: 7}}>Add
+        images</Text>
       <TouchableOpacity style={styles.addMediaCircle} onPress={handlePickImages}>
         <Icon name="add" size={28} color="#FFC107"/>
       </TouchableOpacity>
@@ -137,12 +138,13 @@ export default function Review() {
         alignItems: "center",
         alignSelf: "center",
         width: "100%",
-        marginBottom: 25,
+        marginTop: 20,
+        marginBottom: 35,
         justifyContent: "space-between",
       }}>
         <Text style={styles.recLabel}>Would you recommend?</Text>
 
-        <View style={{flexDirection: "row", alignItems:"center", gap: 25}}>
+        <View style={{flexDirection: "row", alignItems: "center", gap: 25}}>
           <TouchableOpacity
             onPress={isRecommended.onTrue}
             style={[
@@ -157,7 +159,7 @@ export default function Review() {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={isRecommended.onFalse}
-              style={[
+            style={[
               styles.recBtn,
               !isRecommended.value && styles.thumbsBtnSelectedNegative,
             ]}
@@ -173,15 +175,16 @@ export default function Review() {
       <View style={{
         flexDirection: "row",
         justifyContent: "space-between",
+        marginTop: 25,
         alignSelf: "center",
         width: "100%",
       }}>
         <View>
           <Text style={styles.overallLabel}>Overall Rating</Text>
         </View>
-        
+
         <View>
-          <DualRowRating/>
+          <DualRowRating onChangeRating={(rating: number) => handleChange('rating')(rating)}/>
 
           <View style={styles.ratingTextRow}>
             <Text style={styles.negativeRating}>
@@ -249,23 +252,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
-  thumbsBtn: {
-    width: 42, height: 42,
-    backgroundColor: "white",
-    borderWidth: 1.5,
-    borderColor: "#696363",
-    justifyContent: "center", alignItems: "center",
-  },
   addMediaCircle: {
     width: 42, height: 42, borderRadius: 21,
     backgroundColor: "white",
-    borderWidth: 0.3,
-    borderColor: "gray",
-    shadowColor: "#000", shadowOpacity: 0.07, shadowRadius: 3, elevation: 4,
+    shadowColor: "black",
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    shadowOffset: {width: 0, height: 2},
+    elevation: 5,
     justifyContent: "center", alignItems: "center",
     marginBottom: 5,
   },
-    recBtn: {
+  recBtn: {
     width: 48, height: 48, borderRadius: 40,
     backgroundColor: "#f6f6f6",
     justifyContent: "center", alignItems: "center",
@@ -300,9 +298,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     paddingVertical: 12,
     borderRadius: 23,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.6,
+    shadowColor: "black",
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    shadowOffset: {width: 0, height: 3},
     elevation: 4,
   },
   inputError: {color: "#F44336", fontSize: 13},

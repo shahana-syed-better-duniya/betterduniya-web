@@ -1,9 +1,11 @@
-import React from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity} from "react-native";
+import React, {useEffect, useState} from "react";
+import {StyleSheet, Text, TextInput, TouchableOpacity, BackHandler} from "react-native";
 import useString from "@/hooks/primitive/use-string";
 import {styles} from "@/utils/auth/styles";
 import ViewCard from "@/components/layouts/ViewCard";
 import useTimer from "@/hooks/auth/use-timer";
+import { useNavigation } from '@react-navigation/native';
+import BackPromptModal from '@/components/products/Alert';
 
 export interface VerifyCodeScreenProps {
   email: string;
@@ -37,8 +39,41 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
     }
   };
 
+  const navigation = useNavigation();
+  const [showPrompt, setShowPrompt] = useState(false);
+
+  useEffect(() => {
+    const backAction = () => {
+      setShowPrompt(true); // show the modal
+      return true; // prevent default back action
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const handleConfirm = () => {
+    setShowPrompt(false);
+    navigation.goBack();
+  };
+
+  const handleCancel = () => {
+    setShowPrompt(false);
+  };
+
   return (
     <ViewCard>
+      <BackPromptModal
+        visible={showPrompt}
+        onCancel={handleCancel}
+        onConfirm={handleConfirm}
+        title={"Hold on!"}
+        desc={"Are you sure you want to cancel registration?"}
+      />
       <Text style={stylesLocal.title}>{title}</Text>
       <Text style={stylesLocal.subtitle}>
         {subtitle || `A ${codeLength}-digit code has been sent to ${email}.`}

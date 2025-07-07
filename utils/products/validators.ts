@@ -19,7 +19,7 @@ export function validateReview(values: {
 
   if (!values.rating) {
     errors.rating = "Rating is required.";
-  } else if (parseInt(values.rating) < 0 || parseInt(values.rating) > 5) {
+  } else if (parseInt(values.rating) < -5 || parseInt(values.rating)  === 0 || parseInt(values.rating) > 5) {
     errors.rating = "Rating must be 1, 2, 3, 4 or 5.";
   }
 

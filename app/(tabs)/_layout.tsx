@@ -43,7 +43,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -51,6 +51,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="feed"
+
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
@@ -60,7 +61,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -77,7 +78,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -94,7 +95,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -113,7 +114,7 @@ export default function TabLayout() {
                 borderRadius: 15,
                 borderWidth: focused ? 2 : 0,
                 borderColor: focused ? "#FFC107" : "#fff",
-              
+
               }}
             />
           ),

@@ -27,7 +27,7 @@ const AuthScreenLayout: React.FC<LayoutProps> = ({children}) => {
             <View style={styles.logoCircle}>
               <AppLogo/>
             </View>
-            <Text style={styles.title}>better dunyia</Text>
+            <Text style={styles.title}>better duniya</Text>
           </View>
           <Shadow
           distance={20}                // slightly larger spread for softer edge

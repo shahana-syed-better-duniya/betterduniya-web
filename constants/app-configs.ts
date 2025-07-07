@@ -1,3 +1,3 @@
 export const AppConfigs = {
-  APP_NAME: 'better dunyia',
+  APP_NAME: 'better duniya',
 }

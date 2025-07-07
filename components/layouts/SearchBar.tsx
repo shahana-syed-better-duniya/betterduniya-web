@@ -14,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({searchValue, icon, onChangeText, p
   return (
     <View style={styles.searchRow}>
       <View style={styles.searchBar}>
-        <Icon name="search-outline" size={20} color="#999" style={{marginRight: 6}}/>
+        <Icon name={icon} size={20} color="#999" style={{marginRight: 6}}/>
         <TextInput
           style={styles.searchInput}
           placeholderTextColor="#bbb"
@@ -33,8 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({searchValue, icon, onChangeText, p
 export default SearchBar;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: "#fff", paddingTop: 20, paddingHorizontal: 14,},
-  searchRow: {flexDirection: "row", alignItems: "center", marginBottom: 16,},
+  searchRow: {flexDirection: "row", alignItems: "center", marginBottom: 16, marginHorizontal: 12},
   searchBar: {
     flex: 1,
     backgroundColor: "#fafafa",
@@ -43,8 +42,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 14,
     height: 40,
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
     elevation: 2,
-    shadowColor: "#000", shadowOpacity: 0.04, shadowRadius: 2,
   },
   searchInput: {flex: 1, fontSize: 16, color: "#444"},
   goButton: {
@@ -54,7 +56,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderRadius: 18,
     justifyContent: "center", alignItems: "center",
-    elevation: 2,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
   },
   goButtonText: {fontWeight: "bold", color: "#fff", fontSize: 16},
   headerRow: {flexDirection: "row", alignItems: "center", marginBottom: 10,},
