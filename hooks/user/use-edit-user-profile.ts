@@ -1,7 +1,7 @@
 import useRequest from "@/hooks/api/use-request";
 import {userProfileApi} from "@/api/user/userProfile";
 
-const useUserProfileEdit = () => {
+const useEditUserProfile = () => {
   const {onRequest, isLoading} = useRequest();
 
   const onEditBio = async (bio: string) => {
@@ -16,4 +16,4 @@ const useUserProfileEdit = () => {
   }
 }
 
-export default useUserProfileEdit;
+export default useEditUserProfile;

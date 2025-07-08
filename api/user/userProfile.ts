@@ -6,4 +6,9 @@ export const userProfileApi = {
     path: () => `/user/profile/bio`,
     okMessage: `User bio is updated`,
   },
+  uploadProfileImage: {
+    method: requestMethods.put,
+    path: () => `/user/profile/image`,
+    okMessage: `User profile image is updated`,
+  },
 }

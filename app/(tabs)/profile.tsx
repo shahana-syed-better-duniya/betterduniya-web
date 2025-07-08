@@ -1,29 +1,54 @@
 import React from "react";
-import {Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {GestureResponderEvent, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useUserContext} from "@/utils/user/user-context";
 import SearchBar from "@/components/layouts/SearchBar";
-import useUserProfileEdit from "@/hooks/user/use-user-profile-edit";
+import useEditUserProfile from "@/hooks/user/use-edit-user-profile";
 import {useForm} from "@/hooks/interaction/use-form";
 import {validateBio} from "@/utils/products/validators";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import AlertPromptModal from "@/components/products/AlertPromptModal";
+import useImagePicker from "@/hooks/interaction/use-image-picker";
+import useUploadProfileImage from "@/hooks/user/use-upload-profile-image";
+
 
 export default function Profile() {
-  const {username, firstName, lastName, bio} = useUserContext();
+  const {username, firstName, lastName, bio, profileImageUri, setUserContext} = useUserContext();
+
+  const {
+    onUpload,
+    isLoading,
+  } = useUploadProfileImage();
+
+  const {
+    handlePickImages,
+  } = useImagePicker();
 
 
-  const {onEditBio} = useUserProfileEdit();
+  const handleUploadProfileImage = async (e: GestureResponderEvent) => {
+    const imagesLocal = await handlePickImages();
+
+    if (imagesLocal?.length > 0) {
+      const profileImage = imagesLocal[0];
+      console.log(profileImage.fileSize);
+
+      const response = await onUpload(imagesLocal);
+      const remoteImageUri = response.result;
+
+      setUserContext({profileImageUri: remoteImageUri || ''});
+    }
+  };
+
+
+  const {onEditBio} = useEditUserProfile();
   const {
     values,
     handleBlur,
     handleChange,
     touched,
-    resetForm,
     isValid,
-    setErrors,
   } = useForm({
     initialValues: {
       bio,
@@ -46,10 +71,12 @@ export default function Profile() {
       }}/>
 
       <View style={styles.headerRow}>
-        <Image
-          source={require("../../assets/images/profile-default.png")}
-          style={styles.avatar}
-        />
+        <TouchableOpacity onPress={handleUploadProfileImage}>
+          <Image
+            source={{uri: profileImageUri || require("../../assets/images/profile-default.png")}}
+            style={styles.avatar}
+          />
+        </TouchableOpacity>
         <View style={{flex: 1, marginLeft: 12}}>
           <Text style={styles.displayName}>{firstName} {lastName}</Text>
           <Text style={styles.username}>@{username}</Text>

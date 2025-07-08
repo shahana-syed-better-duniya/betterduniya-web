@@ -7,4 +7,5 @@ export interface UserLoginSuccessInfo {
   userRole: string;
   accessToken: string;
   expiry: string;
+  profileImageUri: string;
 }

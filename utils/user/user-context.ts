@@ -7,6 +7,7 @@ export interface UserContextType {
   lastName: string;
   bio: string;
   userRole: string;
+  profileImageUri: string;
   setUserContext: (data: Partial<UserContextType>) => void;
 }
 
