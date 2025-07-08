@@ -1,9 +1,9 @@
 import {Dimensions, Image, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native'
 import React, { useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
+import ShowReadMore from "../layouts/ShowReadMore";
 
 const windowWidth = Dimensions.get("window").width;
-
 
 
 const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, time, recommended, rating, type}:{
@@ -37,6 +37,7 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
         );
     }
     }, [imgUrl]);
+
   return (
     <View style={{marginBottom: 25}}>
         <View style={{marginBottom: 10, flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginHorizontal: 12}}>
@@ -97,6 +98,9 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
 
         <Text style={{fontWeight: 700, marginBottom: 3, fontSize: 16, marginHorizontal: 12}}>{prodName}</Text>
         <Text style={{marginBottom: 8, fontSize: 16, marginHorizontal: 12}}>{desc}</Text>
+
+        <ShowReadMore desc={desc} />
+
         <View
         style={{
             width: "100%",
