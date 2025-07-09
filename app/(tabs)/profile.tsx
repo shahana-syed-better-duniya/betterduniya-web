@@ -18,30 +18,18 @@ import ProfileImage from "@/components/users/ProfileImage";
 export default function Profile() {
   const {username, firstName, lastName, bio, profileImageUri, setUserContext} = useUserContext();
 
-  const {
-    onUpload,
-    isLoading,
-  } = useUploadProfileImage();
-
-  const {
-    handlePickImages,
-  } = useImagePicker();
-
+  const {onUpload} = useUploadProfileImage();
+  const {handlePickImages} = useImagePicker();
 
   const handleUploadProfileImage = async (e: GestureResponderEvent) => {
     const imagesLocal = await handlePickImages();
 
-    if (imagesLocal?.length > 0) {
-      const profileImage = imagesLocal[0];
-      console.log(profileImage.fileSize);
-
+    if (imagesLocal != null && imagesLocal?.length > 0) {
       const response = await onUpload(imagesLocal);
       const remoteImageUri = response.result;
-
       setUserContext({profileImageUri: remoteImageUri || ''});
     }
   };
-
 
   const {onEditBio} = useEditUserProfile();
   const {

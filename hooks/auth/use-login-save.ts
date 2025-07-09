@@ -6,7 +6,6 @@ const useLoginSave = () => {
   const {setUserContext} = useUserContext();
 
   return async (userInfo: UserLoginSuccessInfo) => {
-    console.log(userInfo.profileImageUri)
     if (userInfo != null) {
       setUserContext({
         userId: userInfo.userId,
@@ -15,7 +14,7 @@ const useLoginSave = () => {
         lastName: userInfo.lastName,
         bio: userInfo.bio,
         userRole: userInfo.userRole,
-        // profileImageUri: userInfo.profileImageUri,
+        profileImageUri: userInfo.profileImageUri,
       });
       await AsyncStorage.setItem('token', userInfo.accessToken);
     }
