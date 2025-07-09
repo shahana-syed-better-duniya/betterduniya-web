@@ -75,8 +75,18 @@ export default function Profile() {
 
   return (
     <View style={styles.container}>
-      <SearchBar searchValue={username} placeholder={username} onSearch={async () => {
-      }}/>
+      <View style={{position: 'absolute',
+          top: 0,
+          zIndex: 1,
+          marginBottom: 20,
+          backgroundColor: 'white',
+          width: '100%',
+          paddingBottom: 5,
+          paddingTop: 20,
+          marginHorizontal: -14}}>
+        <SearchBar searchValue={username} icon={'at-outline'} placeholder={username} onSearch={async () => {
+        }}/>
+      </View>
 
       <View style={styles.headerRow}>
         <TouchableOpacity onPress={handleUploadProfileImage}>
@@ -121,9 +131,9 @@ export default function Profile() {
           
           <View style={{justifyContent: 'space-between', flexDirection: 'row', marginTop: -2, marginBottom: 5}}>
             <TouchableOpacity
+              onPress={()=> setIsEditingBio(false)}
               style={[
                 styles.cancelBtn,
-                !isValid && styles.saveButtonDisabled
               ]}>
               <Icon name="close" size={20} color="#fff"/>
             </TouchableOpacity>
@@ -132,7 +142,10 @@ export default function Profile() {
                 styles.saveButton,
                 !isValid && styles.saveButtonDisabled
               ]}
-              onPress={handleSaveBio}
+              onPress={()=>{
+                handleSaveBio
+                setIsEditingBio(false)
+              }}
               disabled={!isValid}
             >
               <Icon name="checkmark" size={20} color="#fff"/>
@@ -220,7 +233,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   goButtonText: {fontWeight: "bold", color: "#fff", fontSize: 16},
-  headerRow: {flexDirection: "row", alignItems: "center", marginBottom: 10,},
+  headerRow: {flexDirection: "row", alignItems: "center", marginBottom: 10, marginTop: 75},
   avatar: {width: 62, height: 62, borderRadius: 31,},
   displayName: {fontWeight: "bold", fontSize: 18, color: "#222"},
   username: {color: "#888", fontSize: 14,},

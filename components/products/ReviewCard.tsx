@@ -1,4 +1,4 @@
-import {Image, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native'
+import {Dimensions, Image, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native'
 import React, {useEffect, useState} from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
@@ -41,6 +41,7 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
     }
   }, [imgUrl]);
 
+  const {height} = Dimensions.get("window");
   const isExpandDescription = useBoolean(false)
   const MAX_DISPLAY_LINES = 3;
   const MAX_DISPLAY_CHAR = 80;
@@ -68,11 +69,11 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
         <View style={{flexDirection: "row", gap: 8, alignItems: 'center'}}>
           <Image
             source={{uri: userIcon}}
-            style={{width: 60, height: 60, borderRadius: 30}}/>
+            style={{width: height * 0.065, height: height * 0.065, borderRadius: 30}}/>
           <View style={{justifyContent: 'flex-start'}}>
-            <Text style={{fontWeight: 600, fontSize: 17,}}>{displayName}</Text>
-            <Text style={{color: "#696363", fontSize: 13}}>{username}</Text>
-            <Text style={{color: "#696363", fontSize: 11}}>{time}</Text>
+            <Text style={{fontWeight: 600, fontSize: height * 0.018,}}>{displayName}</Text>
+            <Text style={{color: "#696363", fontSize: height * 0.013}}>@{username}</Text>
+            <Text style={{color: "#696363", fontSize: height * 0.013}}>{time}</Text>
           </View>
         </View>
 
@@ -102,8 +103,8 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
                 alignItems: "center",
                 justifyContent: "center"
               }}>
-                <Image source={require("../../assets/images/thumbsup.png")} style={{width: 28, height: 28}}/>
-                <Text style={{color: "#696363", fontSize: 12}}>Recommended</Text>
+                <Image source={require("../../assets/images/thumbsup.png")} style={{width: height * 0.03, height: 0.03}}/>
+                <Text style={{color: "#696363", fontSize: height * 0.0135}}>Recommended</Text>
               </View>
             ) : (
               <View style={{
@@ -115,12 +116,12 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
                 alignItems: "center",
                 justifyContent: "center"
               }}>
-                <Image source={require("../../assets/images/thumbsdown.png")} style={{width: 28, height: 28}}/>
-                <Text style={{color: "#696363", fontSize: 12}}>Not Recommended</Text>
+                <Image source={require("../../assets/images/thumbsdown.png")} style={{width: height * 0.03, height: height * 0.03}}/>
+                <Text style={{color: "#696363", fontSize: height * 0.0135}}>Not Recommended</Text>
               </View>
             )}
 
-            <View style={{marginTop: 3}}>
+            <View style={{marginTop: height * 0.003}}>
               <View style={{flexDirection: "row", marginTop: 2, justifyContent: "flex-end"}}>
                 {Array(5)
                   .fill(null)
@@ -142,16 +143,16 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
         }
       </View>
 
-      <Text style={{fontWeight: 700, marginBottom: 3, fontSize: 16, marginHorizontal: 12}}>{prodName}</Text>
+      <Text style={{fontWeight: 700, marginBottom: 3, fontSize: height * 0.018, marginHorizontal: 12}}>{prodName}</Text>
       <Text style={{
         marginBottom: 8,
-        fontSize: 16,
+        fontSize: height * 0.018,
         marginHorizontal: 12
       }}>
         {displayDescription}
         {(isDescriptionLinesTooLong || isDescriptionCharsTooLong) &&
-          <Text onPress={isExpandDescription.onToggle}>
-            {isExpandDescription.value ? ' read less' : '... read more'}
+          <Text onPress={isExpandDescription.onToggle} style={{fontWeight: 600, color: '#202020'}}>
+            {isExpandDescription.value ? ' Show less' : '... Read more'}
           </Text>
         }
       </Text>

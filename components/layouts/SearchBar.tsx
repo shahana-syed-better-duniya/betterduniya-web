@@ -33,7 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({searchValue, icon, onChangeText, p
 export default SearchBar;
 
 const styles = StyleSheet.create({
-  searchRow: {flexDirection: "row", alignItems: "center", marginBottom: 16, marginHorizontal: 12},
+  searchRow: {flexDirection: "row", alignItems: "center", marginBottom: 16, marginHorizontal: 16, marginTop: 15},
   searchBar: {
     flex: 1,
     backgroundColor: "#fafafa",
