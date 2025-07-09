@@ -1,20 +1,28 @@
-import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import React, {useState} from "react";
+import {Dimensions, StyleSheet, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-export default function Rating() {
+interface RatingProps {
+  onChangeRating: (rating: number) => void;
+}
+
+const Rating: React.FC<RatingProps> = ({onChangeRating}) => {
   const [leftRating, setLeftRating] = useState(0);   // Red stars
   const [rightRating, setRightRating] = useState(0); // Yellow stars
 
   const handleLeftPress = (i: number) => {
     setLeftRating(i);
     setRightRating(0);
+    onChangeRating(-i);
   };
 
   const handleRightPress = (i: number) => {
     setRightRating(i);
     setLeftRating(0);
+    onChangeRating(i);
   };
+
+const {width} = Dimensions.get("window");
 
   return (
     <View style={styles.container}>
@@ -24,7 +32,7 @@ export default function Rating() {
           <TouchableOpacity key={`red-${i}`} onPress={() => handleLeftPress(i)}>
             <Icon
               name={i <= leftRating ? "star" : "star-outline"}
-              size={18}
+              size={width * 0.043}
               color="#F44336"
             />
           </TouchableOpacity>
@@ -37,7 +45,7 @@ export default function Rating() {
           <TouchableOpacity key={`yellow-${i}`} onPress={() => handleRightPress(i)}>
             <Icon
               name={i <= rightRating ? "star" : "star-outline"}
-              size={18}
+              size={width * 0.043}
               color="#FFC107"
             />
           </TouchableOpacity>
@@ -46,6 +54,8 @@ export default function Rating() {
     </View>
   );
 }
+
+export default Rating;
 
 const styles = StyleSheet.create({
   container: {
@@ -61,3 +71,4 @@ const styles = StyleSheet.create({
     gap: 6,
   },
 });
+

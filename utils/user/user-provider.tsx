@@ -8,27 +8,33 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [contextValue, setContextValue] = useState<Omit<UserContextType, 'setUserContext'>>({
+    bio: "",
+    profileImageUri: "",
     userId: '',
     username: '',
     firstName: '',
     lastName: '',
-    userRole: '',
+    userRole: ''
   });
 
   useEffect(() => {
     const fetchData = async () => {
+      const bio = (await AsyncStorage.getItem('bio')) || '';
       const userId = (await AsyncStorage.getItem('userId')) || '';
       const username = (await AsyncStorage.getItem('username')) || '';
       const firstName = (await AsyncStorage.getItem('firstName')) || '';
       const lastName = (await AsyncStorage.getItem('lastName')) || '';
       const userRole = (await AsyncStorage.getItem('userRole')) || '';
+      const profileImageUri = '';
 
       setContextValue({
+        bio,
+        profileImageUri,
         userId,
         username,
         firstName,
         lastName,
-        userRole,
+        userRole
       });
     };
 

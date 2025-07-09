@@ -3,11 +3,12 @@ import React from 'react';
 import {Image, Platform} from 'react-native';
 import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import Feather from 'react-native-vector-icons/Feather';
+import {useUserContext} from "@/utils/user/user-context";
 
-const AVATAR_URL = "https://randomuser.me/api/portraits/men/32.jpg";
 
 export default function TabLayout() {
+  const { profileImageUri} = useUserContext();
+
   const activeColor = "#222";
   const inactiveColor = "#B8B8B8";
 
@@ -43,7 +44,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -51,6 +52,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="feed"
+
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
@@ -60,7 +62,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -77,7 +79,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -94,7 +96,7 @@ export default function TabLayout() {
                 width: size,
                 height: size,
                 tintColor: focused ? color : "#888", // Optional: Tint if it's a monochrome icon
-                
+
               }}
             />
           ),
@@ -106,14 +108,14 @@ export default function TabLayout() {
           title: "",
           tabBarIcon: ({focused}) => (
             <Image
-              source={{uri: AVATAR_URL}}
+              source={{uri: profileImageUri || require("../../assets/images/profile-default.png")}}
               style={{
                 width: 30,
                 height: 30,
                 borderRadius: 15,
                 borderWidth: focused ? 2 : 0,
                 borderColor: focused ? "#FFC107" : "#fff",
-              
+
               }}
             />
           ),

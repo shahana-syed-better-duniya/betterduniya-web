@@ -1,6 +1,6 @@
 import {useNavigation, useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/user";
+import {userAuthApi} from "@/api/user/userAuth";
 import {Alert} from "react-native";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,7 +14,7 @@ const useRegistrationVerify = () => {
   const saveLoginResult = useLoginSave();
 
   const onVerify = async (email: string, code: string) => {
-    const response = await onRequest(userApi.verifyAccount, [email, code], null, false);
+    const response = await onRequest(userAuthApi.verifyAccount, [email, code], null, false);
     const userInfo = response.result;
     if (userInfo != null && userInfo?.accessToken.length >0) {
       await saveLoginResult(userInfo);
@@ -25,7 +25,7 @@ const useRegistrationVerify = () => {
   };
 
   const onResend = async (email: string, _: string) => {
-    await onRequest(userApi.resendVerify, [email], null, false);
+    await onRequest(userAuthApi.resendVerify, [email], null, false);
   };
 
   return {onVerify, onResend, isLoading}

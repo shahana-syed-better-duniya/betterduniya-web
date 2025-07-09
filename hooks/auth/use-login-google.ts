@@ -1,7 +1,7 @@
 import {authorize} from "react-native-app-auth";
 import {oauthConfig} from "@/constants/oauth";
 import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/user";
+import {userAuthApi} from "@/api/user/userAuth";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
 import useLoginSave from "@/hooks/auth/use-login-save";
 import {router} from "expo-router";
@@ -16,7 +16,7 @@ const useLoginGoogle = () => {
     try {
       const result = await authorize(oauthConfig);
       const body = {credential: result.idToken};
-      const response = await onRequest(userApi.loginAccountByGoogle, [], body, false)
+      const response = await onRequest(userAuthApi.loginAccountByGoogle, [], body, false)
       const userInfo = response.result;
       if (userInfo) {
         await saveLoginResult(userInfo);

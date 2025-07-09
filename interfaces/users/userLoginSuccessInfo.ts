@@ -3,7 +3,9 @@ export interface UserLoginSuccessInfo {
   userName: string;
   firstName: string;
   lastName: string;
+  bio: string;
   userRole: string;
   accessToken: string;
   expiry: string;
+  profileImageUri: string;
 }

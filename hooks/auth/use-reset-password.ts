@@ -1,6 +1,6 @@
 import {useRouter} from "expo-router";
 import useRequest from "@/hooks/api/use-request";
-import {userApi} from "@/api/user/user";
+import {userAuthApi} from "@/api/user/userAuth";
 import {Alert} from "react-native";
 import ForgetPasswordInfo from "@/interfaces/users/forgetPasswordInfo";
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
@@ -17,7 +17,7 @@ const useResetPassword = () => {
       email,
       password,
     };
-    const response = await onRequest(userApi.resetPassword, [], body, false);
+    const response = await onRequest(userAuthApi.resetPassword, [], body, false);
     const userInfo = response.result;
     if (userInfo != null) {
       await saveLoginResult(userInfo);

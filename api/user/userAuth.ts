@@ -1,6 +1,6 @@
 import requestMethods from "@/api/request-methods";
 
-export const userApi = {
+export const userAuthApi = {
   getUserInfo: {
     method: requestMethods.get,
     path: () => `/user/info`,

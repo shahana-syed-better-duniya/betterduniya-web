@@ -1,68 +1,185 @@
-import React from "react";
-import {Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import React, { useState } from "react";
+import {GestureResponderEvent, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useUserContext} from "@/utils/user/user-context";
 import SearchBar from "@/components/layouts/SearchBar";
+import useEditUserProfile from "@/hooks/user/use-edit-user-profile";
+import {useForm} from "@/hooks/interaction/use-form";
+import {validateBio} from "@/utils/products/validators";
+import TextInputRequired from "@/components/inputs/TextInputRequired";
+import {useBoolean} from "@/hooks/primitive/use-boolean";
+import AlertPromptModal from "@/components/products/AlertPromptModal";
+import useImagePicker from "@/hooks/interaction/use-image-picker";
+import useUploadProfileImage from "@/hooks/user/use-upload-profile-image";
+
 
 export default function Profile() {
-  const {username, firstName, lastName} = useUserContext();
+  const {username, firstName, lastName, bio, profileImageUri, setUserContext} = useUserContext();
+
+  const {
+    onUpload,
+    isLoading,
+  } = useUploadProfileImage();
+
+  const {
+    handlePickImages,
+  } = useImagePicker();
+
+
+  const handleUploadProfileImage = async (e: GestureResponderEvent) => {
+    const imagesLocal = await handlePickImages();
+
+    if (imagesLocal?.length > 0) {
+      const profileImage = imagesLocal[0];
+      console.log(profileImage.fileSize);
+
+      const response = await onUpload(imagesLocal);
+      const remoteImageUri = response.result;
+
+      setUserContext({profileImageUri: remoteImageUri || ''});
+    }
+  };
+
+
+  const {onEditBio} = useEditUserProfile();
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    touched,
+    isValid,
+  } = useForm({
+    initialValues: {
+      bio,
+    },
+    validate: validateBio,
+  });
+
+  const handleSaveBio = async () => {
+    if (isValid) {
+      await onEditBio(values.bio);
+    }
+  };
+
+
+  const [isEditingBio, setIsEditingBio] = useState(false);
+
+  const handleEditBio = () => {
+    setIsEditingBio(prev => !prev);
+  };
+
+
+  const isClickedComingSoonButtons = useBoolean(false);
+
+
   return (
     <View style={styles.container}>
-
-        
-      <SearchBar searchValue={username} icon={"at-outline"} placeholder={username} onSearch={async () => {
+      <SearchBar searchValue={username} placeholder={username} onSearch={async () => {
       }}/>
 
-
-
       <View style={styles.headerRow}>
-        <Image
-          source={{
-            uri: "https://randomuser.me/api/portraits/men/32.jpg",
-          }}
-          style={styles.avatar}
-        />
+        <TouchableOpacity onPress={handleUploadProfileImage}>
+          <Image
+            source={{uri: profileImageUri || require("../../assets/images/profile-default.png")}}
+            style={styles.avatar}
+          />
+        </TouchableOpacity>
         <View style={{flex: 1, marginLeft: 12}}>
           <Text style={styles.displayName}>{firstName} {lastName}</Text>
           <Text style={styles.username}>@{username}</Text>
           <View style={{flexDirection: "row", marginTop: 2}}>
-            <Text style={styles.mutedText}>100 Interests</Text>
-            <Text style={styles.mutedText}> 50 Followers</Text>
+            {/*<Text style={styles.mutedText}>100 Interests</Text>*/}
+            {/*<Text style={styles.mutedText}> 50 Followers</Text>*/}
           </View>
         </View>
-        <TouchableOpacity>
-          <Icon name="create-outline" size={22} color="#222"/>
-        </TouchableOpacity>
       </View>
 
-      {/* Bio */}
-      <Text style={styles.bioTitle}>Bio</Text>
-      <View style={styles.bioBox}>
-        <Text style={styles.bioText}>
-          I love to help people to take informed decisions through my reviews and experiences!
-        </Text>
+
+      <View>
+        {/* Bio */}
+        <View style={{justifyContent: 'space-between', flex: 1, flexDirection: 'row', marginBottom: 0, paddingBottom: 0}}>
+          <Text style={styles.bioTitle}>Bio</Text>
+          <TouchableOpacity onPress={handleEditBio}>
+            <Icon name="create-outline" size={22} color="#222"/>
+          </TouchableOpacity>
+        </View>
+      
+      {isEditingBio &&
+        <View style={{}}>
+          <TextInputRequired
+            style={styles.bioBox}
+            value={values.bio}
+
+            onChangeText={handleChange('bio')}
+            onBlur={handleBlur("bio")}
+            placeholder="Please enter your bio"
+            multiline
+            numberOfLines={4}
+          />
+          <Text style={styles.charCount}>{values.bio?.length}/1500 Characters</Text>
+          
+          <View style={{justifyContent: 'space-between', flexDirection: 'row', marginTop: -2, marginBottom: 5}}>
+            <TouchableOpacity
+              style={[
+                styles.cancelBtn,
+                !isValid && styles.saveButtonDisabled
+              ]}>
+              <Icon name="close" size={20} color="#fff"/>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.saveButton,
+                !isValid && styles.saveButtonDisabled
+              ]}
+              onPress={handleSaveBio}
+              disabled={!isValid}
+            >
+              <Icon name="checkmark" size={20} color="#fff"/>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+      } 
+
+      {!isEditingBio && 
+        <Text style={values.bio ? styles.bioBox : styles.noBio}>{values.bio ? values.bio : 'User does not have bio'}</Text>
+      }
+        
+        
       </View>
-      <Text style={styles.charCount}>1500 Characters</Text>
 
       {/* Quick Actions */}
+      <AlertPromptModal
+        visible={isClickedComingSoonButtons.value}
+        onCancel={isClickedComingSoonButtons.onFalse}
+        desc={''} title={'Coming Soon!'}/>
       <View style={styles.quickActionsRow}>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/arrowicon.png")} style={{width: 35, height: 35, opacity: 0.7}}/>
+            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}>
+              <Image source={require("../../assets/images/arrowicon.png")}
+                     style={{width: 35, height: 35, opacity: 0.95}}/>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.quickLabel}>betterdunya</Text>
+          <Text style={styles.quickLabel}>better duniya</Text>
         </View>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/lightbulbicon.png")} style={{width: 50, height: 50, opacity: 0.7}}/>
+            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}>
+              <Image source={require("../../assets/images/lightbulbicon.png")}
+                     style={{width: 50, height: 50, opacity: 0.95}}/>
+            </TouchableOpacity>
           </View>
           <Text style={styles.quickLabel}>Interests</Text>
 
         </View>
         <View style={styles.quickAction}>
           <View style={styles.quickImg}>
-            <Image source={require("../../assets/images/hearticon.png")} style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.7}}/>
+            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}>
+              <Image source={require("../../assets/images/hearticon.png")}
+                     style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.95}}/>
+            </TouchableOpacity>
           </View>
           <Text style={styles.quickLabel}>Followers</Text>
         </View>
@@ -71,18 +188,18 @@ export default function Profile() {
       {/* Floating Buttons */}
       <View style={styles.fabStack}>
         <View style={styles.fabWithBadge}>
-          <TouchableOpacity style={styles.fab}>
+          <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
             <Icon name="mail-outline" size={24} color="#222"/>
           </TouchableOpacity>
-          <View style={styles.badge}><Text style={styles.badgeText}>2</Text></View>
+          {/*<View style={styles.badge}><Text style={styles.badgeText}></Text></View>*/}
         </View>
         <View style={styles.fabWithBadge}>
-          <TouchableOpacity style={styles.fab}>
+          <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
             <MaterialIcon name="flash-outline" size={24} color="#222"/>
           </TouchableOpacity>
-          <View style={styles.badge}><Text style={styles.badgeText}>3</Text></View>
+          {/*<View style={styles.badge}><Text style={styles.badgeText}></Text></View>*/}
         </View>
-        <TouchableOpacity style={styles.fab}>
+        <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
           <Icon name="settings-outline" size={24} color="#222"/>
         </TouchableOpacity>
       </View>
@@ -108,13 +225,25 @@ const styles = StyleSheet.create({
   displayName: {fontWeight: "bold", fontSize: 18, color: "#222"},
   username: {color: "#888", fontSize: 14,},
   mutedText: {color: "#999", fontSize: 13, marginRight: 12},
-  bioTitle: {fontWeight: "bold", fontSize: 16, marginTop: 12, marginBottom: 4},
-  bioBox: {backgroundColor: "#F4F4F4", borderRadius: 7, padding: 14, marginBottom: 4},
+  bioTitle: {fontWeight: "bold", fontSize: 16},
+  bioBox: {backgroundColor: "#F4F4F4", borderRadius: 7, padding: 14, marginBottom: 4, marginTop: 7},
+  noBio: {backgroundColor: "#F4F4F4", color: "#3c3c3c", borderRadius: 7, padding: 14, marginBottom: 4, marginTop: 7},
   bioText: {fontSize: 15, color: "#222"},
   charCount: {alignSelf: "flex-end", fontSize: 12, color: "#999", marginBottom: 14},
   quickActionsRow: {flexDirection: "row", justifyContent: "center", gap: 20, marginTop: 12,},
   quickAction: {alignItems: "center", width: 100, height: 100, justifyContent: 'center'},
-  quickImg: {borderWidth: 2, borderColor: '#84838f', justifyContent: 'center', alignItems: 'center', borderRadius: 100, width: 75, height: 75},
+  quickImg: {
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: {width: 0, height: 4},
+    elevation: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    width: 75,
+    height: 75
+  },
   quickLabel: {fontSize: 13, color: "#888", marginTop: 5},
   fabStack: {
     position: "absolute", right: 18, bottom: 32, alignItems: "flex-end", zIndex: 10,
@@ -134,7 +263,37 @@ const styles = StyleSheet.create({
   badgeText: {color: "#fff", fontSize: 12, fontWeight: "bold"},
   navBar: {
     flexDirection: "row", alignItems: "center", justifyContent: "space-around",
+    borderTopWidth: 1, borderTopColor: "#eee",
     height: 58, backgroundColor: "#fff", position: "absolute", bottom: 0, left: 0, right: 0,
   },
   navAvatar: {width: 30, height: 30, borderRadius: 15, borderWidth: 2, borderColor: "#fff"},
+  saveButton: {
+    backgroundColor: '#ffc107',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: {width: 0, height: 4},
+    elevation: 3,
+  },
+  cancelBtn: {
+    backgroundColor: '#BDBDBD',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: {width: 0, height: 4},
+    elevation: 3,
+  },
+  saveButtonDisabled: {
+    backgroundColor: '#BDBDBD',
+  },
 });

@@ -2,6 +2,7 @@ import React from "react";
 import {
   ActivityIndicator,
   Alert,
+  Dimensions,
   FlatList,
   Image,
   ScrollView,
@@ -33,6 +34,7 @@ export default function Review() {
     handleChange,
     resetForm,
     isValid,
+    errors,
     setErrors,
   } = useForm({
     initialValues: {
@@ -71,12 +73,14 @@ export default function Review() {
     handlePickImages,
   } = useImagePicker();
 
+  const {profileImageUri} = useUserContext();
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 32}}>
       <Text style={styles.header}>New Review</Text>
       <View style={styles.profileRow}>
         <Image
-          source={{uri: "https://randomuser.me/api/portraits/men/32.jpg"}}
+          source={{uri: profileImageUri || require("../../assets/images/profile-default.png")}}
           style={styles.avatar}
         />
         <View style={{marginLeft: 12}}>
@@ -84,7 +88,6 @@ export default function Review() {
           <Text style={styles.username}>@{username}</Text>
         </View>
       </View>
-
 
       <TextInputRequired
         style={styles.prodBox}
@@ -104,7 +107,9 @@ export default function Review() {
       />
       <Text style={styles.charCount}>100,000 Characters</Text>
 
-      <Text style={{fontSize: 14, fontWeight: 300, color: "#696363", marginBottom: 7, marginHorizontal: 7}}>Add images</Text>
+      <Text style={{fontSize: width * 0.033, fontWeight: 300, color: "#696363", marginBottom: width * 0.02, marginTop: width * -0.018, marginHorizontal: 7}}>
+        Add images
+      </Text>
       <TouchableOpacity style={styles.addMediaCircle} onPress={handlePickImages}>
         <Icon name="add" size={28} color="#FFC107"/>
       </TouchableOpacity>
@@ -137,12 +142,13 @@ export default function Review() {
         alignItems: "center",
         alignSelf: "center",
         width: "100%",
-        marginBottom: 35,
+        marginTop: width * 0.01,
+        marginBottom: width * 0.02,
         justifyContent: "space-between",
       }}>
         <Text style={styles.recLabel}>Would you recommend?</Text>
 
-        <View style={{flexDirection: "row", alignItems:"center", gap: 25}}>
+        <View style={{flexDirection: "row", alignItems: "center", gap: 25}}>
           <TouchableOpacity
             onPress={isRecommended.onTrue}
             style={[
@@ -152,19 +158,19 @@ export default function Review() {
           >
             <Image
               source={require("../../assets/images/thumbsup.png")}
-              style={{width: 45, height: 45}}
+              style={{width: width * 0.1, height: width * 0.1}}
             />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={isRecommended.onFalse}
-              style={[
+            style={[
               styles.recBtn,
               !isRecommended.value && styles.thumbsBtnSelectedNegative,
             ]}
           >
             <Image
               source={require("../../assets/images/thumbsdown.png")}
-              style={{width: 45, height: 45}}
+              style={{width: width * 0.1, height: width * 0.1}}
             />
           </TouchableOpacity>
         </View>
@@ -173,15 +179,17 @@ export default function Review() {
       <View style={{
         flexDirection: "row",
         justifyContent: "space-between",
+        marginTop: width * 0.07,
+        marginBottom: height * 0.04,
         alignSelf: "center",
         width: "100%",
       }}>
         <View>
           <Text style={styles.overallLabel}>Overall Rating</Text>
         </View>
-        
+
         <View>
-          <DualRowRating/>
+          <DualRowRating onChangeRating={(rating: number) => handleChange('rating')(rating)}/>
 
           <View style={styles.ratingTextRow}>
             <Text style={styles.negativeRating}>
@@ -222,21 +230,22 @@ export default function Review() {
     </ScrollView>
   );
 }
+const {width, height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: "white", paddingTop: 24, paddingHorizontal: 20},
-  header: {fontWeight: "bold", fontSize: 24, marginTop: 7, marginBottom: 16},
-  profileRow: {flexDirection: "row", alignItems: "center", marginBottom: 24},
-  avatar: {width: 60, height: 60, borderRadius: 30},
-  name: {fontWeight: "bold", fontSize: 17, color: "#222"},
-  username: {color: "#888", fontSize: 14},
+  header: {fontWeight: "bold", fontSize: width * 0.06, marginTop: 7, marginBottom: width * 0.025},
+  profileRow: {flexDirection: "row", alignItems: "center", marginBottom: width * 0.033},
+  avatar: {width: width * 0.13, height: width * 0.13, borderRadius: 30},
+  name: {fontWeight: "bold", fontSize: width * 0.043, color: "#222"},
+  username: {color: "#888", fontSize: width * 0.038},
   label: {fontWeight: "500", color: "#555", fontSize: 15, marginBottom: 2},
   prodBox: {
     backgroundColor: "#f6f6f6",
     borderRadius: 8,
     paddingHorizontal: 7,
     paddingVertical: 8,
-    fontSize: 16,
+    fontSize: width * 0.038,
     marginBottom: 10,
   },
   reviewBox: {
@@ -244,65 +253,62 @@ const styles = StyleSheet.create({
     minHeight: 110,
     textAlignVertical: "top",
     borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 7,
-    fontSize: 16,
-    marginBottom: 5,
+    paddingVertical: width * 0.02,
+    paddingHorizontal: width * 0.015,
+    fontSize: width * 0.038,
+    marginBottom: width * 0.006,
   },
   addMediaCircle: {
-    width: 42, height: 42, borderRadius: 21,
+    width: width * 0.1, height: width * 0.1, borderRadius: 21,
     backgroundColor: "white",
     shadowColor: "black",
     shadowOpacity: 0.35,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     elevation: 5,
     justifyContent: "center", alignItems: "center",
     marginBottom: 5,
   },
-    recBtn: {
-    width: 48, height: 48, borderRadius: 40,
+  recBtn: {
+    width: width * 0.1, height: width * 0.1, borderRadius: 40,
     backgroundColor: "#f6f6f6",
     justifyContent: "center", alignItems: "center",
   },
   charCount: {
     color: "#888",
-    fontSize: 13,
+    fontSize: width * 0.03,
     marginRight: 2,
     flexDirection: "row",
     alignSelf: "flex-end",
-    marginBottom: -10
   },
-  recLabel: {fontSize: 14, fontWeight: 300, color: "#696363", marginHorizontal: 7},
-  overallLabel: {fontSize: 14, fontWeight: 300, color: "#696363", marginBottom: 12, marginHorizontal: 7},
+  recLabel: {fontSize: width * 0.033, fontWeight: 300, color: "#696363", marginHorizontal: 7},
+  overallLabel: {fontSize: width * 0.033, fontWeight: 300, color: "#696363", marginHorizontal: 7},
   ratingTextRow: {
     flexDirection: "row", justifyContent: "space-between", gap: 20
   },
-  negativeRating: {color: "#F44336", fontSize: 14, fontWeight: 300},
-  positiveRating: {color: "#FFC107", fontSize: 14, fontWeight: 300},
+  negativeRating: {color: "#F44336", fontSize: width * 0.036, fontWeight: 300},
+  positiveRating: {color: "#FFC107", fontSize: width * 0.036, fontWeight: 300},
   ratingArrowRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 2,
-    marginBottom: 10,
   },
-  arrowLeft: {color: "#F44336", fontSize: 14},
-  arrowRight: {color: "#FFC107", fontSize: 14},
+  arrowLeft: {color: "#F44336", fontSize: width * 0.036},
+  arrowRight: {color: "#FFC107", fontSize: width * 0.036},
   postBtn: {
-    marginTop: 60,
     alignSelf: "center",
     backgroundColor: "#FFC107",
     paddingHorizontal: 50,
-    paddingVertical: 12,
+    paddingVertical: width * 0.025,
     borderRadius: 23,
     shadowColor: "black",
     shadowOpacity: 0.35,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: {width: 0, height: 3},
     elevation: 4,
   },
   inputError: {color: "#F44336", fontSize: 13},
-  postBtnText: {color: "#fff", fontWeight: "bold", fontSize: 20},
+  postBtnText: {color: "#fff", fontWeight: "bold", fontSize: width * 0.047},
   successMessage: {color: "#4CAF50", fontSize: 16, marginTop: 10},
   previewImageContainer: {
     position: "relative",

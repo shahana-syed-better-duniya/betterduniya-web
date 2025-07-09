@@ -3,6 +3,7 @@ import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 
 export interface ProductReviewContextType {
   summary?: ProductReviewSummary;
+  previousSearchValue: string;
   setProductReviewContext: (data: Partial<ProductReviewContextType>) => void;
 }
 
