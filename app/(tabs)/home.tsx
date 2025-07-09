@@ -13,7 +13,7 @@ import SearchBar from "@/components/layouts/SearchBar";
 import ProductReviewList from "@/components/products/ProductReviewList";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
 
-const {width} = Dimensions.get("window");
+const {width, height} = Dimensions.get("window");
 
 export default function Home() {
   let [fontsLoaded] = useFonts({
@@ -137,12 +137,12 @@ const stylesLocal= StyleSheet.create({
   },
   logoWrapper: {
     alignItems: "center",
-    top: width * 0.2,
+    top: height * 0.1,
   },
   logoCircle: {
-    width: width * 0.38,
-    height: width * 0.38,
-    borderRadius: 100,
+    width: height * 0.18,
+    height: height * 0.18,
+    borderRadius: 200,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
@@ -153,7 +153,7 @@ const stylesLocal= StyleSheet.create({
     elevation: 4,
   },
   brandText: {
-    fontSize: width * 0.085,
+    fontSize: height * 0.04,
     fontWeight: 600,
     fontFamily: "Jura_400Regular",
     color: "#1B1B1B",
@@ -168,12 +168,12 @@ const stylesLocal= StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#FCFCFF",
-    borderRadius: 28,
-    height: width * 0.14,
+    borderRadius: 100,
+    height: height * 0.06,
     paddingHorizontal: 24,
     width: "84%",
-    marginTop: width * -0.2,
-    marginBottom: width * 0.13,
+    marginTop: height * -0.1,
+    marginBottom: height * 0.06,
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowRadius: 5,
@@ -182,7 +182,7 @@ const stylesLocal= StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 1,
     paddingVertical: 10,
     fontSize: 18,
     color: "#222",
@@ -190,8 +190,8 @@ const stylesLocal= StyleSheet.create({
   goButton: {
     backgroundColor: "#FFC107",
     paddingHorizontal: 44,
-    paddingVertical: width * 0.03,
-    borderRadius: 24,
+    paddingVertical: height * 0.015,
+    borderRadius: 100,
     alignItems: "center",
     shadowColor: "black",
     shadowRadius: 5,

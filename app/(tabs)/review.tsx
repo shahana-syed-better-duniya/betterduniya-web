@@ -111,7 +111,7 @@ export default function Review() {
         Add images
       </Text>
       <TouchableOpacity style={styles.addMediaCircle} onPress={handlePickImages}>
-        <Icon name="add" size={28} color="#FFC107"/>
+        <Icon name="add" size={height * 0.045} color="#FFC107"/>
       </TouchableOpacity>
       {images.length > 0 && (
         <FlatList
@@ -158,7 +158,7 @@ export default function Review() {
           >
             <Image
               source={require("../../assets/images/thumbsup.png")}
-              style={{width: width * 0.1, height: width * 0.1}}
+              style={{width: height * 0.047, height: height * 0.047}}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -170,7 +170,7 @@ export default function Review() {
           >
             <Image
               source={require("../../assets/images/thumbsdown.png")}
-              style={{width: width * 0.1, height: width * 0.1}}
+              style={{width: height * 0.047, height: height * 0.047}}
             />
           </TouchableOpacity>
         </View>
@@ -234,18 +234,17 @@ const {width, height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: "white", paddingTop: 24, paddingHorizontal: 20},
-  header: {fontWeight: "bold", fontSize: width * 0.06, marginTop: 7, marginBottom: width * 0.025},
-  profileRow: {flexDirection: "row", alignItems: "center", marginBottom: width * 0.033},
-  avatar: {width: width * 0.13, height: width * 0.13, borderRadius: 30},
-  name: {fontWeight: "bold", fontSize: width * 0.043, color: "#222"},
-  username: {color: "#888", fontSize: width * 0.038},
-  label: {fontWeight: "500", color: "#555", fontSize: 15, marginBottom: 2},
+  header: {fontWeight: "bold", fontSize: height * 0.03, marginTop: 7, marginBottom: height * 0.015},
+  profileRow: {flexDirection: "row", alignItems: "center", marginBottom: height * 0.022},
+  avatar: {width: height * 0.045, height: height * 0.045, borderRadius: 30},
+  name: {fontWeight: "bold", fontSize: height * 0.022, color: "#222"},
+  username: {color: "#888", fontSize: height * 0.018},
   prodBox: {
     backgroundColor: "#f6f6f6",
     borderRadius: 8,
-    paddingHorizontal: 7,
-    paddingVertical: 8,
-    fontSize: width * 0.038,
+    paddingHorizontal: height * 0.007,
+    paddingVertical: height * 0.008,
+    fontSize: height * 0.018,
     marginBottom: 10,
   },
   reviewBox: {
@@ -253,13 +252,13 @@ const styles = StyleSheet.create({
     minHeight: 110,
     textAlignVertical: "top",
     borderRadius: 8,
-    paddingVertical: width * 0.02,
-    paddingHorizontal: width * 0.015,
-    fontSize: width * 0.038,
-    marginBottom: width * 0.006,
+    paddingVertical: height * 0.008,
+    paddingHorizontal: height * 0.007,
+    fontSize: height * 0.018,
+    marginBottom: height * 0.006,
   },
   addMediaCircle: {
-    width: width * 0.1, height: width * 0.1, borderRadius: 21,
+    width: height * 0.056, height: height * 0.056, borderRadius: 21,
     backgroundColor: "white",
     shadowColor: "black",
     shadowOpacity: 0.35,
@@ -270,36 +269,34 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   recBtn: {
-    width: width * 0.1, height: width * 0.1, borderRadius: 40,
+    width: height * 0.05, height: height * 0.05, borderRadius: 40,
     backgroundColor: "#f6f6f6",
     justifyContent: "center", alignItems: "center",
   },
   charCount: {
     color: "#888",
-    fontSize: width * 0.03,
+    fontSize: height * 0.015,
     marginRight: 2,
     flexDirection: "row",
     alignSelf: "flex-end",
   },
-  recLabel: {fontSize: width * 0.033, fontWeight: 300, color: "#696363", marginHorizontal: 7},
-  overallLabel: {fontSize: width * 0.033, fontWeight: 300, color: "#696363", marginHorizontal: 7},
+  recLabel: {fontSize: height * 0.018, fontWeight: 300, color: "#696363", marginHorizontal: 7},
+  overallLabel: {fontSize: height * 0.018, fontWeight: 300, color: "#696363", marginHorizontal: 7},
   ratingTextRow: {
     flexDirection: "row", justifyContent: "space-between", gap: 20
   },
-  negativeRating: {color: "#F44336", fontSize: width * 0.036, fontWeight: 300},
-  positiveRating: {color: "#FFC107", fontSize: width * 0.036, fontWeight: 300},
+  negativeRating: {color: "#F44336", fontSize: height * 0.017, fontWeight: 300},
+  positiveRating: {color: "#FFC107", fontSize: height * 0.017, fontWeight: 300},
   ratingArrowRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 2,
   },
-  arrowLeft: {color: "#F44336", fontSize: width * 0.036},
-  arrowRight: {color: "#FFC107", fontSize: width * 0.036},
   postBtn: {
     alignSelf: "center",
     backgroundColor: "#FFC107",
     paddingHorizontal: 50,
-    paddingVertical: width * 0.025,
+    paddingVertical: height * 0.015,
     borderRadius: 23,
     shadowColor: "black",
     shadowOpacity: 0.35,
@@ -308,7 +305,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   inputError: {color: "#F44336", fontSize: 13},
-  postBtnText: {color: "#fff", fontWeight: "bold", fontSize: width * 0.047},
+  postBtnText: {color: "#fff", fontWeight: "bold", fontSize: height * 0.022},
   successMessage: {color: "#4CAF50", fontSize: 16, marginTop: 10},
   previewImageContainer: {
     position: "relative",
