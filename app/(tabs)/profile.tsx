@@ -121,9 +121,9 @@ export default function Profile() {
           
           <View style={{justifyContent: 'space-between', flexDirection: 'row', marginTop: -2, marginBottom: 5}}>
             <TouchableOpacity
+              onPress={()=> setIsEditingBio(false)}
               style={[
                 styles.cancelBtn,
-                !isValid && styles.saveButtonDisabled
               ]}>
               <Icon name="close" size={20} color="#fff"/>
             </TouchableOpacity>
@@ -132,7 +132,10 @@ export default function Profile() {
                 styles.saveButton,
                 !isValid && styles.saveButtonDisabled
               ]}
-              onPress={handleSaveBio}
+              onPress={()=>{
+                handleSaveBio
+                setIsEditingBio(false)
+              }}
               disabled={!isValid}
             >
               <Icon name="checkmark" size={20} color="#fff"/>
