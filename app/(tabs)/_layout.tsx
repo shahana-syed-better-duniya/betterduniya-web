@@ -4,10 +4,11 @@ import {Image, Platform} from 'react-native';
 import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import {useUserContext} from "@/utils/user/user-context";
+import ProfileImage from "@/components/users/ProfileImage";
 
 
 export default function TabLayout() {
-  const { profileImageUri} = useUserContext();
+  const {profileImageUri} = useUserContext();
 
   const activeColor = "#222";
   const inactiveColor = "#B8B8B8";
@@ -73,7 +74,7 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
-              <Image
+            <Image
               source={require("../../assets/images/arrowicon.png")}
               style={{
                 width: size,
@@ -107,15 +108,13 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: ({focused}) => (
-            <Image
-              source={{uri: profileImageUri || require("../../assets/images/profile-default.png")}}
+            <ProfileImage
               style={{
                 width: 30,
                 height: 30,
                 borderRadius: 15,
                 borderWidth: focused ? 2 : 0,
                 borderColor: focused ? "#FFC107" : "#fff",
-
               }}
             />
           ),

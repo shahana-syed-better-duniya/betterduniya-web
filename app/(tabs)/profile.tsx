@@ -12,6 +12,7 @@ import {useBoolean} from "@/hooks/primitive/use-boolean";
 import AlertPromptModal from "@/components/products/AlertPromptModal";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
 import useUploadProfileImage from "@/hooks/user/use-upload-profile-image";
+import ProfileImage from "@/components/users/ProfileImage";
 
 
 export default function Profile() {
@@ -72,8 +73,7 @@ export default function Profile() {
 
       <View style={styles.headerRow}>
         <TouchableOpacity onPress={handleUploadProfileImage}>
-          <Image
-            source={{uri: profileImageUri || require("../../assets/images/profile-default.png")}}
+          <ProfileImage
             style={styles.avatar}
           />
         </TouchableOpacity>
