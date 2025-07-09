@@ -8,7 +8,7 @@ interface ProfileImageProps {
 
 const ProfileImage: React.FC<ProfileImageProps> = ({style}) => {
   const {profileImageUri,} = useUserContext();
-  
+
   return (
     <Image
       source={profileImageUri.length > 0 ? {uri: profileImageUri} : require("../../assets/images/profile-default.png")}
