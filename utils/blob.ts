@@ -18,6 +18,7 @@ export const onAddFileToForm = async (formData: FormData, images: {
       const uri = image.uri;
       const type = mime.getType(image.uri) || 'image/png';
       const name = image.fileName || 'photo.jpg';
+
       formData.append('fileUpload', {
         uri,
         type,

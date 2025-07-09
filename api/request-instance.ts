@@ -3,6 +3,7 @@ import {Alert} from "react-native";
 import axiosInstance, {backendUrl} from "@/api/axioInstance";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {productApi} from "@/api/product/product";
+import {userProfileApi} from "@/api/user/userProfile";
 
 export interface ApiRequest {
   isBlob?: boolean;
@@ -80,10 +81,13 @@ const requestInstance = async <T>(
   const completePath = path(...args);
   if (completePath.includes('undefined')) {
     Alert.alert(`Path argument undefined: ${completePath}\nargs=[${args}]`);
-  } else if (completePath.includes(productApi.createReview.path())) {
+  } else if (
+    completePath.includes(productApi.createReview.path()) ||
+    completePath.includes(userProfileApi.uploadProfileImage.path())
+  ) {
     // bugs in axios when using post form, must fetch manually
     const url = backendUrl + completePath;
-    await fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       body,
       headers: {
@@ -91,7 +95,14 @@ const requestInstance = async <T>(
       },
     });
     try {
-      return {result: null, ok: true, errors: []};
+      let result;
+      try {
+        result = await response.json();
+      } catch (e) {
+        console.warn(e);
+      }
+
+      return {result, ok: true, errors: []};
     } catch (error) {
       console.error('Request failed', error);
       const errorMessage = getResponseErrorMessage(error);
