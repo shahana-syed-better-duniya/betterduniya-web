@@ -11,7 +11,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({style}) => {
 
   return (
     <Image
-      source={profileImageUri.length > 0 ? {uri: profileImageUri} : require("../../assets/images/profile-default.png")}
+      source={(profileImageUri?.length ?? 0) > 0 ? {uri: profileImageUri} : require("../../assets/images/profile-default.png")}
       style={style}
     />
   )
