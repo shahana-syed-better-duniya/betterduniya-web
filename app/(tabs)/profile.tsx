@@ -202,9 +202,6 @@ export default function Profile() {
           </TouchableOpacity>
           {/*<View style={styles.badge}><Text style={styles.badgeText}></Text></View>*/}
         </View>
-        <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
-          <Icon name="settings-outline" size={24} color="#222"/>
-        </TouchableOpacity>
         <TouchableOpacity
         style={styles.fab}
         onPress={() => router.push('/(pages)/settings')}>
