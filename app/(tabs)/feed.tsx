@@ -4,7 +4,7 @@ import ProductReviewList from "@/components/products/ProductReviewList";
 import useInit from "@/hooks/api/use-init";
 import useFeedList from "@/hooks/product/use-feed-list";
 import React, { useRef, useState } from "react";
-import { Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, TouchableOpacity, View } from "react-native";
+import { Animated, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from '../../components/products/product-review-list-styles';
 
@@ -14,6 +14,7 @@ const HEADER_MAX_HEIGHT = 125; // Max height of your header
 const HEADER_MIN_HEIGHT = 60;  // Min height when collapsed
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
+const {width, height} = Dimensions.get("window");
 
 
 const Feed = () => {
@@ -60,11 +61,11 @@ const Feed = () => {
           position: 'absolute',
           top: 0,
           zIndex: 1,
-          marginBottom: 20,
+          marginBottom: height * 0.02,
           backgroundColor: 'white',
           width: '100%',
           paddingBottom: 5,
-          paddingTop: 20,
+          paddingTop: height * 0.02,
           transform: [{ translateY: headerTranslateY }],
         }}
       >

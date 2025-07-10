@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import React from "react";
 
@@ -9,6 +9,7 @@ interface SearchBarProps {
   placeholder: string;
   onSearch: () => Promise<void>;
 }
+const {width, height} = Dimensions.get("window");
 
 const SearchBar: React.FC<SearchBarProps> = ({searchValue, icon, onChangeText, placeholder, onSearch}) => {
   return (
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 14,
-    height: 40,
+    height: height * 0.047,
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowRadius: 5,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   searchInput: {flex: 1, fontSize: 16, color: "#444"},
   goButton: {
     backgroundColor: "#FFC107",
-    height: 38,
+    height: height * 0.045,
     paddingHorizontal: 16,
     marginLeft: 10,
     borderRadius: 18,

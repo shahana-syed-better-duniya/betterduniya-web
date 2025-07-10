@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {GestureResponderEvent, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {Dimensions, GestureResponderEvent, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useUserContext} from "@/utils/user/user-context";
@@ -13,6 +13,8 @@ import AlertPromptModal from "@/components/products/AlertPromptModal";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
 import useUploadProfileImage from "@/hooks/user/use-upload-profile-image";
 import ProfileImage from "@/components/users/ProfileImage";
+import { router } from "expo-router";
+const {width, height} = Dimensions.get("window");
 
 
 export default function Profile() {
@@ -203,6 +205,11 @@ export default function Profile() {
         <TouchableOpacity style={styles.fab} onPress={isClickedComingSoonButtons.onTrue}>
           <Icon name="settings-outline" size={24} color="#222"/>
         </TouchableOpacity>
+        <TouchableOpacity
+        style={styles.fab}
+        onPress={() => router.push('/(pages)/settings')}>
+          <Icon name="settings-outline" size={24} color="#222"/>
+      </TouchableOpacity>
       </View>
     </View>
   );
@@ -222,17 +229,17 @@ const styles = StyleSheet.create({
   },
   goButtonText: {fontWeight: "bold", color: "#fff", fontSize: 16},
   headerRow: {flexDirection: "row", alignItems: "center", marginBottom: 10, marginTop: 75},
-  avatar: {width: 62, height: 62, borderRadius: 31,},
-  displayName: {fontWeight: "bold", fontSize: 18, color: "#222"},
-  username: {color: "#888", fontSize: 14,},
-  mutedText: {color: "#999", fontSize: 13, marginRight: 12},
-  bioTitle: {fontWeight: "bold", fontSize: 16},
-  bioBox: {backgroundColor: "#F4F4F4", borderRadius: 7, padding: 14, marginBottom: 4, marginTop: 7},
-  noBio: {backgroundColor: "#F4F4F4", color: "#3c3c3c", borderRadius: 7, padding: 14, marginBottom: 4, marginTop: 7},
+  avatar: {width: height * 0.08, height: height * 0.08, borderRadius: 31,},
+  displayName: {fontWeight: "bold", fontSize: height * 0.019, color: "#222"},
+  username: {color: "#888", fontSize: height * 0.015,},
+  mutedText: {color: "#999", fontSize: height * 0.014, marginRight: 12},
+  bioTitle: {fontWeight: "bold", fontSize: height * 0.017},
+  bioBox: {backgroundColor: "#F4F4F4", borderRadius: 7, padding: 14, marginBottom: height * 0.008, marginTop: height * 0.005},
+  noBio: {backgroundColor: "#F4F4F4", color: "#3c3c3c", borderRadius: 7, padding: 14, marginBottom: height * 0.008, marginTop: height * 0.005},
   bioText: {fontSize: 15, color: "#222"},
-  charCount: {alignSelf: "flex-end", fontSize: 12, color: "#999", marginBottom: 14},
-  quickActionsRow: {flexDirection: "row", justifyContent: "center", gap: 20, marginTop: 12,},
-  quickAction: {alignItems: "center", width: 100, height: 100, justifyContent: 'center'},
+  charCount: {alignSelf: "flex-end", fontSize: height * 0.015, color: "#999", marginBottom: height * 0.01},
+  quickActionsRow: {flexDirection: "row", justifyContent: "center", gap: 20, marginTop: height * 0.03,},
+  quickAction: {alignItems: "center", width: height * 0.11, height: height * 0.11, justifyContent: 'center'},
   quickImg: {
     shadowColor: "black",
     shadowOpacity: 0.3,
@@ -242,10 +249,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
-    width: 75,
-    height: 75
+    width: height * 0.08,
+    height: height * 0.08,
+    padding: height * 0.055,
   },
-  quickLabel: {fontSize: 13, color: "#888", marginTop: 5},
+  quickLabel: {fontSize: height * 0.014, color: "#888", marginTop: height * 0.01},
   fabStack: {
     position: "absolute", right: 18, bottom: 32, alignItems: "flex-end", zIndex: 10,
   },
