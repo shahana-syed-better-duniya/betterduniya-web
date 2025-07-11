@@ -3,8 +3,10 @@ import ComingSoonCard from "@/components/products/ComingSoonCard";
 import ProductReviewList from "@/components/products/ProductReviewList";
 import useInit from "@/hooks/api/use-init";
 import useFeedList from "@/hooks/product/use-feed-list";
+import useSearchProductReview from "@/hooks/product/use-search-product-review";
+import { useProductReviewContext } from "@/utils/products/product-review-context";
 import React, { useRef, useState } from "react";
-import { Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Animated, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from '../../components/products/product-review-list-styles';
 
@@ -14,13 +16,24 @@ const HEADER_MAX_HEIGHT = 125; // Max height of your header
 const HEADER_MIN_HEIGHT = 60;  // Min height when collapsed
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
+const {width, height} = Dimensions.get("window");
 
 
 const Feed = () => {
   const {summary: feedSummary, onUpdate} = useFeedList();
   useInit(onUpdate);
 
+  // Add search logic
+  const {
+    onSearch,
+    isLoading,
+    searchValue,
+  } = useSearchProductReview();
+  const [isSearched, setIsSearched] = useState(false);
   const [selected, setSelected] = useState("All");
+
+  // Use context for search results, like Home
+  const { summary, previousSearchValue } = useProductReviewContext();
 
   // For scroll direction-based header hide/reveal
   const headerTranslateY = useRef(new Animated.Value(0)).current;
@@ -60,20 +73,23 @@ const Feed = () => {
           position: 'absolute',
           top: 0,
           zIndex: 1,
-          marginBottom: 20,
+          marginBottom: height * 0.02,
           backgroundColor: 'white',
           width: '100%',
           paddingBottom: 5,
-          paddingTop: 20,
+          paddingTop: height * 0.02,
           transform: [{ translateY: headerTranslateY }],
         }}
       >
         <SearchBar
-          searchValue={''}
+          searchValue={searchValue.value}
           icon={"search-outline"}
-          onChangeText={() => {}}
-          placeholder={''}
-          onSearch={async () => {}}
+          onChangeText={searchValue.onChangeValue}
+          placeholder={'Search Product...'}
+          onSearch={async () => {
+            setIsSearched(true);
+            await onSearch();
+          }}
         />
         <FlatList
           data={FILTERS}
@@ -101,21 +117,21 @@ const Feed = () => {
           )}
         />
       </Animated.View>
-      <FlatList
-        style={{ paddingTop: HEADER_MAX_HEIGHT }}
-        scrollEventThrottle={16}
-        onScroll={handleScroll}
-        data={selected !== 'All' ? [] : (feedSummary?.reviews || [])}
-        keyExtractor={(item, idx) => item?.id?.toString?.() || idx.toString()}
-        renderItem={({ item }) =>
-          selected !== 'All' ? (
-            <ComingSoonCard />
-          ) : (
-            <ProductReviewList summary={feedSummary ?? { reviews: [], userById: {}, imageUriById: {} }} />
-          )
-        }
-        ListEmptyComponent={selected !== 'All' ? <ComingSoonCard /> : null}
-      />
+      {/* Render ProductReviewList directly, but pass onScroll and scrollEventThrottle for header animation */}
+      {selected !== 'All' ? (
+        <ComingSoonCard />
+      ) : isLoading ? (
+        <View style={{padding: 32, alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="#FFC107" />
+        </View>
+      ) : (
+        <ProductReviewList
+          summary={isSearched ? (summary ?? { reviews: [], userById: {}, imageUriById: {} }) : (feedSummary ?? { reviews: [], userById: {}, imageUriById: {} })}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT }}
+        />
+      )}
       <TouchableOpacity style={styles.fab}>
         <Icon name="search" size={28} color="#FFC107" />
       </TouchableOpacity>

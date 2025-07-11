@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-
+import { Dimensions, StyleSheet } from "react-native";
+const {width, height} = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -18,15 +18,25 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   filterPill: {
-    paddingVertical: 6,
+    paddingVertical: height * 0.007,
     paddingHorizontal: 16,
     backgroundColor: "#EDEDED",
     borderRadius: 18,
     marginRight: 9,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
 
   },
   selectedPill: {
     backgroundColor: "#FFC107",
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
   },
   pillText: {
     color: "#888",

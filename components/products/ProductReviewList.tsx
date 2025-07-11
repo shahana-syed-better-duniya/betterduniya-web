@@ -1,13 +1,16 @@
-import React from "react";
-import {fTimeAgo} from "@/utils/date";
-import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
-import {ProductReview} from "@/interfaces/products/productReview";
-import {User} from "@/interfaces/users/user";
-import {FlatList} from "react-native";
 import ReviewCard from "@/components/products/ReviewCard";
+import { ProductReview } from "@/interfaces/products/productReview";
+import { ProductReviewSummary } from "@/interfaces/products/productReviewSummary";
+import { User } from "@/interfaces/users/user";
+import { fTimeAgo } from "@/utils/date";
+import React from "react";
+import { FlatList } from "react-native";
 
 interface ProductReviewListProps {
-  summary: ProductReviewSummary
+  summary: ProductReviewSummary,
+  onScroll?: (event: any) => void,
+  scrollEventThrottle?: number,
+  contentContainerStyle?: any,
 }
 
 const convertReview = (review: ProductReview, user: User, imageUri: string) => ({
@@ -26,7 +29,7 @@ const convertReview = (review: ProductReview, user: User, imageUri: string) => (
 })
 
 
-const ProductReviewList: React.FC<ProductReviewListProps> = ({summary}) => {
+const ProductReviewList: React.FC<ProductReviewListProps> = ({summary, onScroll, scrollEventThrottle, contentContainerStyle}) => {
   const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.imageUriById[review.id]))
   return (
     <FlatList
@@ -47,6 +50,9 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({summary}) => {
           type="feed"
         />
       )}
+      onScroll={onScroll}
+      scrollEventThrottle={scrollEventThrottle}
+      contentContainerStyle={contentContainerStyle}
     />
   )
 }

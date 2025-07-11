@@ -49,8 +49,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "2e727a62-734a-47ec-b21c-574cea0faa9c"
+        "projectId": "b618ee59-af1e-4406-ba27-b82d9166fa75"
       }
-    }
+    },
+    "owner": "simplyhans"
   }
 }
