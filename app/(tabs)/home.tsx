@@ -1,45 +1,63 @@
-import React from "react";
-import {ActivityIndicator, BackHandler, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions, View} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import AppLogo from "@/components/layouts/AppLogo";
-import useSearchProductReview from "@/hooks/product/use-search-product-review";
-import {AppConfigs} from "@/constants/app-configs";
-import BackPromptModal from '@/components/products/BackPromptModal';
-import {useFonts} from "expo-font";
-import {Jura_400Regular} from "@expo-google-fonts/jura";
-import {useBoolean} from "@/hooks/primitive/use-boolean";
-import styles from "@/components/products/product-review-list-styles";
 import SearchBar from "@/components/layouts/SearchBar";
+import BackPromptModal from '@/components/products/BackPromptModal';
+import styles from "@/components/products/product-review-list-styles";
 import ProductReviewList from "@/components/products/ProductReviewList";
-import {useProductReviewContext} from "@/utils/products/product-review-context";
+import { AppConfigs } from "@/constants/app-configs";
+import { useBoolean } from "@/hooks/primitive/use-boolean";
+import useSearchProductReview from "@/hooks/product/use-search-product-review";
+import { useProductReviewContext } from "@/utils/products/product-review-context";
+import { Jura_400Regular } from "@expo-google-fonts/jura";
+import { useFonts } from "expo-font";
+import React from "react";
+import { ActivityIndicator, Animated, BackHandler, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const {width, height} = Dimensions.get("window");
+
+const FILTERS = ["All"];
+const HEADER_MAX_HEIGHT = 125;
+const HEADER_MIN_HEIGHT = 60;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default function Home() {
   let [fontsLoaded] = useFonts({
     Jura_400Regular,
   });
 
-
   const [showPrompt, setShowPrompt] = React.useState(false);
+  const headerTranslateY = React.useRef(new Animated.Value(0)).current;
+  const lastScrollY = React.useRef(0);
+  const isHeaderHidden = React.useRef(false);
+  const [selected, setSelected] = React.useState("All");
+
+  const isSearched = useBoolean(false);
+  const isSearchValueChanged = useBoolean(false);
 
   React.useEffect(() => {
     const backAction = () => {
-      setShowPrompt(true); // show the modal
+      if (!isSearched.value) {
+        setShowPrompt(true); // show the modal
+      } else {
+        // If searched, clear search instead of exiting
+        isSearched.onFalse();
+        isSearchValueChanged.onFalse();
+        searchValue.onChangeValue("");
+      }
       return true; // prevent default back action
     };
-
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       backAction,
     );
-
     return () => backHandler.remove();
-  }, []);
+  }, [isSearched.value]);
 
   const handleConfirm = () => {
     setShowPrompt(false);
-
+    if (!isSearched.value) {
+      BackHandler.exitApp();
+    }
   };
 
   const handleCancel = () => {
@@ -52,9 +70,6 @@ export default function Home() {
     searchValue,
   } = useSearchProductReview();
 
-  const isSearched = useBoolean(false);
-  const isSearchValueChanged = useBoolean(false);
-
   const handleSearch = async () => {
     isSearched.onTrue();
     await onSearch();
@@ -65,23 +80,97 @@ export default function Home() {
     searchValue.onChangeValue(val);
   }
 
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentY = event.nativeEvent.contentOffset.y;
+    const diff = currentY - lastScrollY.current;
+    if (Math.abs(diff) > 5) {
+      if (diff > 0 && !isHeaderHidden.current && currentY > 0) {
+        Animated.timing(headerTranslateY, {
+          toValue: -HEADER_MAX_HEIGHT,
+          duration: 250,
+          useNativeDriver: true,
+        }).start();
+        isHeaderHidden.current = true;
+      } else if (diff < 0 && isHeaderHidden.current) {
+        Animated.timing(headerTranslateY, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: true,
+        }).start();
+        isHeaderHidden.current = false;
+      }
+    }
+    lastScrollY.current = currentY;
+  };
+
   const {summary, previousSearchValue} = useProductReviewContext();
   if (isSearched.value) {
     return (
       <View style={styles.container}>
-        <View style={{marginBottom: 20}}>
-          <SearchBar searchValue={searchValue.value || (isSearchValueChanged.value ? '' : previousSearchValue)}
-                     icon={"search-outline"}
-                     onChangeText={handleChangeSearchText}
-                     placeholder={'Search Product...'}
-                     onSearch={onSearch}/>
-        </View>
-        <ProductReviewList summary={summary ?? {reviews: [], userById: {}, imageUriById: {}}}/> <TouchableOpacity
-        style={styles.fab}>
-        <Icon name="search" size={28} color="#FFC107"/>
-      </TouchableOpacity>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: 0,
+            zIndex: 1,
+            marginBottom: height * 0.02,
+            backgroundColor: 'white',
+            width: '100%',
+            paddingBottom: 5,
+            paddingTop: height * 0.02,
+            transform: [{ translateY: headerTranslateY }],
+          }}
+        >
+          <SearchBar
+            searchValue={searchValue.value || (isSearchValueChanged.value ? '' : previousSearchValue)}
+            icon={"search-outline"}
+            onChangeText={handleChangeSearchText}
+            placeholder={'Search Product...'}
+            onSearch={handleSearch}
+          />
+          <FlatList
+            data={FILTERS}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item}
+            contentContainerStyle={styles.filterRow}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.filterPill,
+                  selected === item && styles.selectedPill,
+                ]}
+                onPress={() => setSelected(item)}
+              >
+                <Text
+                  style={[
+                    styles.pillText,
+                    selected === item && styles.selectedPillText,
+                  ]}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </Animated.View>
+        <FlatList
+          style={{ paddingTop: HEADER_MAX_HEIGHT }}
+          scrollEventThrottle={16}
+          onScroll={handleScroll}
+          data={selected !== 'All' ? [] : (summary?.reviews || [])}
+          keyExtractor={(item, idx) => item?.id?.toString?.() || idx.toString()}
+          renderItem={({ item }) =>
+            selected !== 'All' ? null : (
+              <ProductReviewList summary={summary ?? { reviews: [], userById: {}, imageUriById: {} }} />
+            )
+          }
+          ListEmptyComponent={selected !== 'All' ? null : null}
+        />
+        <TouchableOpacity style={styles.fab}>
+          <Icon name="search" size={28} color="#FFC107" />
+        </TouchableOpacity>
       </View>
-    )
+    );
   }
 
 

@@ -1,10 +1,10 @@
-import {Tabs} from 'expo-router';
-import React from 'react';
-import {Image, Platform} from 'react-native';
-import {HapticTab} from '@/components/HapticTab';
+import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import {useUserContext} from "@/utils/user/user-context";
 import ProfileImage from "@/components/users/ProfileImage";
+import { useUserContext } from "@/utils/user/user-context";
+import { Tabs } from 'expo-router';
+import React from 'react';
+import { Image, Platform } from 'react-native';
 
 
 export default function TabLayout() {
@@ -22,11 +22,12 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: {
-          backgroundColor: "#F7F7FA",
+          backgroundColor: "#F7F7FA", // force light color
           shadowColor: '#e7e7e7',
           shadowRadius: 15,
           elevation: 15,
           height: 68,
+          // Remove any color scheme or dark mode logic here
           ...Platform.select({
             ios: {position: 'absolute'},
             default: {},
