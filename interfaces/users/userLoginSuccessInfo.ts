@@ -6,6 +6,7 @@ export interface UserLoginSuccessInfo {
   bio: string;
   userRole: string;
   accessToken: string;
-  expiry: string;
+  refreshToken: string;
+  refreshTokenExpiry: string;
   profileImageUri: string;
 }

@@ -10,5 +10,6 @@ export const userProfileApi = {
     method: requestMethods.post,
     path: () => `/user/profile/image`,
     okMessage: `User profile image is updated`,
+    isRequestCustom: true,
   },
 }

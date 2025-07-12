@@ -30,7 +30,7 @@ const convertReview = (review: ProductReview, user: User, imageUri: string) => (
 
 
 const ProductReviewList: React.FC<ProductReviewListProps> = ({summary, onScroll, scrollEventThrottle, contentContainerStyle}) => {
-  const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.imageUriById[review.id]))
+  const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.reviewImageUriById[review.id]))
   return (
     <FlatList
       data={reviews}

@@ -4,7 +4,7 @@ import useAuthTokens from "@/hooks/auth/use-auth-tokens";
 
 const useLoginSave = () => {
   const {setUserContext} = useUserContext();
-  const {onSaveToken} = useAuthTokens();
+  const {onSetAccessToken, onSetRefreshToken, onSetRefreshTokenExpiry} = useAuthTokens();
 
   return async (userInfo: UserLoginSuccessInfo) => {
     if (userInfo != null) {
@@ -17,7 +17,9 @@ const useLoginSave = () => {
         userRole: userInfo.userRole,
         profileImageUri: userInfo.profileImageUri,
       });
-      await onSaveToken(userInfo.accessToken);
+      await onSetAccessToken(userInfo.accessToken);
+      await onSetRefreshToken(userInfo.refreshToken);
+      await onSetRefreshTokenExpiry(userInfo.refreshTokenExpiry);
     }
   };
 }
