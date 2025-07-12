@@ -1,5 +1,5 @@
 import ReviewCard from "@/components/products/ReviewCard";
-import { ProductReview } from "@/interfaces/products/productReview";
+import {ProductReview, ProductReviewState} from "@/interfaces/products/productReview";
 import { ProductReviewSummary } from "@/interfaces/products/productReviewSummary";
 import { User } from "@/interfaces/users/user";
 import { fTimeAgo } from "@/utils/date";
@@ -25,7 +25,7 @@ const convertReview = (review: ProductReview, user: User, imageUri: string) => (
   text: review.title,
   description: review.description,
   image: imageUri,
-  liked: false,
+  liked: review.reviewState === ProductReviewState.Recommended,
 })
 
 
