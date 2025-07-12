@@ -1,9 +1,10 @@
 import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "@/utils/user/user-context";
+import useAuthTokens from "@/hooks/auth/use-auth-tokens";
 
 const useLoginSave = () => {
   const {setUserContext} = useUserContext();
+  const {onSetAccessToken, onSetRefreshToken, onSetRefreshTokenExpiry} = useAuthTokens();
 
   return async (userInfo: UserLoginSuccessInfo) => {
     if (userInfo != null) {
@@ -16,7 +17,9 @@ const useLoginSave = () => {
         userRole: userInfo.userRole,
         profileImageUri: userInfo.profileImageUri,
       });
-      await AsyncStorage.setItem('token', userInfo.accessToken);
+      await onSetAccessToken(userInfo.accessToken);
+      await onSetRefreshToken(userInfo.refreshToken);
+      await onSetRefreshTokenExpiry(userInfo.refreshTokenExpiry);
     }
   };
 }

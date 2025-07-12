@@ -6,7 +6,7 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+export const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [contextValue, setContextValue] = useState<Omit<UserContextType, 'setUserContext'>>({
     bio: "",
     profileImageUri: "",
@@ -52,11 +52,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         })
       );
 
-      setContextValue((prev) => ({ ...prev, ...data }));
+      setContextValue((prev) => ({...prev, ...data}));
     }
   }, []);
 
-  const value = useMemo(() => ({ ...contextValue, setUserContext }), [contextValue, setUserContext]);
+  const value = useMemo(() => ({...contextValue, setUserContext}), [contextValue, setUserContext]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
