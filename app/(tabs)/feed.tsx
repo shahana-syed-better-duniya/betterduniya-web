@@ -5,7 +5,7 @@ import useInit from "@/hooks/api/use-init";
 import useFeedList from "@/hooks/product/use-feed-list";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
-import React, {useRef, useState} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -19,6 +19,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from '../../components/products/product-review-list-styles';
+import {useFocusEffect} from "expo-router";
 
 const FILTERS = ["All",];
 
@@ -32,6 +33,12 @@ const {width, height} = Dimensions.get("window");
 const Feed = () => {
   const {summary: feedSummary, onUpdate} = useFeedList();
   useInit(onUpdate);
+
+  useFocusEffect(
+    useCallback(() => {
+      onUpdate();
+    }, [onUpdate])
+  );
 
   // Add search logic
   const {
