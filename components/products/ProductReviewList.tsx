@@ -20,7 +20,7 @@ const convertReview = (review: ProductReview, user: User, imageUri: string, prof
     username: user.username,
     avatar: profileImageUri,
   },
-  reviewTime: `${fTimeAgo(review.createdAt)}`,
+  reviewTime: `${new Date(review.createdAt).toUTCString()}`,
   rating: review.rating,
   text: review.title,
   description: review.description,
