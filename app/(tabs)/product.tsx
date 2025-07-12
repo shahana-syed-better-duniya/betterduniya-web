@@ -35,17 +35,16 @@ const PRODUCTS = [
 
 export default function ProductPage() {
   const {valueHook: {value: summary}} = useInitObject<ProductReviewSummary>(productApi.listReviews, []);
-  const [selected, setSelected] = useState("All");
 
   const feedItems = summary?.reviews?.map(review => ({
     id: review.id,
     brand: summary?.userById[review.userId].firstName + ' ' + summary?.userById[review.userId].lastName,
     handle: summary?.userById[review.userId].username,
-    logo: "https://randomuser.me/api/portraits/women/65.jpg",
+    logo: summary?.reviewImageUriById[review.id],
     reviewTime: `Reviewed ${fTimeAgo(review.createdAt)}`,
     productName: review.title,
     review: review.description,
-    image: summary?.imageUriById[review.id],
+    image: summary?.reviewImageUriById[review.id],
   })) ?? [];
 
   return (

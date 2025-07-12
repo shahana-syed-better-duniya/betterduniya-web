@@ -4,7 +4,12 @@ import {productApi} from "@/api/product/product";
 import useObject from "@/hooks/primitive/use-object";
 
 const useFeedList = () => {
-  const summary = useObject<ProductReviewSummary>({reviews: [], userById: {}, imageUriById: {}});
+  const summary = useObject<ProductReviewSummary>({
+    reviews: [],
+    userById: {},
+    profileImageUriByUserId: {},
+    reviewImageUriById: {}
+  });
   const {onRequest, isLoading} = useRequest<ProductReviewSummary>();
 
   const onUpdate = async () => {

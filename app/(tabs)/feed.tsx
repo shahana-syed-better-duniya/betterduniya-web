@@ -4,9 +4,19 @@ import ProductReviewList from "@/components/products/ProductReviewList";
 import useInit from "@/hooks/api/use-init";
 import useFeedList from "@/hooks/product/use-feed-list";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
-import { useProductReviewContext } from "@/utils/products/product-review-context";
-import React, { useRef, useState } from "react";
-import { ActivityIndicator, Animated, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, TouchableOpacity, View } from "react-native";
+import {useProductReviewContext} from "@/utils/products/product-review-context";
+import React, {useRef, useState} from "react";
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from '../../components/products/product-review-list-styles';
 
@@ -33,7 +43,7 @@ const Feed = () => {
   const [selected, setSelected] = useState("All");
 
   // Use context for search results, like Home
-  const { summary, previousSearchValue } = useProductReviewContext();
+  const {summary, previousSearchValue} = useProductReviewContext();
 
   // For scroll direction-based header hide/reveal
   const headerTranslateY = useRef(new Animated.Value(0)).current;
@@ -78,7 +88,7 @@ const Feed = () => {
           width: '100%',
           paddingBottom: 5,
           paddingTop: height * 0.02,
-          transform: [{ translateY: headerTranslateY }],
+          transform: [{translateY: headerTranslateY}],
         }}
       >
         <SearchBar
@@ -97,7 +107,7 @@ const Feed = () => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item}
           contentContainerStyle={styles.filterRow}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <TouchableOpacity
               style={[
                 styles.filterPill,
@@ -119,21 +129,26 @@ const Feed = () => {
       </Animated.View>
       {/* Render ProductReviewList directly, but pass onScroll and scrollEventThrottle for header animation */}
       {selected !== 'All' ? (
-        <ComingSoonCard />
+        <ComingSoonCard/>
       ) : isLoading ? (
         <View style={{padding: 32, alignItems: 'center'}}>
-          <ActivityIndicator size="large" color="#FFC107" />
+          <ActivityIndicator size="large" color="#FFC107"/>
         </View>
       ) : (
         <ProductReviewList
-          summary={isSearched ? (summary ?? { reviews: [], userById: {}, imageUriById: {} }) : (feedSummary ?? { reviews: [], userById: {}, imageUriById: {} })}
+          summary={isSearched ? (summary ?? {
+            reviews: [],
+            userById: {},
+            profileImageUriByUserId: {},
+            reviewImageUriById: {}
+          }) : (feedSummary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}})}
           onScroll={handleScroll}
           scrollEventThrottle={16}
-          contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT }}
+          contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT}}
         />
       )}
       <TouchableOpacity style={styles.fab}>
-        <Icon name="search" size={28} color="#FFC107" />
+        <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>
     </View>
   );

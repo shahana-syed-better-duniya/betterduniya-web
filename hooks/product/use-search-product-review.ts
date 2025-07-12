@@ -3,12 +3,16 @@ import useRequest from "@/hooks/api/use-request";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 import {Alert} from "react-native";
 import {productApi} from "@/api/product/product";
-import {router} from "expo-router";
 import useString from "@/hooks/primitive/use-string";
 import useObject from "@/hooks/primitive/use-object";
 
 const useSearchProductReview = () => {
-  const summary = useObject<ProductReviewSummary>({reviews: [], userById: {}, imageUriById: {}});
+  const summary = useObject<ProductReviewSummary>({
+    reviews: [],
+    userById: {},
+    profileImageUriByUserId: {},
+    reviewImageUriById: {}
+  });
   const {setProductReviewContext} = useProductReviewContext();
   const {onRequest, isLoading} = useRequest<ProductReviewSummary>();
   const searchValue = useString('');
