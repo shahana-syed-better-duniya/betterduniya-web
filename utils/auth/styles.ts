@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     marginTop: height * 0.09
   },
   title: {
-    fontSize: height * 0.045,
+    fontSize: height * 0.04,
     fontWeight: 600,
     fontFamily: "ClashGrotesk",
     color: "#1B1B1B",

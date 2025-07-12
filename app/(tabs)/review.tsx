@@ -1,26 +1,26 @@
+import TextInputRequired from "@/components/inputs/TextInputRequired";
+import { useForm } from "@/hooks/interaction/use-form";
+import useImagePicker from "@/hooks/interaction/use-image-picker";
+import { useBoolean } from "@/hooks/primitive/use-boolean";
+import useString from "@/hooks/primitive/use-string";
+import useCreateProductReview from "@/hooks/product/use-create-product-review";
+import { validateReview } from "@/utils/products/validators";
+import { useUserContext } from "@/utils/user/user-context";
 import React from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Alert,
+    Dimensions,
+    FlatList,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import DualRowRating from "../../components/products/Rating";
-import {useUserContext} from "@/utils/user/user-context";
-import useImagePicker from "@/hooks/interaction/use-image-picker";
-import {validateReview} from "@/utils/products/validators";
-import {useForm} from "@/hooks/interaction/use-form";
-import useCreateProductReview from "@/hooks/product/use-create-product-review";
-import useString from "@/hooks/primitive/use-string";
-import {useBoolean} from "@/hooks/primitive/use-boolean";
-import TextInputRequired from "@/components/inputs/TextInputRequired";
 
 export default function Review() {
   const {username, firstName, lastName} = useUserContext();
@@ -54,7 +54,8 @@ export default function Review() {
     apiResult.onClear();
     if (isValid) {
       try {
-        await onCreateReview(values.title, values.description, parseInt(values.rating), isRecommended.value, images);
+        const validImages = images.filter(img => img.uri).map(img => ({ uri: img.uri! }));
+        await onCreateReview(values.title, values.description, parseInt(values.rating), isRecommended.value, validImages);
         apiResult.onChangeValue("Review submitted successfully!");
         resetForm();
         setImages([]);
@@ -117,7 +118,7 @@ export default function Review() {
         <FlatList
           horizontal
           data={images}
-          keyExtractor={(item) => item.uri}
+          keyExtractor={(item) => item.uri || `image-${Math.random()}`}
           renderItem={({item}) => (
             <View style={styles.previewImageContainer}>
               <Image

@@ -43,7 +43,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreen> = ({onGoBack}) => {
   return (
     <>
       <View style={styles.inputSection}>
-        <Text style={styles.forgotPasswordTitle}>Forgot Password</Text>
+        <Text style={styles.forgotPassword}>Forgot Password</Text>
         <Text style={styles.forgotPasswordText}>Please enter your registered email address.</Text>
         <TextInputRequired
           style={styles.input}
