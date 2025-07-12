@@ -4,6 +4,7 @@ import axiosInstance, {backendUrl} from "@/api/axioInstance";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {productApi} from "@/api/product/product";
 import {userProfileApi} from "@/api/user/userProfile";
+import useAuthTokens from "@/hooks/auth/use-auth-tokens";
 
 export interface ApiRequest {
   isBlob?: boolean;
@@ -76,6 +77,7 @@ const requestInstance = async <T>(
   body?: any
 ): Promise<RequestResult<T>> => {
   const config = await getRequestConfig(request);
+  const {onGetAccessToken} = useAuthTokens();
   const {method, path} = request;
 
   const completePath = path(...args);
@@ -91,7 +93,7 @@ const requestInstance = async <T>(
       method: 'POST',
       body,
       headers: {
-        Authorization: `Bearer ${await AsyncStorage.getItem('token')}`,
+        Authorization: `Bearer ${await onGetAccessToken()}`,
       },
     });
     try {
