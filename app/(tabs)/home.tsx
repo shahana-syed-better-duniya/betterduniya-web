@@ -2,27 +2,28 @@ import AppLogo from "@/components/layouts/AppLogo";
 import SearchBar from "@/components/layouts/SearchBar";
 import BackPromptModal from '@/components/products/BackPromptModal';
 import ProductReviewList from "@/components/products/ProductReviewList";
-import {AppConfigs} from "@/constants/app-configs";
-import {useBoolean} from "@/hooks/primitive/use-boolean";
+import { AppConfigs } from "@/constants/app-configs";
+import { useBoolean } from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
-import {useProductReviewContext} from "@/utils/products/product-review-context";
-import {styles} from "@/utils/auth/styles";
+import { styles as authStyles } from "@/utils/auth/styles";
+import { useProductReviewContext } from "@/utils/products/product-review-context";
 import React from "react";
 import {
-  ActivityIndicator,
-  Animated,
-  BackHandler,
-  Dimensions,
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Animated,
+    BackHandler,
+    Dimensions,
+    FlatList,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import feedStyles from "../../components/products/product-review-list-styles";
 
 const {width, height} = Dimensions.get("window");
 
@@ -36,6 +37,7 @@ export default function Home() {
   const headerTranslateY = React.useRef(new Animated.Value(0)).current;
   const lastScrollY = React.useRef(0);
   const isHeaderHidden = React.useRef(false);
+  const [headerHeight, setHeaderHeight] = React.useState(HEADER_MAX_HEIGHT);
   const [selected, setSelected] = React.useState("All");
 
   const isSearched = useBoolean(false);
@@ -93,7 +95,7 @@ export default function Home() {
     if (Math.abs(diff) > 5) {
       if (diff > 0 && !isHeaderHidden.current && currentY > 0) {
         Animated.timing(headerTranslateY, {
-          toValue: -HEADER_MAX_HEIGHT,
+          toValue: -headerHeight - 8, // add buffer for full hide
           duration: 250,
           useNativeDriver: true,
         }).start();
@@ -113,8 +115,9 @@ export default function Home() {
   const {summary, previousSearchValue} = useProductReviewContext();
   if (isSearched.value) {
     return (
-      <View style={styles.container}>
+      <View style={feedStyles.container}>
         <Animated.View
+          onLayout={e => setHeaderHeight(e.nativeEvent.layout.height)}
           style={{
             position: 'absolute',
             top: 0,
@@ -125,6 +128,7 @@ export default function Home() {
             paddingBottom: 5,
             paddingTop: height * 0.02,
             transform: [{translateY: headerTranslateY}],
+            overflow: 'hidden', // Prevent overflow
           }}
         >
           <SearchBar
@@ -139,19 +143,19 @@ export default function Home() {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item}
-            contentContainerStyle={styles.filterRow}
+            contentContainerStyle={feedStyles.filterRow}
             renderItem={({item}) => (
               <TouchableOpacity
                 style={[
-                  styles.filterPill,
-                  selected === item && styles.selectedPill,
+                  feedStyles.filterPill,
+                  selected === item && feedStyles.selectedPill,
                 ]}
                 onPress={() => setSelected(item)}
               >
                 <Text
                   style={[
-                    styles.pillText,
-                    selected === item && styles.selectedPillText,
+                    feedStyles.pillText,
+                    selected === item && feedStyles.selectedPillText,
                   ]}
                 >
                   {item}
@@ -161,7 +165,7 @@ export default function Home() {
           />
         </Animated.View>
         <FlatList
-          style={{paddingTop: HEADER_MAX_HEIGHT}}
+          style={{paddingTop: HEADER_MAX_HEIGHT, width: '100%'}}
           scrollEventThrottle={16}
           onScroll={handleScroll}
           data={selected !== 'All' ? [] : (summary?.reviews || [])}
@@ -174,7 +178,7 @@ export default function Home() {
           }
           ListEmptyComponent={selected !== 'All' ? null : null}
         />
-        <TouchableOpacity style={styles.fab}>
+        <TouchableOpacity style={feedStyles.fab}>
           <Icon name="search" size={28} color="#FFC107"/>
         </TouchableOpacity>
       </View>
@@ -195,7 +199,7 @@ export default function Home() {
         <View style={stylesLocal.logoCircle}>
           <AppLogo/>
         </View>
-        <Text style={styles.appTitle}>{AppConfigs.APP_NAME}</Text>
+        <Text style={authStyles.appTitle}>{AppConfigs.APP_NAME}</Text>
       </View>
 
       <View style={stylesLocal.searchSection}>

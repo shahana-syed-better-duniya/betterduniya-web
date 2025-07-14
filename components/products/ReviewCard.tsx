@@ -1,9 +1,9 @@
-import {Dimensions, Image, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native'
-import React, {useEffect, useState} from "react";
+import { useBoolean } from "@/hooks/primitive/use-boolean";
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useState } from "react";
+import { Dimensions, Image, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
-import {useBoolean} from "@/hooks/primitive/use-boolean";
-import {LinearGradient} from 'expo-linear-gradient';
-import ExpandImg from './ExpandImg'
+import ExpandImg from './ExpandImg';
 
 
 const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, time, recommended, rating, type}: {
@@ -59,12 +59,12 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
       <View style={{
         marginBottom: 10,
         flexDirection: "row",
-        justifyContent: "space-between",
         alignItems: 'center',
-        marginHorizontal: 12
+        paddingHorizontal: 12,
+        width: '100%',
       }}>
 
-        <View style={{flexDirection: "row", gap: 8, alignItems: 'center'}}>
+        <View style={{flexDirection: "row", gap: 8, alignItems: 'center', flex: 1, minWidth: 0}}>
           <Image
             source={{uri: userIcon}}
             style={{width: height * 0.065, height: height * 0.065, borderRadius: 30}}/>
@@ -83,14 +83,14 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
             backgroundColor: "#F8F8FC",
             justifyContent: "center",
             alignItems: "center",
-            marginRight: 8
+            marginLeft: 8
           }}>
             <Icon name="chevron-forward" size={22} color="#333"/>
           </TouchableOpacity>
         }
 
         {type === "feed" &&
-          <View>
+          <View style={{marginLeft: 8}}>
             <View style={{
               paddingLeft: 8,
               paddingRight: 11,

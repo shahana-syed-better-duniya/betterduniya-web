@@ -4,27 +4,26 @@ import ProductReviewList from "@/components/products/ProductReviewList";
 import useInit from "@/hooks/api/use-init";
 import useFeedList from "@/hooks/product/use-feed-list";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
-import {useProductReviewContext} from "@/utils/products/product-review-context";
-import React, {useCallback, useRef, useState} from "react";
+import { useProductReviewContext } from "@/utils/products/product-review-context";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useRef, useState } from "react";
 import {
-  ActivityIndicator,
-  Animated,
-  Dimensions,
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Text,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Animated,
+    Dimensions,
+    FlatList,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    Text,
+    TouchableOpacity,
+    View
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from '../../components/products/product-review-list-styles';
-import {useFocusEffect} from "expo-router";
 
 const FILTERS = ["All",];
-
-const HEADER_MAX_HEIGHT = 125; // Max height of your header
-const HEADER_MIN_HEIGHT = 60;  // Min height when collapsed
+const HEADER_MAX_HEIGHT = 125;
+const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const {width, height} = Dimensions.get("window");
@@ -56,6 +55,7 @@ const Feed = () => {
   const headerTranslateY = useRef(new Animated.Value(0)).current;
   const lastScrollY = useRef(0);
   const isHeaderHidden = useRef(false);
+  const [headerHeight, setHeaderHeight] = useState(HEADER_MAX_HEIGHT);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentY = event.nativeEvent.contentOffset.y;
@@ -65,7 +65,7 @@ const Feed = () => {
       if (diff > 0 && !isHeaderHidden.current && currentY > 0) {
         // Scrolling down, hide header
         Animated.timing(headerTranslateY, {
-          toValue: -HEADER_MAX_HEIGHT,
+          toValue: -headerHeight,
           duration: 250,
           useNativeDriver: true,
         }).start();
@@ -86,6 +86,7 @@ const Feed = () => {
   return (
     <View style={styles.container}>
       <Animated.View
+        onLayout={e => setHeaderHeight(e.nativeEvent.layout.height)}
         style={{
           position: 'absolute',
           top: 0,
