@@ -7,7 +7,7 @@ import { useBoolean } from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import { styles as authStyles } from "@/utils/auth/styles";
 import { useProductReviewContext } from "@/utils/products/product-review-context";
-import React from "react";
+import React, {useCallback} from "react";
 import {
     ActivityIndicator,
     Animated,
@@ -24,6 +24,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import feedStyles from "../../components/products/product-review-list-styles";
+import {useFocusEffect, useNavigation} from "expo-router";
 
 const {width, height} = Dimensions.get("window");
 
@@ -111,6 +112,21 @@ export default function Home() {
     }
     lastScrollY.current = currentY;
   };
+
+  const navigation = useNavigation();
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener("tabPress", () => {
+        console.log(123)
+        // Reset the search value when the tab is pressed
+        searchValue.onChangeValue("");
+        isSearched.onFalse();
+      });
+
+      return unsubscribe;
+    }, [navigation, searchValue.onChangeValue, isSearched.onFalse])
+  );
+
 
   const {summary, previousSearchValue} = useProductReviewContext();
   if (isSearched.value) {
