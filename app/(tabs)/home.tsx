@@ -6,8 +6,7 @@ import {AppConfigs} from "@/constants/app-configs";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
-import {styles} from "@/utils/auth/styles";
-import React from "react";
+import React, {useCallback} from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -23,6 +22,9 @@ import {
   View
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import styles from "@/components/products/product-review-list-styles";
+import {styles as stylesGlobal} from "@/utils/auth/styles";
+import {useFocusEffect, useNavigation} from "expo-router";
 
 const {width, height} = Dimensions.get("window");
 
@@ -110,6 +112,20 @@ export default function Home() {
     lastScrollY.current = currentY;
   };
 
+  const navigation = useNavigation();
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener("tabPress", () => {
+        console.log(123)
+        // Reset the search value when the tab is pressed
+        searchValue.onChangeValue("");
+        isSearched.onFalse();
+      });
+
+      return unsubscribe;
+    }, [navigation, searchValue.onChangeValue, isSearched.onFalse])
+  );
+
   const {summary, previousSearchValue} = useProductReviewContext();
   if (isSearched.value) {
     return (
@@ -195,7 +211,7 @@ export default function Home() {
         <View style={stylesLocal.logoCircle}>
           <AppLogo/>
         </View>
-        <Text style={styles.appTitle}>{AppConfigs.APP_NAME}</Text>
+        <Text style={stylesGlobal.appTitle}>{AppConfigs.APP_NAME}</Text>
       </View>
 
       <View style={stylesLocal.searchSection}>

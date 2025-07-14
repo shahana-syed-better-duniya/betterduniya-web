@@ -1,10 +1,10 @@
-import { HapticTab } from '@/components/HapticTab';
+import {HapticTab} from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import ProfileImage from "@/components/users/ProfileImage";
-import { useUserContext } from "@/utils/user/user-context";
-import { Tabs } from 'expo-router';
+import {useUserContext} from "@/utils/user/user-context";
+import {Tabs} from 'expo-router';
 import React from 'react';
-import { Image, Platform } from 'react-native';
+import {Image, Platform} from 'react-native';
 
 
 export default function TabLayout() {
@@ -37,6 +37,7 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name="home"
+
         options={{
           title: "",
           tabBarIcon: ({color, focused, size}) => (
@@ -50,6 +51,16 @@ export default function TabLayout() {
               }}
             />
           ),
+          listeners: ({navigation}) => ({
+            tabPress: (e) => {
+              // Fire an event when the tab is pressed
+              navigation.emit({
+                type: "tabPress",
+                target: e.target,
+                canPreventDefault: true,
+              });
+            },
+          }),
         }}
       />
       <Tabs.Screen
