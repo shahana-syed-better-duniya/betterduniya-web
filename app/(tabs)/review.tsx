@@ -108,7 +108,7 @@ export default function Review() {
       />
       <Text style={styles.charCount}>100,000 Characters</Text>
 
-      <Text style={{fontSize: width * 0.033, fontWeight: 300, color: "#696363", marginBottom: width * 0.02, marginTop: width * -0.018, marginHorizontal: 7}}>
+      <Text style={{fontSize: height * 0.018, fontWeight: 300, color: "#696363", marginBottom: width * 0.02, marginTop: width * -0.018, marginHorizontal: 7}}>
         Add images
       </Text>
       <TouchableOpacity style={styles.addMediaCircle} onPress={handlePickImages}>
