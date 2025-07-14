@@ -2,7 +2,6 @@ import ReviewCard from "@/components/products/ReviewCard";
 import {ProductReview, ProductReviewState} from "@/interfaces/products/productReview";
 import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
 import {User} from "@/interfaces/users/user";
-import {fTimeAgo} from "@/utils/date";
 import React from "react";
 import {FlatList} from "react-native";
 
@@ -35,7 +34,7 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({
                                                                scrollEventThrottle,
                                                                contentContainerStyle
                                                              }) => {
-  const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.reviewImageUriById[review.id], summary?.profileImageUriByUserId[review.userId]))
+  const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.reviewImageUriById[review.id], summary?.profileImageUriByUserId[review.userId])) ?? [];
   return (
     <FlatList
       data={reviews}
