@@ -35,7 +35,15 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Jura-Regular.ttf"
+            {
+              "fontFamily": "Jura_400Regular",
+              "fontDefinitions": [
+                {
+                  "path": "./assets/fonts/Jura-Regular.ttf",
+                  "weight": 400
+                }
+              ]
+            }
           ]
         }
       ],

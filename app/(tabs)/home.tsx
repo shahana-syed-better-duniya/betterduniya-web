@@ -1,13 +1,12 @@
 import AppLogo from "@/components/layouts/AppLogo";
 import SearchBar from "@/components/layouts/SearchBar";
 import BackPromptModal from '@/components/products/BackPromptModal';
-import styles from "@/components/products/product-review-list-styles";
 import ProductReviewList from "@/components/products/ProductReviewList";
 import {AppConfigs} from "@/constants/app-configs";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
-import {useFonts} from "expo-font";
+import {styles} from "@/utils/auth/styles";
 import React from "react";
 import {
   ActivityIndicator,
@@ -33,10 +32,6 @@ const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default function Home() {
-  let [fontsLoaded, error] = useFonts({
-    Jura_400Regular: './assets/fonts/Jura-Regular.ttf',
-  });
-
   const [showPrompt, setShowPrompt] = React.useState(false);
   const headerTranslateY = React.useRef(new Animated.Value(0)).current;
   const lastScrollY = React.useRef(0);
@@ -200,7 +195,7 @@ export default function Home() {
         <View style={stylesLocal.logoCircle}>
           <AppLogo/>
         </View>
-        <Text style={stylesLocal.brandText}>{AppConfigs.APP_NAME}</Text>
+        <Text style={styles.appTitle}>{AppConfigs.APP_NAME}</Text>
       </View>
 
       <View style={stylesLocal.searchSection}>

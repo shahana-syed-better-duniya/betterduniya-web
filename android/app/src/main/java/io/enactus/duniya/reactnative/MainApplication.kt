@@ -43,8 +43,8 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
-    // @generated begin xml-fonts-init - expo prebuild (DO NOT MODIFY) sync-da39a3ee5e6b4b0d3255bfef95601890afd80709
-
+    // @generated begin xml-fonts-init - expo prebuild (DO NOT MODIFY) sync-7e020c2998e668b58f7908d563af233e1ceb8788
+    ReactFontManager.getInstance().addCustomFont(this, "Jura_400Regular", R.font.xml_jura_400regular)
     // @generated end xml-fonts-init
     SoLoader.init(this, OpenSourceMergedSoMapping)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {

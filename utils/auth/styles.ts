@@ -57,9 +57,15 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: height * 0.04,
     fontWeight: 600,
-    fontFamily: "ClashGrotesk Jura_400Regular",
     color: "#1B1B1B",
     marginBottom: height * 0.01,
+  },
+  appTitle: {
+    fontSize: height * 0.04,
+    fontWeight: 400,
+    color: "#1B1B1B",
+    marginBottom: height * 0.01,
+    fontFamily: 'Jura_400Regular'
   },
   // card: {
   //   width: CARD_WIDTH,
