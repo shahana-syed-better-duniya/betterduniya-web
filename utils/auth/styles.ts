@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
@@ -57,6 +57,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: height * 0.04,
     fontWeight: 600,
+    fontFamily: "ClashGrotesk",
     color: "#1B1B1B",
     marginBottom: height * 0.01,
   },
@@ -147,7 +148,7 @@ export const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     elevation: 2,
   },
   loginBtnText: {
