@@ -31,6 +31,24 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Jura_400Regular",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/Jura-Regular.ttf",
+                    "weight": 400
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
@@ -41,7 +59,8 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
@@ -49,9 +68,8 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "b618ee59-af1e-4406-ba27-b82d9166fa75"
+        "projectId": "2e727a62-734a-47ec-b21c-574cea0faa9c"
       }
-    },
-    "owner": "simplyhans"
+    }
   }
 }

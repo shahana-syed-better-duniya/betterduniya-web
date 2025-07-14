@@ -1,17 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import {styles} from "@/utils/auth/styles";
 import AppLogo from "@/components/layouts/AppLogo";
-import {Stack} from "expo-router";
+import {SplashScreen, Stack} from "expo-router";
 import {AppConfigs} from "@/constants/app-configs";
 import {useFonts} from "expo-font";
 import {Jura_400Regular} from "@expo-google-fonts/jura";
 
 const Layout = () => {
-  let [fontsLoaded] = useFonts({
-    Jura_400Regular,
-  });
-
   return (
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
@@ -23,7 +19,7 @@ const Layout = () => {
           <View style={styles.logoCircle}>
             <AppLogo/>
           </View>
-          <Text style={{...styles.title, fontFamily: 'Jura_400Regular'}}>{AppConfigs.APP_NAME}</Text>
+          <Text style={styles.appTitle}>{AppConfigs.APP_NAME}</Text>
         </View>
         <Stack initialRouteName="main/index">
           <Stack.Screen name="main/index" options={{headerShown: false}}/>

@@ -4,7 +4,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import {LinearGradient} from 'expo-linear-gradient';
 import ExpandImg from './ExpandImg'
-import styles from './product-review-list-styles';
 
 
 const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, time, recommended, rating, type}: {
@@ -53,11 +52,10 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
     isExpandDescription.value ? desc : desc.split('\n').filter((_, i) => i < MAX_DISPLAY_LINES).join('\n').substring(0, MAX_DISPLAY_CHAR)
 
   return (
-  
 
 
     <View style={{marginBottom: 25}}>
-      <ExpandImg visible={expandImg} imgUrl={imgUrl} onClose={()=>setExpandImg(false)}/>
+      <ExpandImg visible={expandImg} imgUrl={imgUrl} onClose={() => setExpandImg(false)}/>
       <View style={{
         marginBottom: 10,
         flexDirection: "row",
@@ -93,33 +91,23 @@ const ReviewCard = ({prodName, desc, imgUrl, username, displayName, userIcon, ti
 
         {type === "feed" &&
           <View>
-            {recommended ? (
-              <View style={{
-                paddingLeft: 8,
-                paddingRight: 11,
-                backgroundColor: "#F5F5F5",
-                flexDirection: "row",
-                borderRadius: 30,
-                alignItems: "center",
-                justifyContent: "center"
-              }}>
-                <Image source={require("../../assets/images/thumbsup.png")} style={{width: height * 0.03, height: 0.03}}/>
-                <Text style={{color: "#696363", fontSize: height * 0.0135}}>Recommended</Text>
-              </View>
-            ) : (
-              <View style={{
-                paddingLeft: 8,
-                paddingRight: 11,
-                backgroundColor: "#F5F5F5",
-                flexDirection: "row",
-                borderRadius: 30,
-                alignItems: "center",
-                justifyContent: "center"
-              }}>
-                <Image source={require("../../assets/images/thumbsdown.png")} style={{width: height * 0.03, height: height * 0.03}}/>
-                <Text style={{color: "#696363", fontSize: height * 0.0135}}>Not Recommended</Text>
-              </View>
-            )}
+            <View style={{
+              paddingLeft: 8,
+              paddingRight: 11,
+              backgroundColor: "#F5F5F5",
+              flexDirection: "row",
+              borderRadius: 30,
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+              <Image
+                source={recommended ? require("../../assets/images/thumbsup.png") : require("../../assets/images/thumbsdown.png")}
+                style={{width: height * 0.03, height: height * 0.03}}/>
+              <Text style={{
+                color: "#696363",
+                fontSize: height * 0.0135
+              }}>{recommended ? "Recommended" : "Not Recommended"}</Text>
+            </View>
 
             <View style={{marginTop: height * 0.003}}>
               <View style={{flexDirection: "row", marginTop: 2, justifyContent: "flex-end"}}>

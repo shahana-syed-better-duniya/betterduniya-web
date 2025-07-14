@@ -1,17 +1,30 @@
 import AppLogo from "@/components/layouts/AppLogo";
 import SearchBar from "@/components/layouts/SearchBar";
 import BackPromptModal from '@/components/products/BackPromptModal';
-import styles from "@/components/products/product-review-list-styles";
 import ProductReviewList from "@/components/products/ProductReviewList";
-import { AppConfigs } from "@/constants/app-configs";
-import { useBoolean } from "@/hooks/primitive/use-boolean";
+import {AppConfigs} from "@/constants/app-configs";
+import {useBoolean} from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
-import { useProductReviewContext } from "@/utils/products/product-review-context";
-import { Jura_400Regular } from "@expo-google-fonts/jura";
-import { useFonts } from "expo-font";
-import React from "react";
-import { ActivityIndicator, Animated, BackHandler, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {useProductReviewContext} from "@/utils/products/product-review-context";
+import React, {useCallback} from "react";
+import {
+  ActivityIndicator,
+  Animated,
+  BackHandler,
+  Dimensions,
+  FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import styles from "@/components/products/product-review-list-styles";
+import {styles as stylesGlobal} from "@/utils/auth/styles";
+import {useFocusEffect, useNavigation} from "expo-router";
 
 const {width, height} = Dimensions.get("window");
 
@@ -21,10 +34,6 @@ const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default function Home() {
-  let [fontsLoaded] = useFonts({
-    Jura_400Regular,
-  });
-
   const [showPrompt, setShowPrompt] = React.useState(false);
   const headerTranslateY = React.useRef(new Animated.Value(0)).current;
   const lastScrollY = React.useRef(0);
@@ -103,6 +112,20 @@ export default function Home() {
     lastScrollY.current = currentY;
   };
 
+  const navigation = useNavigation();
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener("tabPress", () => {
+        console.log(123)
+        // Reset the search value when the tab is pressed
+        searchValue.onChangeValue("");
+        isSearched.onFalse();
+      });
+
+      return unsubscribe;
+    }, [navigation, searchValue.onChangeValue, isSearched.onFalse])
+  );
+
   const {summary, previousSearchValue} = useProductReviewContext();
   if (isSearched.value) {
     return (
@@ -117,7 +140,7 @@ export default function Home() {
             width: '100%',
             paddingBottom: 5,
             paddingTop: height * 0.02,
-            transform: [{ translateY: headerTranslateY }],
+            transform: [{translateY: headerTranslateY}],
           }}
         >
           <SearchBar
@@ -133,7 +156,7 @@ export default function Home() {
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item}
             contentContainerStyle={styles.filterRow}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <TouchableOpacity
                 style={[
                   styles.filterPill,
@@ -154,20 +177,21 @@ export default function Home() {
           />
         </Animated.View>
         <FlatList
-          style={{ paddingTop: HEADER_MAX_HEIGHT }}
+          style={{paddingTop: HEADER_MAX_HEIGHT}}
           scrollEventThrottle={16}
           onScroll={handleScroll}
           data={selected !== 'All' ? [] : (summary?.reviews || [])}
           keyExtractor={(item, idx) => item?.id?.toString?.() || idx.toString()}
-          renderItem={({ item }) =>
+          renderItem={({item}) =>
             selected !== 'All' ? null : (
-              <ProductReviewList summary={summary ?? { reviews: [], userById: {}, imageUriById: {} }} />
+              <ProductReviewList
+                summary={summary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}}}/>
             )
           }
           ListEmptyComponent={selected !== 'All' ? null : null}
         />
         <TouchableOpacity style={styles.fab}>
-          <Icon name="search" size={28} color="#FFC107" />
+          <Icon name="search" size={28} color="#FFC107"/>
         </TouchableOpacity>
       </View>
     );
@@ -187,7 +211,7 @@ export default function Home() {
         <View style={stylesLocal.logoCircle}>
           <AppLogo/>
         </View>
-        <Text style={stylesLocal.brandText}>{AppConfigs.APP_NAME}</Text>
+        <Text style={stylesGlobal.appTitle}>{AppConfigs.APP_NAME}</Text>
       </View>
 
       <View style={stylesLocal.searchSection}>
@@ -218,7 +242,7 @@ export default function Home() {
   );
 }
 
-const stylesLocal= StyleSheet.create({
+const stylesLocal = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",

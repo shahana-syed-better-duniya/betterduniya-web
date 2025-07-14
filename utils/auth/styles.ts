@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
@@ -61,6 +61,13 @@ export const styles = StyleSheet.create({
     color: "#1B1B1B",
     marginBottom: height * 0.01,
   },
+  appTitle: {
+    fontSize: height * 0.04,
+    fontWeight: 400,
+    color: "#1B1B1B",
+    marginBottom: height * 0.01,
+    fontFamily: 'Jura_400Regular'
+  },
   // card: {
   //   width: CARD_WIDTH,
   //   backgroundColor: "#fff",
@@ -93,7 +100,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     borderRadius: 30,
-    
+
   },
   tabText: {
     fontSize: 16,
@@ -141,7 +148,7 @@ export const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     elevation: 2,
   },
   loginBtnText: {

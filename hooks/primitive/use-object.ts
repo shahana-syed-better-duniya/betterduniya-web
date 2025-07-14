@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useCallback, useState} from 'react';
 
 export type UseObjectReturn<T> = {
   value: T | null;
@@ -10,9 +10,9 @@ export type UseObjectReturn<T> = {
 const useObject = <T extends object>(obj: T | null): UseObjectReturn<T> => {
   const [value, setValue] = useState<T | null>(obj);
 
-  const onChangeValue = (newObj: T | null) => {
+  const onChangeValue = useCallback((newObj: T | null) => {
     setValue(newObj);
-  };
+  }, []);
 
   const onNull = () => onChangeValue(null);
 

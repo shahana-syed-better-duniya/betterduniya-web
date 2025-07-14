@@ -4,5 +4,6 @@ import {User} from "../users/user";
 export interface ProductReviewSummary {
   reviews: ProductReview[];
   userById: { [key: string]: User; };
-  imageUriById: { [key: string]: string; };
+  profileImageUriByUserId: { [key: string]: string; };
+  reviewImageUriById: { [key: string]: string; };
 }

@@ -1,10 +1,9 @@
 import ReviewCard from "@/components/products/ReviewCard";
-import { ProductReview } from "@/interfaces/products/productReview";
-import { ProductReviewSummary } from "@/interfaces/products/productReviewSummary";
-import { User } from "@/interfaces/users/user";
-import { fTimeAgo } from "@/utils/date";
+import {ProductReview, ProductReviewState} from "@/interfaces/products/productReview";
+import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
+import {User} from "@/interfaces/users/user";
 import React from "react";
-import { FlatList } from "react-native";
+import {FlatList} from "react-native";
 
 interface ProductReviewListProps {
   summary: ProductReviewSummary,
@@ -13,24 +12,29 @@ interface ProductReviewListProps {
   contentContainerStyle?: any,
 }
 
-const convertReview = (review: ProductReview, user: User, imageUri: string) => ({
+const convertReview = (review: ProductReview, user: User, imageUri: string, profileImageUri: string) => ({
   id: review.id,
   user: {
     name: user.firstName + ' ' + user.lastName,
     username: user.username,
-    avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+    avatar: profileImageUri,
   },
-  reviewTime: `${fTimeAgo(review.createdAt)}`,
+  reviewTime: `${new Date(review.createdAt).toUTCString()}`,
   rating: review.rating,
   text: review.title,
   description: review.description,
   image: imageUri,
-  liked: false,
+  liked: review.reviewState === ProductReviewState.Recommended,
 })
 
 
-const ProductReviewList: React.FC<ProductReviewListProps> = ({summary, onScroll, scrollEventThrottle, contentContainerStyle}) => {
-  const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.imageUriById[review.id]))
+const ProductReviewList: React.FC<ProductReviewListProps> = ({
+                                                               summary,
+                                                               onScroll,
+                                                               scrollEventThrottle,
+                                                               contentContainerStyle
+                                                             }) => {
+  const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.reviewImageUriById[review.id], summary?.profileImageUriByUserId[review.userId])) ?? [];
   return (
     <FlatList
       data={reviews}

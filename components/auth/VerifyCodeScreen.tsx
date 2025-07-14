@@ -82,7 +82,7 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
         style={stylesLocal.input}
         value={code.value}
         onChangeText={code.onChangeValue}
-        keyboardType="numeric"
+        keyboardType="default"
         placeholder={`Enter verification code`}
         maxLength={codeLength}
       />
