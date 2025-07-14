@@ -7,7 +7,6 @@ import {AppConfigs} from "@/constants/app-configs";
 import {useBoolean} from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import {useProductReviewContext} from "@/utils/products/product-review-context";
-import {Jura_400Regular} from "@expo-google-fonts/jura";
 import {useFonts} from "expo-font";
 import React from "react";
 import {
@@ -34,8 +33,8 @@ const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default function Home() {
-  let [fontsLoaded] = useFonts({
-    Jura_400Regular,
+  let [fontsLoaded, error] = useFonts({
+    Jura_400Regular: './assets/fonts/Jura-Regular.ttf',
   });
 
   const [showPrompt, setShowPrompt] = React.useState(false);

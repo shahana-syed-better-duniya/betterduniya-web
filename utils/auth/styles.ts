@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: height * 0.04,
     fontWeight: 600,
-    fontFamily: "ClashGrotesk",
+    fontFamily: "ClashGrotesk Jura_400Regular",
     color: "#1B1B1B",
     marginBottom: height * 0.01,
   },
@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     borderRadius: 30,
-    
+
   },
   tabText: {
     fontSize: 16,
