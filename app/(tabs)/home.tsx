@@ -7,7 +7,8 @@ import { useBoolean } from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import { styles as authStyles } from "@/utils/auth/styles";
 import { useProductReviewContext } from "@/utils/products/product-review-context";
-import React, {useCallback} from "react";
+import { useFocusEffect, useNavigation } from "expo-router";
+import React, { useCallback } from "react";
 import {
     ActivityIndicator,
     Animated,
@@ -24,7 +25,6 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import feedStyles from "../../components/products/product-review-list-styles";
-import {useFocusEffect, useNavigation} from "expo-router";
 
 const {width, height} = Dimensions.get("window");
 
@@ -44,36 +44,6 @@ export default function Home() {
   const isSearched = useBoolean(false);
   const isSearchValueChanged = useBoolean(false);
 
-  React.useEffect(() => {
-    const backAction = () => {
-      if (!isSearched.value) {
-        setShowPrompt(true); // show the modal
-      } else {
-        // If searched, clear search instead of exiting
-        isSearched.onFalse();
-        isSearchValueChanged.onFalse();
-        searchValue.onChangeValue("");
-      }
-      return true; // prevent default back action
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-    return () => backHandler.remove();
-  }, [isSearched.value]);
-
-  const handleConfirm = () => {
-    setShowPrompt(false);
-    if (!isSearched.value) {
-      BackHandler.exitApp();
-    }
-  };
-
-  const handleCancel = () => {
-    setShowPrompt(false);
-  };
-
   const {
     onSearch,
     isLoading,
@@ -89,6 +59,38 @@ export default function Home() {
     isSearchValueChanged.onTrue();
     searchValue.onChangeValue(val);
   }
+
+  // Move back handler logic to useFocusEffect so it only runs when Home is focused
+  useFocusEffect(
+    useCallback(() => {
+      const backAction = () => {
+        if (!isSearched.value) {
+          setShowPrompt(true); // show the modal
+        } else {
+          isSearched.onFalse();
+          isSearchValueChanged.onFalse();
+          searchValue.onChangeValue("");
+        }
+        return true; // prevent default back action
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }, [isSearched.value, isSearchValueChanged, searchValue])
+  );
+
+  const handleConfirm = () => {
+    setShowPrompt(false);
+    if (!isSearched.value) {
+      BackHandler.exitApp();
+    }
+  };
+
+  const handleCancel = () => {
+    setShowPrompt(false);
+  };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentY = event.nativeEvent.contentOffset.y;
@@ -209,7 +211,7 @@ export default function Home() {
         onCancel={handleCancel}
         onConfirm={handleConfirm}
         title={"Hold on!"}
-        desc={"Are you sure you want to cancel registration?"}
+        desc={"Are you sure you want to exit the app?"}
       />
       <View style={stylesLocal.logoWrapper}>
         <View style={stylesLocal.logoCircle}>
