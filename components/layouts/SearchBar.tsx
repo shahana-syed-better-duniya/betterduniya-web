@@ -1,6 +1,6 @@
 import {Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import React from "react";
+import React, {forwardRef} from "react";
 
 interface SearchBarProps {
   searchValue: string;
@@ -11,25 +11,28 @@ interface SearchBarProps {
 }
 const {width, height} = Dimensions.get("window");
 
-const SearchBar: React.FC<SearchBarProps> = ({searchValue, icon, onChangeText, placeholder, onSearch}) => {
-  return (
-    <View style={styles.searchRow}>
-      <View style={styles.searchBar}>
-        <Icon name={icon} size={20} color="#999" style={{marginRight: 6}}/>
-        <TextInput
-          style={styles.searchInput}
-          placeholderTextColor="#bbb"
-          placeholder={placeholder}
-          value={searchValue}
-          onChangeText={onChangeText}
-        />
+const SearchBar = forwardRef<TextInput, SearchBarProps>(
+  ({searchValue, icon, onChangeText, placeholder, onSearch}, ref) => {
+    return (
+      <View style={styles.searchRow}>
+        <View style={styles.searchBar}>
+          <Icon name={icon} size={20} color="#999" style={{marginRight: 6}}/>
+          <TextInput
+            ref={ref}
+            style={styles.searchInput}
+            placeholderTextColor="#bbb"
+            placeholder={placeholder}
+            value={searchValue}
+            onChangeText={onChangeText}
+          />
+        </View>
+        <TouchableOpacity style={styles.goButton} onPress={onSearch}>
+          <Text style={styles.goButtonText}>Go !</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.goButton} onPress={onSearch}>
-        <Text style={styles.goButtonText}>Go !</Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
+    )
+  }
+)
 
 export default SearchBar;
 

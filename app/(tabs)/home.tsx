@@ -8,7 +8,7 @@ import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import { styles as authStyles } from "@/utils/auth/styles";
 import { useProductReviewContext } from "@/utils/products/product-review-context";
 import { useFocusEffect, useNavigation } from "expo-router";
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import {
     ActivityIndicator,
     Animated,
@@ -129,6 +129,7 @@ export default function Home() {
     }, [navigation, searchValue.onChangeValue, isSearched.onFalse])
   );
 
+  const searchInputRef = useRef<TextInput>(null);
 
   const {summary, previousSearchValue} = useProductReviewContext();
   if (isSearched.value) {
@@ -150,6 +151,7 @@ export default function Home() {
           }}
         >
           <SearchBar
+            ref={searchInputRef}
             searchValue={searchValue.value || (isSearchValueChanged.value ? '' : previousSearchValue)}
             icon={"search-outline"}
             onChangeText={handleChangeSearchText}
@@ -196,7 +198,14 @@ export default function Home() {
           }
           ListEmptyComponent={selected !== 'All' ? null : null}
         />
-        <TouchableOpacity style={feedStyles.fab}>
+        <TouchableOpacity 
+        style={feedStyles.fab}
+        onPress={() => {
+        // Call ref to interact with search bar input
+        if(searchInputRef.current){
+          searchInputRef.current.focus()
+        }
+      }}>
           <Icon name="search" size={28} color="#FFC107"/>
         </TouchableOpacity>
       </View>
@@ -223,6 +232,7 @@ export default function Home() {
       <View style={stylesLocal.searchSection}>
         <View style={stylesLocal.searchBar}>
           <TextInput
+            ref={searchInputRef}
             style={stylesLocal.searchInput}
             placeholder="Search..."
             placeholderTextColor="#bbb"

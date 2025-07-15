@@ -15,6 +15,7 @@ import {
     NativeScrollEvent,
     NativeSyntheticEvent,
     Text,
+    TextInput,
     TouchableOpacity,
     View
 } from "react-native";
@@ -82,6 +83,8 @@ const Feed = () => {
     }
     lastScrollY.current = currentY;
   };
+  // Ref for feed page
+  const searchInputRef = useRef<TextInput>(null);
 
   return (
     <View style={styles.container}>
@@ -100,6 +103,7 @@ const Feed = () => {
         }}
       >
         <SearchBar
+          ref={searchInputRef} // Uses the ref
           searchValue={searchValue.value}
           icon={"search-outline"}
           onChangeText={searchValue.onChangeValue}
@@ -155,7 +159,14 @@ const Feed = () => {
           contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT}}
         />
       )}
-      <TouchableOpacity style={styles.fab}>
+      <TouchableOpacity 
+      style={styles.fab}
+      onPress={() => {
+        // Call ref to interact with search bar input
+        if(searchInputRef.current){
+          searchInputRef.current.focus()
+        }
+      }}>
         <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>
     </View>
