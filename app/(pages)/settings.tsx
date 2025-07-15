@@ -1,8 +1,9 @@
 // app/(pages)/settings.tsx
-import { router, useNavigation } from 'expo-router';
-import { useLayoutEffect } from 'react';
-import { Text, TouchableOpacity, View , StyleSheet, Dimensions} from 'react-native';
+import {useNavigation} from 'expo-router';
+import {useLayoutEffect} from 'react';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
+import useLogout from "@/hooks/auth/use-logout";
 
 export default function SettingsScreen() {
   const navigation = useNavigation();
@@ -20,9 +21,11 @@ export default function SettingsScreen() {
     });
   }, [navigation]);
 
+  const {onLogout} = useLogout();
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push('/')} style={styles.logoutBtn}>
+      <TouchableOpacity onPress={onLogout} style={styles.logoutBtn}>
         <Icon name={'log-out-outline'} size={height * 0.02} color="white" style={{marginRight: 6}}/>
         <Text style={{color: 'white', fontSize: height * 0.015}}>Logout</Text>
       </TouchableOpacity>
@@ -31,12 +34,12 @@ export default function SettingsScreen() {
 }
 const {width, height} = Dimensions.get("window");
 const styles = StyleSheet.create({
-  container:{
+  container: {
     justifyContent: 'center',
     alignItems: 'center',
   },
 
-  logoutBtn:{
+  logoutBtn: {
     padding: height * 0.015,
     alignItems: 'center',
     justifyContent: 'center',
