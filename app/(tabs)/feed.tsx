@@ -147,17 +147,25 @@ const Feed = () => {
           <ActivityIndicator size="large" color="#FFC107"/>
         </View>
       ) : (
-        <ProductReviewList
-          summary={isSearched ? (summary ?? {
-            reviews: [],
-            userById: {},
-            profileImageUriByUserId: {},
-            reviewImageUriById: {}
-          }) : (feedSummary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}})}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT}}
-        />
+        isSearched && summary && Array.isArray(summary.reviews) && summary.reviews.length === 0 ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+          <Text style={{ textAlign: 'center', color: '#888', fontSize: 16 }}>
+            No results found
+          </Text>
+        </View>
+        ) : (
+          <ProductReviewList
+            summary={isSearched ? (summary ?? {
+              reviews: [],
+              userById: {},
+              profileImageUriByUserId: {},
+              reviewImageUriById: {}
+            }) : (feedSummary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}})}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT}}
+          />
+        )
       )}
       <TouchableOpacity 
       style={styles.fab}

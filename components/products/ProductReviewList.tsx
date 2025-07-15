@@ -1,9 +1,9 @@
 import ReviewCard from "@/components/products/ReviewCard";
-import {ProductReview, ProductReviewState} from "@/interfaces/products/productReview";
-import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
-import {User} from "@/interfaces/users/user";
+import { ProductReview, ProductReviewState } from "@/interfaces/products/productReview";
+import { ProductReviewSummary } from "@/interfaces/products/productReviewSummary";
+import { User } from "@/interfaces/users/user";
 import React from "react";
-import {FlatList} from "react-native";
+import { FlatList } from "react-native";
 
 interface ProductReviewListProps {
   summary: ProductReviewSummary,
@@ -35,7 +35,7 @@ const ProductReviewList: React.FC<ProductReviewListProps> = ({
                                                                summary,
                                                                onScroll,
                                                                scrollEventThrottle,
-                                                               contentContainerStyle
+                                                               contentContainerStyle,
                                                              }) => {
   const reviews = summary?.reviews?.map(review => convertReview(review, summary?.userById[review.userId], summary?.reviewImageUriById[review.id], summary?.profileImageUriByUserId[review.userId])) ?? [];
   return (

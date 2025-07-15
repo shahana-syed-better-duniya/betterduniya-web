@@ -184,20 +184,28 @@ export default function Home() {
             )}
           />
         </Animated.View>
-        <FlatList
-          style={{paddingTop: HEADER_MAX_HEIGHT, width: '100%'}}
-          scrollEventThrottle={16}
-          onScroll={handleScroll}
-          data={selected !== 'All' ? [] : (summary?.reviews || [])}
-          keyExtractor={(item, idx) => item?.id?.toString?.() || idx.toString()}
-          renderItem={({item}) =>
-            selected !== 'All' ? null : (
-              <ProductReviewList
-                summary={summary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}}}/>
-            )
-          }
-          ListEmptyComponent={selected !== 'All' ? null : null}
-        />
+        {isSearched && summary && Array.isArray(summary.reviews) && summary.reviews.length === 0 ? (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+              <Text style={{ textAlign: 'center', color: '#888', fontSize: 16 }}>
+                No results found
+              </Text>
+            </View>
+          ) :(
+          <FlatList
+            style={{paddingTop: HEADER_MAX_HEIGHT, width: '100%'}}
+            scrollEventThrottle={16}
+            onScroll={handleScroll}
+            data={selected !== 'All' ? [] : (summary?.reviews || [])}
+            keyExtractor={(item, idx) => item?.id?.toString?.() || idx.toString()}
+            renderItem={({item}) =>
+              selected !== 'All' ? null : (
+                <ProductReviewList
+                  summary={summary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}}}/>
+              )
+            }
+          />
+          )}
+
         <TouchableOpacity 
         style={feedStyles.fab}
         onPress={() => {
