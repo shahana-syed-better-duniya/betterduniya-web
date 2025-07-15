@@ -12,6 +12,9 @@ interface ProductReviewListProps {
   contentContainerStyle?: any,
 }
 
+
+const utcStringWithoutSeconds = (utcString: string) => utcString.replace(/:\d{2}\s/, " ");
+
 const convertReview = (review: ProductReview, user: User, imageUri: string, profileImageUri: string) => ({
   id: review.id,
   user: {
@@ -19,7 +22,7 @@ const convertReview = (review: ProductReview, user: User, imageUri: string, prof
     username: user.username,
     avatar: profileImageUri,
   },
-  reviewTime: `${new Date(review.createdAt).toUTCString()}`,
+  reviewTime: `${utcStringWithoutSeconds(new Date(review.createdAt).toUTCString())}`,
   rating: review.rating,
   text: review.title,
   description: review.description,
