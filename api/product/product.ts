@@ -20,4 +20,9 @@ export const productApi = {
     path: () => `/product/review/list`,
     okMessage: `Product reviews are listed`,
   },
+  listReviewByUser: {
+    method: requestMethods.get,
+    path: () => `/product/review/user`,
+    okMessage: `Product reviews are listed`,
+  },
 }
