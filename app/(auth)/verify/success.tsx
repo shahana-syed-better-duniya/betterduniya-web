@@ -18,7 +18,7 @@ const Success = () => {
       </Text>
 
       <TouchableOpacity style={styles.loginBtn} onPress={() => router.replace('/(tabs)/home')}>
-        <Text style={stylesLocal.proceedBtnText}>Go to Home Screen</Text>
+        <Text style={stylesLocal.proceedBtnText}>Get Started</Text>
       </TouchableOpacity>
     </ViewCard>
   )
