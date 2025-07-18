@@ -191,19 +191,11 @@ export default function Home() {
               </Text>
             </View>
           ) :(
-          <FlatList
-            style={{paddingTop: HEADER_MAX_HEIGHT, width: '100%'}}
-            scrollEventThrottle={16}
+            <ProductReviewList 
+            summary={summary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}}}
             onScroll={handleScroll}
-            data={selected !== 'All' ? [] : (summary?.reviews || [])}
-            keyExtractor={(item, idx) => item?.id?.toString?.() || idx.toString()}
-            renderItem={({item}) =>
-              selected !== 'All' ? null : (
-                <ProductReviewList
-                  summary={summary ?? {reviews: [], userById: {}, profileImageUriByUserId: {}, reviewImageUriById: {}}}/>
-              )
-            }
-          />
+            contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT}}
+            />
           )}
 
         <TouchableOpacity 
