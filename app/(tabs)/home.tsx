@@ -251,7 +251,11 @@ export default function Home() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={stylesLocal.fab}>
+      <TouchableOpacity style={stylesLocal.fab} onPress={() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
+        }
+      }}>
         <Icon name="search" size={28} color="#FFC107"/>
       </TouchableOpacity>
     </View>
