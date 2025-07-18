@@ -1,23 +1,27 @@
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 import SearchBar from "@/components/layouts/SearchBar";
 import AlertPromptModal from "@/components/products/AlertPromptModal";
+import ProductReviewList from "@/components/products/ProductReviewList";
 import ProfileImage from "@/components/users/ProfileImage";
-import {useForm} from "@/hooks/interaction/use-form";
+import { useForm } from "@/hooks/interaction/use-form";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
-import {useBoolean} from "@/hooks/primitive/use-boolean";
+import { useBoolean } from "@/hooks/primitive/use-boolean";
 import useEditUserProfile from "@/hooks/user/use-edit-user-profile";
+import useListUserProductReviews from "@/hooks/user/use-list-user-product-reviews";
 import useUploadProfileImage from "@/hooks/user/use-upload-profile-image";
-import {validateBio} from "@/utils/products/validators";
-import {useUserContext} from "@/utils/user/user-context";
-import {router} from "expo-router";
-import React, {useState} from "react";
-import {Dimensions, GestureResponderEvent, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import { validateBio } from "@/utils/products/validators";
+import { useUserContext } from "@/utils/user/user-context";
+import { router } from "expo-router";
+import React, { useRef, useState } from "react";
+import { Animated, Dimensions, GestureResponderEvent, Image, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import useListUserProductReviews from "@/hooks/user/use-list-user-product-reviews";
-import ProductReviewList from "@/components/products/ProductReviewList";
 
 const {width, height} = Dimensions.get("window");
+
+const HEADER_MAX_HEIGHT = 50;
+const HEADER_MIN_HEIGHT = 60;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
 export default function Profile() {
@@ -71,11 +75,45 @@ export default function Profile() {
 
   const isClickedComingSoonButtons = useBoolean(false);
 
+  
+    // For scroll direction-based header hide/reveal
+    const headerTranslateY = useRef(new Animated.Value(0)).current;
+    const lastScrollY = useRef(0);
+    const isHeaderHidden = useRef(false);
+    const [headerHeight, setHeaderHeight] = useState(HEADER_MAX_HEIGHT);
+  
+    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const currentY = event.nativeEvent.contentOffset.y;
+      const diff = currentY - lastScrollY.current;
+      // Only trigger if scroll is significant
+      if (Math.abs(diff) > 5) {
+        if (diff > 0 && !isHeaderHidden.current && currentY > 0) {
+          // Scrolling down, hide header
+          Animated.timing(headerTranslateY, {
+            toValue: -headerHeight,
+            duration: 250,
+            useNativeDriver: true,
+          }).start();
+          isHeaderHidden.current = true;
+        } else if (diff < 0 && isHeaderHidden.current) {
+          // Scrolling up, show header
+          Animated.timing(headerTranslateY, {
+            toValue: 0,
+            duration: 250,
+            useNativeDriver: true,
+          }).start();
+          isHeaderHidden.current = false;
+        }
+      }
+      lastScrollY.current = currentY;
+    };
+
 
   return (
     <View style={styles.container}>
       {/* Search Bar: match Feed page alignment */}
-      <View
+      <Animated.View
+        onLayout={e => setHeaderHeight(e.nativeEvent.layout.height)}
         style={{
           position: 'absolute',
           top: 0,
@@ -85,7 +123,7 @@ export default function Profile() {
           width: '100%',
           paddingBottom: 5,
           paddingTop: height * 0.02,
-
+          transform: [{translateY: headerTranslateY}], // <-- add transform for animation
         }}
       >
         <SearchBar
@@ -97,112 +135,126 @@ export default function Profile() {
           onChangeText={() => {
           }}
         />
-      </View>
+      </Animated.View>
 
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={handleUploadProfileImage}>
-          <ProfileImage style={styles.avatar}/>
-        </TouchableOpacity>
-        <View style={{flex: 1, marginLeft: 12}}>
-          <Text style={styles.displayName}>{firstName} {lastName}</Text>
-          <Text style={styles.username}>@{username}</Text>
-          <View style={{flexDirection: "row", marginTop: 2}}>
-            {/*<Text style={styles.mutedText}>100 Interests</Text>*/}
-            {/*<Text style={styles.mutedText}> 50 Followers</Text>*/}
-          </View>
-        </View>
-      </View>
-
-      {/* Bio Section: always visible title and edit button */}
-      <View style={{marginHorizontal: 14}}>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginTop: 12,
-          marginBottom: 0
-        }}>
-          <Text style={styles.bioTitle}>Bio</Text>
-          <TouchableOpacity onPress={handleEditBio} style={{padding: 4}}>
-            <Icon name="create-outline" size={22} color="#222"/>
+      {/* Scrollable profile content */}
+      <ScrollView
+        style={{flex: 1}}
+        contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT, paddingBottom: 100}}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={handleUploadProfileImage}>
+            <ProfileImage style={styles.avatar}/>
           </TouchableOpacity>
-        </View>
-        {isEditingBio ? (
-          <View>
-            <TextInputRequired
-              style={styles.bioBox}
-              value={values.bio}
-              onChangeText={handleChange('bio')}
-              onBlur={handleBlur("bio")}
-              placeholder="Please enter your bio"
-              multiline
-              numberOfLines={4}
-            />
-            <Text style={styles.charCount}>{values.bio?.length}/1500 Characters</Text>
-            <View style={{justifyContent: 'space-between', flexDirection: 'row', marginTop: -2, marginBottom: 5}}>
-              <TouchableOpacity
-                onPress={() => setIsEditingBio(false)}
-                style={[styles.cancelBtn]}
-              >
-                <Icon name="close" size={20} color="#fff"/>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.saveButton, !isValid && styles.saveButtonDisabled]}
-                onPress={async () => {
-                  await handleSaveBio();
-                  setIsEditingBio(false);
-                }}
-                disabled={!isValid}
-              >
-                <Icon name="checkmark" size={20} color="#fff"/>
-              </TouchableOpacity>
+          <View style={{flex: 1, marginLeft: 12}}>
+            <Text style={styles.displayName}>{firstName} {lastName}</Text>
+            <Text style={styles.username}>@{username}</Text>
+            <View style={{flexDirection: "row", marginTop: 2}}>
+              {/*<Text style={styles.mutedText}>100 Interests</Text>*/}
+              {/*<Text style={styles.mutedText}> 50 Followers</Text>*/}
             </View>
           </View>
-        ) : (
-          <Text
-            style={values.bio ? styles.bioBox : styles.noBio}>{values.bio ? values.bio : 'User does not have bio'}</Text>
-        )}
-      </View>
+        </View>
 
-      {summary != null && <ProductReviewList summary={summary}/>}
+        {/* Bio Section: always visible title and edit button */}
+        <View style={{marginHorizontal: 14}}>
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: 12,
+            marginBottom: 0
+          }}>
+            <Text style={styles.bioTitle}>Bio</Text>
+            <TouchableOpacity onPress={handleEditBio} style={{padding: 4}}>
+              <Icon name="create-outline" size={22} color="#222"/>
+            </TouchableOpacity>
+          </View>
+          {isEditingBio ? (
+            <View>
+              <TextInputRequired
+                style={styles.bioBox}
+                value={values.bio}
+                onChangeText={handleChange('bio')}
+                onBlur={handleBlur("bio")}
+                placeholder="Please enter your bio"
+                multiline
+                numberOfLines={4}
+              />
+              <Text style={styles.charCount}>{values.bio?.length}/1500 Characters</Text>
+              <View style={{justifyContent: 'space-between', flexDirection: 'row', marginTop: -2, marginBottom: 5}}>
+                <TouchableOpacity
+                  onPress={() => setIsEditingBio(false)}
+                  style={[styles.cancelBtn]}
+                >
+                  <Icon name="close" size={20} color="#fff"/>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.saveButton, !isValid && styles.saveButtonDisabled]}
+                  onPress={async () => {
+                    await handleSaveBio();
+                    setIsEditingBio(false);
+                  }}
+                  disabled={!isValid}
+                >
+                  <Icon name="checkmark" size={20} color="#fff"/>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <Text
+              style={values.bio ? styles.bioBox : styles.noBio}>{values.bio ? values.bio : 'User does not have bio'}</Text>
+          )}
+        </View>
 
-      {/* Quick Actions */}
-      <AlertPromptModal
-        visible={isClickedComingSoonButtons.value}
-        onCancel={isClickedComingSoonButtons.onFalse}
-        desc={''} title={'Coming Soon!'}/>
-      <View style={styles.quickActionsRow}>
-        <View style={styles.quickAction}>
-          <View style={styles.quickImgContainer}>
-            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}
-                              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <Image source={require("../../assets/images/arrowicon.png")}
-                     style={{width: 35, height: 35, opacity: 0.95}}/>
-            </TouchableOpacity>
+        {/* Quick Actions */}
+        <AlertPromptModal
+          visible={isClickedComingSoonButtons.value}
+          onCancel={isClickedComingSoonButtons.onFalse}
+          desc={''} title={'Coming Soon!'}/>
+        <View style={styles.quickActionsRow}>
+          <View style={styles.quickAction}>
+            <View style={styles.quickImgContainer}>
+              <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}
+                                style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={require("../../assets/images/arrowicon.png")}
+                       style={{width: 35, height: 35, opacity: 0.95}}/>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.quickLabel}>better duniya</Text>
           </View>
-          <Text style={styles.quickLabel}>better duniya</Text>
-        </View>
-        <View style={styles.quickAction}>
-          <View style={styles.quickImgContainer}>
-            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}
-                              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <Image source={require("../../assets/images/lightbulbicon.png")}
-                     style={{width: 50, height: 50, opacity: 0.95}}/>
-            </TouchableOpacity>
+          <View style={styles.quickAction}>
+            <View style={styles.quickImgContainer}>
+              <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}
+                                style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={require("../../assets/images/lightbulbicon.png")}
+                       style={{width: 50, height: 50, opacity: 0.95}}/>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.quickLabel}>Interests</Text>
           </View>
-          <Text style={styles.quickLabel}>Interests</Text>
-        </View>
-        <View style={styles.quickAction}>
-          <View style={styles.quickImgContainer}>
-            <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}
-                              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <Image source={require("../../assets/images/hearticon.png")}
-                     style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.95}}/>
-            </TouchableOpacity>
+          <View style={styles.quickAction}>
+            <View style={styles.quickImgContainer}>
+              <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}
+                                style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={require("../../assets/images/hearticon.png")}
+                       style={{marginTop: 2.5, width: 40, height: 40, opacity: 0.95}}/>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.quickLabel}>Followers</Text>
           </View>
-          <Text style={styles.quickLabel}>Followers</Text>
         </View>
-      </View>
+
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontWeight: 'bold', fontSize: height * 0.02, marginBottom: height * 0.005}}>Reviews</Text>
+          <View style={{backgroundColor: 'black', height: height * 0.002, width: 30, marginBottom: height * 0.02}}></View>
+        </View>
+        
+        {summary != null && (<ProductReviewList summary={summary}/>)}
+      </ScrollView>
 
       {/* Floating Buttons */}
       <View style={styles.fabStack}>
@@ -241,7 +293,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   goButtonText: {fontWeight: "bold", color: "#fff", fontSize: 16},
-  headerRow: {flexDirection: "row", alignItems: "center", marginBottom: 10, marginTop: 75, marginHorizontal: 14},
+  headerRow: {flexDirection: "row", alignItems: "center", marginBottom: 10, marginTop: height * 0.015, marginHorizontal: 14},
   avatar: {width: height * 0.08, height: height * 0.08, borderRadius: 31,},
   displayName: {fontWeight: "bold", fontSize: height * 0.019, color: "#222"},
   username: {color: "#888", fontSize: height * 0.015,},
@@ -264,7 +316,7 @@ const styles = StyleSheet.create({
   },
   bioText: {fontSize: 15, color: "#222"},
   charCount: {alignSelf: "flex-end", fontSize: height * 0.015, color: "#999", marginBottom: height * 0.01},
-  quickActionsRow: {flexDirection: "row", justifyContent: "center", gap: 20, marginTop: height * 0.05,},
+  quickActionsRow: {flexDirection: "row", justifyContent: "center", gap: 20, marginTop: height * 0.025, marginBottom: height * 0.02},
   quickAction: {
     flexDirection: 'column',
     alignItems: 'center',
