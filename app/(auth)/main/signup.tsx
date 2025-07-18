@@ -80,8 +80,8 @@ export default function Signup() {
               value={values.firstName}
               onChangeText={handleChange('firstName')}
               onBlur={handleBlur("firstName")}
-              touched={touched.lastName}
-              error={errors.lastName}
+              touched={touched.firstName}
+              error={errors.firstName}
               placeholder="First Name *"
               placeholderTextColor="#888"
               autoCapitalize="none"
