@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     padding: 25,
     alignItems: 'center',
   },
-  title: {fontSize: 22, fontWeight: 'bold', color: 'white'},
+  title: {fontSize: 22, fontWeight: 'bold', color: 'white', textAlign: 'center'},
   message: {marginTop: 10, fontSize: 17, textAlign: 'center', color: 'white'},
   buttonContainer: {
     flexDirection: 'row',
