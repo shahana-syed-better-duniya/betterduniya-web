@@ -18,7 +18,7 @@ export default function AlertPromptModal({visible, onCancel, title, desc}: {
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={onCancel}
                               style={{...styles.button, backgroundColor: '#676767',}}>
-              <Text style={{...styles.btnTxt, fontSize: 18, letterSpacing: 1}}>Okay</Text>
+              <Text style={{...styles.btnTxt, fontSize: 16, letterSpacing: 1}}>Okay</Text>
             </TouchableOpacity>
           </View>
         </View>

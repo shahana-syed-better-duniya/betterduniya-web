@@ -52,6 +52,7 @@ export default function Profile() {
     handleChange,
     touched,
     isValid,
+    setValues, // <-- add setValues from useForm
   } = useForm({
     initialValues: {
       bio,
@@ -59,17 +60,23 @@ export default function Profile() {
     validate: validateBio,
   });
 
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [originalBio, setOriginalBio] = useState(bio); // <-- add state for original bio
+
+  const handleEditBio = () => {
+    setOriginalBio(values.bio); // Save current bio before editing
+    setIsEditingBio(true);
+  };
+
+  const handleCancelEditBio = () => {
+    setValues({ bio: originalBio }); // Restore original bio
+    setIsEditingBio(false);
+  };
+
   const handleSaveBio = async () => {
     if (isValid) {
       await onEditBio(values.bio);
     }
-  };
-
-
-  const [isEditingBio, setIsEditingBio] = useState(false);
-
-  const handleEditBio = () => {
-    setIsEditingBio(prev => !prev);
   };
 
 
@@ -126,6 +133,7 @@ export default function Profile() {
           transform: [{translateY: headerTranslateY}], // <-- add transform for animation
         }}
       >
+      <TouchableOpacity onPress={isClickedComingSoonButtons.onTrue}>
         <SearchBar
           searchValue={username}
           icon={'at-outline'}
@@ -135,6 +143,7 @@ export default function Profile() {
           onChangeText={() => {
           }}
         />
+        </TouchableOpacity>
       </Animated.View>
 
       {/* Scrollable profile content */}
@@ -187,7 +196,7 @@ export default function Profile() {
               <Text style={styles.charCount}>{values.bio?.length}/1500 Characters</Text>
               <View style={{justifyContent: 'space-between', flexDirection: 'row', marginTop: -2, marginBottom: 5}}>
                 <TouchableOpacity
-                  onPress={() => setIsEditingBio(false)}
+                  onPress={handleCancelEditBio}
                   style={[styles.cancelBtn]}
                 >
                   <Icon name="close" size={20} color="#fff"/>
