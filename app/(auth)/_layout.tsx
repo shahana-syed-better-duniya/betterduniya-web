@@ -1,19 +1,18 @@
-import React, {useEffect} from "react";
-import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
-import {styles} from "@/utils/auth/styles";
 import AppLogo from "@/components/layouts/AppLogo";
-import {SplashScreen, Stack} from "expo-router";
-import {AppConfigs} from "@/constants/app-configs";
-import {useFonts} from "expo-font";
-import {Jura_400Regular} from "@expo-google-fonts/jura";
+import { AppConfigs } from "@/constants/app-configs";
+import { styles } from "@/utils/auth/styles";
+import { Stack } from "expo-router";
+import React from "react";
+import { SafeAreaView, Text, View } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const Layout = () => {
   return (
     <SafeAreaView style={styles.safe}>
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        enableOnAndroid={true}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={styles.logoSection}>
           <View style={styles.logoCircle}>
@@ -27,7 +26,7 @@ const Layout = () => {
           <Stack.Screen name="forget" options={{headerShown: false}}/>
           <Stack.Screen name="verify/success" options={{headerShown: false}}/>
         </Stack>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   )
 }

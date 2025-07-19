@@ -78,6 +78,7 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
       <Text style={stylesLocal.subtitle}>
         {subtitle || `A ${codeLength}-digit code has been sent to ${email}.`}
       </Text>
+      <Text style={stylesLocal.subtitle}>Please check your spam folder if you do not see the verification code in your inbox.</Text>
       <TextInput
         style={stylesLocal.input}
         value={code.value}

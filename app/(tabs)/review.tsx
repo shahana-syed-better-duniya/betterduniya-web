@@ -1,4 +1,5 @@
 import TextInputRequired from "@/components/inputs/TextInputRequired";
+import AlertPromptModal from "@/components/products/AlertPromptModal";
 import { useForm } from "@/hooks/interaction/use-form";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
 import { useBoolean } from "@/hooks/primitive/use-boolean";
@@ -45,6 +46,8 @@ export default function Review() {
     validate: validateReview,
   });
 
+  const isClickedComingSoonButtons = useBoolean(false);
+
   const handleCreateReview = async () => {
     if (images.length === 0) {
       Alert.alert('Please upload an image for product review.');
@@ -56,7 +59,7 @@ export default function Review() {
       try {
         const validImages = images.filter(img => img.uri).map(img => ({ uri: img.uri! }));
         await onCreateReview(values.title, values.description, parseInt(values.rating), isRecommended.value, validImages);
-        apiResult.onChangeValue("Review submitted successfully!");
+        isClickedComingSoonButtons.onTrue(); // <-- call as function
         resetForm();
         setImages([]);
       } catch (error) {
@@ -218,7 +221,9 @@ export default function Review() {
             styles.postBtn,
             !isValid && {backgroundColor: "#ccc"},
           ]}
-          onPress={handleCreateReview}
+          onPress={ () => 
+            {handleCreateReview();}
+          }
           disabled={!isValid}
         >
           <Text style={styles.postBtnText}>Post!</Text>
@@ -228,6 +233,11 @@ export default function Review() {
       {!apiResult.isEmpty && (
         <Text style={styles.successMessage}>{apiResult.value}</Text>
       )}
+
+      <AlertPromptModal
+        visible={isClickedComingSoonButtons.value}
+        onCancel={isClickedComingSoonButtons.onFalse}
+        desc={''} title={'Review has been submitted!'}/>
     </ScrollView>
   );
 }
