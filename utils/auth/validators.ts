@@ -63,26 +63,18 @@ export function validateSignUp(values: {
     errors.username = "Username must be at least 4 characters.";
   } else if (values.username.length > 50) {
     errors.username = "Username can't exceed 50 characters.";
+  } else if (!/^[a-zA-Z0-9._-]+$/.test(values.username)) {
+    errors.username = "Username can only include letters, numbers, dots (.), hyphens (-), and underscores (_).";
   }
 
   if (!values.firstName) {
     errors.firstName = "First name is required.";
-  } else if (values.firstName.length < 4) {
-    errors.firstName = "First name must be at least 4 characters.";
   } else if (values.firstName.length > 150) {
     errors.firstName = "First name can't exceed 150 characters.";
   }
 
-  if (values.lastName.length < 4) {
-    errors.lastName = "Middle name must be at least 4 characters.";
-  } else if (values.lastName.length > 150) {
-    errors.lastName = "Middle name can't exceed 150 characters.";
-  }
-
   if (!values.lastName) {
     errors.lastName = "Last name is required.";
-  } else if (values.lastName.length < 4) {
-    errors.lastName = "Last name must be at least 4 characters.";
   } else if (values.lastName.length > 150) {
     errors.lastName = "Last name can't exceed 150 characters.";
   }
@@ -94,7 +86,6 @@ export function validateSignUp(values: {
   }
 
   Object.assign(errors, validatePasswords((values)));
-
   return errors;
 }
 
