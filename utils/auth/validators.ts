@@ -69,8 +69,8 @@ export function validateSignUp(values: {
 
   if (!values.firstName) {
     errors.firstName = "First name is required.";
-  } else if (values.firstName.length > 150) {
-    errors.firstName = "First name can't exceed 150 characters.";
+  } else if (values.firstName.length > 748) {
+    errors.firstName = "First name can't exceed 748 characters.";
   }
 
   if (!values.lastName) {

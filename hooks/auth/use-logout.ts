@@ -7,10 +7,17 @@ const useLogout = () => {
   const {onClearTokens} = useAuthTokens();
 
   const onLogout = async () => {
-
     await onClearTokens();
-    setUserContext({});
-    router.push('/')
+    setUserContext({
+      userId: '',
+      username: '',
+      firstName: '',
+      lastName: '',
+      bio: '',
+      userRole: '',
+      profileImageUri: '',
+    });
+    router.replace('/')
   }
 
   return {
