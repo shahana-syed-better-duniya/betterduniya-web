@@ -1,7 +1,7 @@
-import {useEffect} from "react";
-import {useUserContext} from "@/utils/user/user-context";
 import useAuthTokens from "@/hooks/auth/use-auth-tokens";
-import {useRouter} from "expo-router";
+import { useUserContext } from "@/utils/user/user-context";
+import { useRouter } from "expo-router";
+import { useEffect } from "react";
 
 const useLogoutTimer = () => {
   const router = useRouter();
@@ -9,7 +9,6 @@ const useLogoutTimer = () => {
   const {onGetRefreshTokenExpiry, onClearTokens} = useAuthTokens();
 
   const onLogout = async () => {
-    console.log("logging out");
     setUserContext({});
     await onClearTokens();
     router.navigate("/");
@@ -25,10 +24,10 @@ const useLogoutTimer = () => {
       if (now >= expiryTime) {
         await onLogout();
       } else {
-        const timeUntilExpiry = expiryTime - now;
-        const timerId = setTimeout(onLogout, timeUntilExpiry);
-        console.log("Timer Set for:", timeUntilExpiry, "ms");
-        return () => clearTimeout(timerId);
+        const timeUntilExpiry = expiryTime.getTime() - now.getTime();
+  const timerId = setTimeout(onLogout, timeUntilExpiry);
+  // timer scheduled; no debug logging
+  return () => clearTimeout(timerId);
       }
     }
   };

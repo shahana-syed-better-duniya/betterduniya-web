@@ -1,24 +1,17 @@
-import {createContext, useContext} from 'react';
+import { useContext } from 'react';
+import { UserContext, UserContextType } from './user-provider';
 
-export interface UserContextType {
-  userId: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  bio: string;
-  userRole: string;
-  profileImageUri: string;
-  setUserContext: (data: Partial<UserContextType>) => void;
-}
-
-export const UserContext = createContext<UserContextType | null>(null);
-
+// ----------------------------
+// Custom hook to access UserContext
+// Throws error if used outside provider
+// ----------------------------
 export const useUserContext = (): UserContextType => {
   const context = useContext(UserContext);
-
   if (!context) {
     throw new Error('useUserContext must be used within a UserContextProvider');
   }
-
   return context;
 };
+
+// Re-export type for convenience
+export type { UserContextType };

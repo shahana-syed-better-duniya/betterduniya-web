@@ -1,30 +1,41 @@
-import {Stack} from "expo-router";
-import {StatusBar} from "expo-status-bar";
-import React from "react";
-import {UserProvider} from "@/utils/user/user-provider";
-import {ProductReviewProvider} from "@/utils/products/product-review-provider";
 import useLogoutTimer from "@/hooks/auth/use-logout-timer";
+import { ProductReviewProvider } from "@/utils/products/product-review-provider";
+import { UserProvider } from "@/utils/user/user-provider";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
-const LayoutScreens = ()=> {
+// ----------------------------
+// Screens inside Stack
+// ----------------------------
+const LayoutScreens = () => {
+  // Start logout timer (auto logout after inactivity)
   useLogoutTimer();
+
   return (
     <Stack>
-      <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-      <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-      <Stack.Screen name="+not-found"/>
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="+not-found" />
     </Stack>
-  )
-}
+  );
+};
 
+// ----------------------------
+// Main Layout wrapped with Providers
+// ----------------------------
 const Layout = () => {
   return (
+    // Provide global user state
     <UserProvider>
+      {/* Provide product review context */}
       <ProductReviewProvider>
-        <LayoutScreens/>
-        <StatusBar style="auto"/>
+        {/* Stack Screens */}
+        <LayoutScreens />
+        {/* Status bar for the app */}
+        <StatusBar style="auto" />
       </ProductReviewProvider>
     </UserProvider>
-  )
-}
+  );
+};
 
 export default Layout;

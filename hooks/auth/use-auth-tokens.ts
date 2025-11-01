@@ -1,6 +1,6 @@
-import * as SecureStore from 'expo-secure-store';
-import {Platform} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from 'expo-secure-store';
+import { Platform } from "react-native";
 
 const isMobile = Platform.OS !== 'web';
 const getItemAsync = isMobile ? SecureStore.getItemAsync : AsyncStorage.getItem;
@@ -26,15 +26,15 @@ const useAuthTokens = () => {
   };
 
   const onSetAccessToken = async (accessToken: string) => {
-    await setItemAsync(ACCESS_TOKEN_KEY, accessToken);
+    await setItemAsync(ACCESS_TOKEN_KEY, String(accessToken));
   }
 
   const onSetRefreshToken = async (refreshToken: string) => {
-    await setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
+    await setItemAsync(REFRESH_TOKEN_KEY, String(refreshToken));
   }
 
   const onSetRefreshTokenExpiry = async (refreshTokenExpiry: string) => {
-    await setItemAsync(REFRESH_TOKEN_EXPIRY_KEY, refreshTokenExpiry);
+    await setItemAsync(REFRESH_TOKEN_EXPIRY_KEY, String(refreshTokenExpiry));
   };
 
   const onClearTokens = async () => {
