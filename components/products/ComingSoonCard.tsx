@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 const ComingSoonCard = () => {
   return (
@@ -7,8 +7,8 @@ const ComingSoonCard = () => {
       <View style={stylesLocal.circle}>
         <Text style={stylesLocal.exclamation}>!</Text>
       </View>
-        <Text style={stylesLocal.title}>Coming Soon</Text>
-        <Text style={stylesLocal.subtitle}>Cool products and amazing deals!!</Text>
+        <Text style={stylesLocal.title}>Advertisements!</Text>
+        <Text style={stylesLocal.subtitle}>Coming Soon! Find Cool products and amazing deals!!</Text>
     </View>
   );
 };

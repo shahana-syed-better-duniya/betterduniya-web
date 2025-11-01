@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const {width, height} = Dimensions.get("window");
 // const LOGO_SIZE = Math.min(150, Math.max(180, width * 0.28)); // between 64 and 110 px
@@ -101,6 +101,9 @@ export const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderRadius: 30,
 
+  },
+  tabBtnActive: {
+    backgroundColor: "#FFBF00",
   },
   tabText: {
     fontSize: 16,

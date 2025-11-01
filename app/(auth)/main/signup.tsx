@@ -1,12 +1,19 @@
-import React from "react";
-import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {styles} from "@/utils/auth/styles";
-import useString from "@/hooks/primitive/use-string";
-import useRegistration from "@/hooks/auth/use-registration";
-import {useForm} from "@/hooks/interaction/use-form";
-import {validateSignUp} from "@/utils/auth/validators";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
-
+import useRegistration from "@/hooks/auth/use-registration";
+import { useForm } from "@/hooks/interaction/use-form";
+import { styles } from "@/utils/auth/styles";
+import { validateSignUp } from "@/utils/auth/validators";
+import {
+  ActivityIndicator,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
 export default function Signup() {
@@ -48,120 +55,109 @@ export default function Signup() {
   };
 
   return (
-    <>
-      <View style={styles.inputSection}>
-        <TextInputRequired
-          style={styles.input}
-          value={values.email}
-          onChangeText={handleChange('email')}
-          onBlur={handleBlur("email")}
-          touched={touched.email}
-          error={errors.email}
-          placeholder="Email *"
-          placeholderTextColor="#888"
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInputRequired
-          style={styles.input}
-          value={values.username}
-          onChangeText={handleChange('username')}
-          onBlur={handleBlur("username")}
-          touched={touched.username}
-          error={errors.username}
-          placeholder="Username *"
-          placeholderTextColor="#888"
-          autoCapitalize="none"
-        />
-        <View style={stylesLocal.rowContainer}>
-          <View style={stylesLocal.inputWrapper}>
-            <TextInputRequired
-              style={styles.input}
-              value={values.firstName}
-              onChangeText={handleChange('firstName')}
-              onBlur={handleBlur("firstName")}
-              touched={touched.firstName}
-              error={errors.firstName}
-              placeholder="First Name *"
-              placeholderTextColor="#888"
-              autoCapitalize="none"
-            />
-          </View>
-          <View style={stylesLocal.inputWrapper}>
-            <TextInputRequired
-              style={styles.input}
-              value={values.lastName}
-              onChangeText={handleChange('lastName')}
-              onBlur={handleBlur("lastName")}
-              touched={touched.lastName}
-              error={errors.lastName}
-              placeholder="Last Name *"
-              placeholderTextColor="#888"
-              autoCapitalize="none"
-            />
-          </View>
-        </View>
-        <TextInputRequired
-          style={styles.input}
-          value={values.password}
-          onChangeText={handleChange('password')}
-          onBlur={handleBlur("password")}
-          touched={touched.password}
-          error={errors.password}
-          placeholder="Password *"
-          placeholderTextColor="#888"
-          secureTextEntry
-        />
-        <TextInputRequired
-          style={styles.input}
-          placeholder="Confirm Password *"
-          placeholderTextColor="#888"
-          value={values.confirmPassword}
-          onChangeText={handleChange('confirmPassword')}
-          onBlur={handleBlur("confirmPassword")}
-          touched={touched.confirmPassword}
-          error={errors.confirmPassword}
-          secureTextEntry
-        />
-      </View>
-
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#000"/>
-      ) : (
-        <TouchableOpacity
-          style={[
-            styles.loginBtn,
-            !isValid && {backgroundColor: "#ccc"},
-          ]}
-          onPress={handleSignUp}
-          disabled={!isValid}
+     
+    <KeyboardAvoidingView
+      style={{ flex: 1, paddingHorizontal: 0, paddingTop: 20 }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 0, paddingVertical:0 , marginLeft: 0, marginRight: 100}}
+          keyboardShouldPersistTaps="handled"
+          enableOnAndroid={true}
+          extraScrollHeight={20}
         >
-          <Text style={styles.loginBtnText}>Sign Up</Text>
-        </TouchableOpacity>
+         
+          <View style={[styles.inputSection, { width: '100%', alignSelf: 'stretch', paddingHorizontal: 0 , marginHorizontal: 0, marginLeft: 10, marginRight: 100}]}>
+            <TextInputRequired
+              style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
+              value={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur("email")}
+              touched={touched.email}
+              error={errors.email}
+              placeholder="Email *"
+              placeholderTextColor="#888"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInputRequired
+              style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
+              value={values.username}
+              onChangeText={handleChange('username')}
+              onBlur={handleBlur("username")}
+              touched={touched.username}
+              error={errors.username}
+              placeholder="Username *"
+              placeholderTextColor="#888"
+              autoCapitalize="none"
+            />
+            <TextInputRequired
+              style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
+                  value={values.firstName}
+                  onChangeText={handleChange('firstName')}
+                  onBlur={handleBlur("firstName")}
+                  touched={touched.firstName}
+                  error={errors.firstName}
+                  placeholder="First Name *"
+                  placeholderTextColor="#888"
+                  autoCapitalize="none"
+              />
+            <TextInputRequired
+              style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
+                  value={values.lastName}
+                  onChangeText={handleChange('lastName')}
+                  onBlur={handleBlur("lastName")}
+                  touched={touched.lastName}
+                  error={errors.lastName}
+                  placeholder="Last Name *"
+                  placeholderTextColor="#888"
+                  autoCapitalize="none"
+              />
+            <TextInputRequired
+              style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
+              value={values.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur("password")}
+              touched={touched.password}
+              error={errors.password}
+              placeholder="Password *"
+              placeholderTextColor="#888"
+              secureTextEntry
+            />
+            <TextInputRequired
+              style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
+              placeholder="Confirm Password *"
+              placeholderTextColor="#888"
+              value={values.confirmPassword}
+              onChangeText={handleChange('confirmPassword')}
+              onBlur={handleBlur("confirmPassword")}
+              touched={touched.confirmPassword}
+              error={errors.confirmPassword}
+              secureTextEntry
+            />
+          </View>
+        
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#000"/>
+          ) : (
+            <TouchableOpacity
+              style={[
+                styles.loginBtn,
+                {alignSelf: "flex-end"},
+                !isValid && {backgroundColor: "#ccc"},
+              ]}
+              onPress={handleSignUp}
+              disabled={!isValid}
+            >
+              <Text style={styles.loginBtnText}>Sign Up</Text>
+            </TouchableOpacity>
       )}
-    </>
+      </KeyboardAwareScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+    
   );
 }
-const stylesLocal = StyleSheet.create({
-  rowContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between', // Add spacing between the inputs
-    alignItems: 'flex-start', // Align inputs to the top
-  },
-  inputWrapper: {
-    flex: 1, // Allow inputs to share available space
-    marginRight: 8, // Add spacing between the two inputs
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    borderRadius: 5,
-    fontSize: 16,
-  },
-  inputError: {
-    color: 'red',
-    fontSize: 12,
-    marginTop: 4,
-  },
-});
+

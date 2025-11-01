@@ -1,21 +1,21 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: '#00000099',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modal: {
     width: 300,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFFFFF',
     borderRadius: 25,
     padding: 25,
     alignItems: 'center',
   },
-  title: {fontSize: 22, fontWeight: 'bold', color: 'white', textAlign: 'center'},
-  message: {marginTop: 10, fontSize: 17, textAlign: 'center', color: 'white'},
+  title: {fontSize: 22, fontWeight: 'bold', color: '#333333', textAlign: 'center'},
+  message: {marginTop: 10, fontSize: 17, textAlign: 'center', color: '#666666'},
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 20,
@@ -34,6 +34,6 @@ export const styles = StyleSheet.create({
   },
   btnTxt: {
     fontWeight: 800,
-      color: '#F5F5F5',
+    color: '#FFFFFF',
   }
 });

@@ -9,16 +9,16 @@ import { validateReview } from "@/utils/products/validators";
 import { useUserContext } from "@/utils/user/user-context";
 import React from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Dimensions,
-    FlatList,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import DualRowRating from "../../components/products/Rating";
@@ -237,7 +237,7 @@ export default function Review() {
       <AlertPromptModal
         visible={isClickedComingSoonButtons.value}
         onCancel={isClickedComingSoonButtons.onFalse}
-        desc={''} title={'Review has been submitted!'}/>
+        desc={''} title={'Yay! Review is posted!'}/>
     </ScrollView>
   );
 }

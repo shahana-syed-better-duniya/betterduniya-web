@@ -1,9 +1,8 @@
-import {styles} from "@/utils/auth/styles";
-import {KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
-import React from "react";
-import Feather from 'react-native-vector-icons/Feather';
-import { Shadow } from 'react-native-shadow-2';
 import AppLogo from "@/components/layouts/AppLogo";
+import { styles } from "@/utils/auth/styles";
+import React from "react";
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Shadow } from 'react-native-shadow-2';
 
 interface LayoutProps {
   children: React.ReactElement;
@@ -15,13 +14,16 @@ const AuthScreenLayout: React.FC<LayoutProps> = ({children}) => {
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
         style={{flex: 1}}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+        enabled={true}
       >
         <ScrollView
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={{...styles.scrollContent, flexGrow: 1}}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          automaticallyAdjustKeyboardInsets={true}
         >
           <View style={styles.logoSection}>
             <View style={styles.logoCircle}>

@@ -1,6 +1,6 @@
+import { styles } from "@/components/products/prompt-modal-styles";
 import React from 'react';
-import {Modal, Text, TouchableOpacity, View} from 'react-native';
-import {styles} from "@/components/products/prompt-modal-styles";
+import { Modal, Text, TouchableOpacity, View } from 'react-native';
 
 
 export default function AlertPromptModal({visible, onCancel, title, desc}: {
@@ -10,7 +10,12 @@ export default function AlertPromptModal({visible, onCancel, title, desc}: {
   desc: string,
 }) {
   return (
-    <Modal transparent visible={visible} animationType="fade">
+    <Modal 
+      transparent 
+      visible={visible} 
+      animationType="fade"
+      statusBarTranslucent={true}
+    >
       <View style={styles.overlay}>
         <View style={styles.modal}>
           <Text style={styles.title}>{title}</Text>
