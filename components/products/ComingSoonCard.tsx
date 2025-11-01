@@ -8,7 +8,7 @@ const ComingSoonCard = () => {
         <Text style={stylesLocal.exclamation}>!</Text>
       </View>
         <Text style={stylesLocal.title}>Coming Soon</Text>
-        <Text style={stylesLocal.subtitle}>Stay tuned for exciting updates!</Text>
+        <Text style={stylesLocal.subtitle}>Cool products and amazing deals!!</Text>
     </View>
   );
 };

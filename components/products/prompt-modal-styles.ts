@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   modal: {
     width: 300,
-    backgroundColor: '#FFBF00',
+    backgroundColor: '#F5F5F5',
     borderRadius: 25,
     padding: 25,
     alignItems: 'center',
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 20,
     paddingVertical: 8,
-    backgroundColor: '#ddd',
+    backgroundColor: '#FFB300',
     borderRadius: 50,
     shadowColor: "black",
     shadowOpacity: 0.3,
@@ -34,6 +34,6 @@ export const styles = StyleSheet.create({
   },
   btnTxt: {
     fontWeight: 800,
-    color: 'white',
+      color: '#F5F5F5',
   }
 });

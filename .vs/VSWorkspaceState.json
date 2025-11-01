@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app\\(auth)",
+    "\\app\\(auth)\\main",
+    "\\components",
+    "\\components\\layouts",
+    "\\components\\products",
+    "\\components\\ui"
+  ],
+  "SelectedNode": "\\components\\products\\prompt-modal-styles.ts",
+  "PreviewInSolutionExplorer": false
+}
