@@ -5,7 +5,7 @@ workflows:
     instance_type: mac_mini_m2
     environment:
       android_signing:
-        - keystore_android_reference
+        - ref_name_key
       vars:
         PACKAGE_NAME: "io.enactus.duniya.reactnative"
     scripts:
@@ -31,9 +31,6 @@ workflows:
     publishing:
       email:
         recipients:
-          - sunnywongs523@gmail.com
           - shahanahsyed@gmail.com
-          - 101463656@georgebrown.ca
-          - hans.casilao@gmail.com
         notify:
           success: true

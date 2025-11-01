@@ -1,7 +1,7 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
-const prodUrl = 'https://betterduniya.azurewebsites.net';
-const localUrl = 'https://localhost:7029';
+const prodUrl = 'https://betterduniya-api-cveaghhdc0a8hdbu.canadacentral-01.azurewebsites.net/';
+//const localUrl = 'https://localhost:7029';
 
 export const backendUrl: string = prodUrl;
 
