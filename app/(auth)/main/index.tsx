@@ -1,11 +1,9 @@
-import React, {useRef, useState} from "react";
-import {Animated, Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Signup from "@/app/(auth)/main/signup";
 import Login from "@/app/(auth)/main/login";
-import {CARD_WIDTH, THEMES} from "@/constants/themes";
+import Signup from "@/app/(auth)/main/signup";
 import ViewCard from "@/components/layouts/ViewCard";
-import {styles} from "@/utils/auth/styles";
-import AppLogo from "@/components/layouts/AppLogo";
+import { THEMES } from "@/constants/themes";
+import React, { useRef, useState } from "react";
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function LoginScreen() {
   const [activeTab, setActiveTab] = useState("login");
@@ -97,7 +95,7 @@ const stylesLocal = StyleSheet.create({
   },
 })
 
-export const stylesForSlide = {
+export const stylesForSlide = StyleSheet.create({
   tabRow: {
     flexDirection: "row",
     position: "relative",
@@ -130,4 +128,4 @@ export const stylesForSlide = {
     borderRadius: 25,
     zIndex: 0,
   },
-};
+});

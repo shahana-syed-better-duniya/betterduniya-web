@@ -1,7 +1,7 @@
 import ForgotPasswordScreen from "@/app/(auth)/forget";
 import TextInputRequired from "@/components/inputs/TextInputRequired";
 import useLogin from "@/hooks/auth/use-login";
-import useLoginGoogle from "@/hooks/auth/use-login-google";
+// import useLoginGoogle from "@/hooks/auth/use-login-google"; // Commented out - Google Sign-In disabled
 import useLoginSave from "@/hooks/auth/use-login-save";
 import { useForm } from "@/hooks/interaction/use-form";
 import { useBoolean } from "@/hooks/primitive/use-boolean";
@@ -10,7 +10,7 @@ import { styles } from "@/utils/auth/styles";
 import { validateLogin } from "@/utils/auth/validators";
 import { router } from "expo-router";
 import React from "react";
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 export default function Login() {
   const {onLogin, isLoading,} = useLogin();
@@ -61,23 +61,23 @@ export default function Login() {
     }
   };
 
+  // GOOGLE SIGN-IN FUNCTIONALITY COMMENTED OUT
+  // const {onLogin:onLoginGoogle} = useLoginGoogle();
 
-  const {onLogin:onLoginGoogle} = useLoginGoogle();
-
-  const onSocialPress = async (provider: string) => {
-    console.log('🎯 [Login Component] Google Sign-In button pressed');
-    console.log('🎯 [Login Component] Provider:', provider);
-    
-    try {
-      console.log('🎯 [Login Component] Calling onLoginGoogle()...');
-      await onLoginGoogle();
-      console.log('🎉 [Login Component] Google Sign-In completed successfully!');
-    } catch (error: any) {
-      console.error('🎯 [Login Component] Google login failed in component:', error);
-      console.error('🎯 [Login Component] Error message:', error?.message);
-      loginError.onChangeValue(`Google sign-in failed: ${error?.message || 'Unknown error'}. Please try email/password login.`);
-    }
-  };
+  // const onSocialPress = async (provider: string) => {
+  //   console.log('🎯 [Login Component] Google Sign-In button pressed');
+  //   console.log('🎯 [Login Component] Provider:', provider);
+  //   
+  //   try {
+  //     console.log('🎯 [Login Component] Calling onLoginGoogle()...');
+  //     await onLoginGoogle();
+  //     console.log('🎉 [Login Component] Google Sign-In completed successfully!');
+  //   } catch (error: any) {
+  //     console.error('🎯 [Login Component] Google login failed in component:', error);
+  //     console.error('🎯 [Login Component] Error message:', error?.message);
+  //     loginError.onChangeValue(`Google sign-in failed: ${error?.message || 'Unknown error'}. Please try email/password login.`);
+  //   }
+  // };
 
   if (isForgetPassword.value) {
     return (
@@ -127,12 +127,14 @@ export default function Login() {
       )}
 
       {!loginError.isEmpty && <Text style={styles.inputError}>{loginError.value}</Text>}
-      <Text style={styles.orText}>Or Continue with</Text>
+      
+      {/* GOOGLE SIGN-IN UI COMMENTED OUT */}
+      {/* <Text style={styles.orText}>Or Continue with</Text>
       <View style={styles.socialRow}>
         <TouchableOpacity onPress={() => onSocialPress("google")}>
           <Image source={require("@/assets/images/google.png")} style={styles.socialIcon}/>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </>
   );
 }
