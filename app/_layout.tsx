@@ -1,10 +1,8 @@
 import useLogoutTimer from "@/hooks/auth/use-logout-timer";
-import { configureGoogleSignIn } from "@/utils/google-signin-config";
 import { ProductReviewProvider } from "@/utils/products/product-review-provider";
 import { UserProvider } from "@/utils/user/user-provider";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
 
 // ----------------------------
 // Screens inside Stack
@@ -26,17 +24,8 @@ const LayoutScreens = () => {
 // Main Layout wrapped with Providers
 // ----------------------------
 const Layout = () => {
-  // Configure Google Sign-In on app start
-  useEffect(() => {
-    console.log('🏗️  [App Layout] App started, configuring Google Sign-In...');
-    try {
-      configureGoogleSignIn();
-      console.log('✅ [App Layout] Google Sign-In configuration completed in app layout');
-    } catch (error) {
-      console.error('❌ [App Layout] Failed to configure Google Sign-In:', error);
-    }
-  }, []);
-
+  // Note: Google Sign-In now uses browser-based OAuth, no configuration needed on app start
+  
   return (
     // Provide global user state
     <UserProvider>
