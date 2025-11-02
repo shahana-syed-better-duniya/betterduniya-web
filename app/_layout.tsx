@@ -1,7 +1,7 @@
 import useLogoutTimer from "@/hooks/auth/use-logout-timer";
+import { configureGoogleSignIn } from "@/utils/google-signin-config";
 import { ProductReviewProvider } from "@/utils/products/product-review-provider";
 import { UserProvider } from "@/utils/user/user-provider";
-import { configureGoogleSignIn } from "@/utils/google-signin-config";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";

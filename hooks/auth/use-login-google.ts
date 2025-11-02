@@ -1,11 +1,11 @@
-import {makeRedirectUri} from 'expo-auth-session';
-import {oauthConfig} from "@/constants/oauth";
+import { userAuthApi } from "@/api/user/userAuth";
+import { oauthConfig } from "@/constants/oauth";
 import useRequest from "@/hooks/api/use-request";
-import {userAuthApi} from "@/api/user/userAuth";
-import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
 import useLoginSave from "@/hooks/auth/use-login-save";
-import {router} from "expo-router";
+import { UserLoginSuccessInfo } from "@/interfaces/users/userLoginSuccessInfo";
+import { makeRedirectUri } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
+import { router } from "expo-router";
 
 
 const useLoginGoogle = () => {
