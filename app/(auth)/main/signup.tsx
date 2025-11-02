@@ -3,6 +3,7 @@ import useRegistration from "@/hooks/auth/use-registration";
 import { useForm } from "@/hooks/interaction/use-form";
 import { styles } from "@/utils/auth/styles";
 import { validateSignUp } from "@/utils/auth/validators";
+import React from "react";
 import {
   ActivityIndicator,
   Keyboard,
