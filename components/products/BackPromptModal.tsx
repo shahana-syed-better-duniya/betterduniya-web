@@ -1,6 +1,6 @@
+import { styles } from "@/components/products/prompt-modal-styles";
 import React from 'react';
-import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {styles} from "@/components/products/prompt-modal-styles";
+import { Modal, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 
 
 export default function BackPromptModal({visible, onCancel, onConfirm, title, desc}: {
@@ -11,8 +11,13 @@ export default function BackPromptModal({visible, onCancel, onConfirm, title, de
   desc: string,
 }) {
   return (
-    <Modal transparent visible={visible} animationType="fade">
-      <View style={styles.overlay}>
+    <Modal 
+      transparent 
+      visible={visible} 
+      animationType="fade"
+      statusBarTranslucent
+    >
+      <View style={[styles.overlay, {paddingTop: StatusBar.currentHeight || 0}]}>
         <View style={styles.modal}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message}>{desc}</Text>
