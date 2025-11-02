@@ -28,7 +28,13 @@ const LayoutScreens = () => {
 const Layout = () => {
   // Configure Google Sign-In on app start
   useEffect(() => {
-    configureGoogleSignIn();
+    console.log('🏗️  [App Layout] App started, configuring Google Sign-In...');
+    try {
+      configureGoogleSignIn();
+      console.log('✅ [App Layout] Google Sign-In configuration completed in app layout');
+    } catch (error) {
+      console.error('❌ [App Layout] Failed to configure Google Sign-In:', error);
+    }
   }, []);
 
   return (
