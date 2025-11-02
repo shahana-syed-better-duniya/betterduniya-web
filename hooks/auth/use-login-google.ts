@@ -1,68 +1,60 @@
-import {makeRedirectUri} from 'expo-auth-session';
-import {oauthConfig} from "@/constants/oauth";
+import { userAuthApi } from "@/api/user/userAuth";
 import useRequest from "@/hooks/api/use-request";
-import {userAuthApi} from "@/api/user/userAuth";
-import {UserLoginSuccessInfo} from "@/interfaces/users/userLoginSuccessInfo";
 import useLoginSave from "@/hooks/auth/use-login-save";
-import {router} from "expo-router";
-import * as Google from 'expo-auth-session/providers/google';
+import { UserLoginSuccessInfo } from "@/interfaces/users/userLoginSuccessInfo";
+import { configureGoogleSignIn } from "@/utils/google-signin-config";
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { router } from "expo-router";
 
 
 const useLoginGoogle = () => {
   const {onRequest} = useRequest<UserLoginSuccessInfo>();
   const saveLoginResult = useLoginSave();
 
-  const redirectUri = makeRedirectUri({
-    scheme: oauthConfig.scheme,
-  });
-
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: oauthConfig.clientId,
-    redirectUri,
-    scopes: oauthConfig.scopes,
-    responseType:'code'
-  },);
-
   const onLogin = async () => {
     try {
-      const result = await promptAsync();
-      if (result.type === 'success') {
-        const code = result.params.code;
+      // Configure Google Sign-In first
+      configureGoogleSignIn();
 
-        // Exchange the authorization code for an access token or ID token
-        const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: `code=${code}&client_id=${oauthConfig.clientId}&redirect_uri=${redirectUri}&grant_type=authorization_code&code_verifier=${request?.codeVerifier}`,
-        });
+      // Check if device supports Google Play Services
+      await GoogleSignin.hasPlayServices();
 
-        const tokenResponseJson = await tokenResponse.json();
-        const body = {credential: tokenResponseJson.id_token};
+      // Sign in and get the ID token
+      const userInfo = await GoogleSignin.signIn();
+      const idToken = userInfo.data?.idToken;
 
-        const response = await onRequest(userAuthApi.loginAccountByGoogle, [], body, false);
-        const userInfo = response.result;
-        if (userInfo) {
-          await saveLoginResult(userInfo);
-          if (userInfo.accessToken.length > 0) {
-            router.replace('/(tabs)/home');
-          }
-        } else {
-          console.error('UserLoginSuccessInfo is null');
-        }
-      } else {
-        console.log('Authentication failed or cancelled');
+      if (!idToken) {
+        throw new Error('No ID token received from Google');
       }
-    } catch (error) {
-      console.error('Login error:', error);
+
+      // Send ID token to backend (this matches what backend expects)
+      const body = { credential: idToken };
+      const response = await onRequest(userAuthApi.loginAccountByGoogle, [], body, false);
+      const loginResult = response.result;
+
+      if (loginResult && loginResult.accessToken.length > 0) {
+        await saveLoginResult(loginResult);
+        router.replace('/(tabs)/home');
+      } else {
+        throw new Error('No user found. Please register first with email/password.');
+      }
+    } catch (error: any) {
+      console.error('Google login error:', error);
+      
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        throw new Error('Sign in was cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        throw new Error('Sign in is in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        throw new Error('Play services not available');
+      } else {
+        throw new Error(error.message || 'Google sign-in failed');
+      }
     }
   };
 
   return {
     onLogin,
-    request,
-    response,
   };
 };
 

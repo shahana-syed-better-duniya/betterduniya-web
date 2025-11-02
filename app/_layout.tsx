@@ -1,8 +1,10 @@
 import useLogoutTimer from "@/hooks/auth/use-logout-timer";
+import { configureGoogleSignIn } from "@/utils/google-signin-config";
 import { ProductReviewProvider } from "@/utils/products/product-review-provider";
 import { UserProvider } from "@/utils/user/user-provider";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 
 // ----------------------------
 // Screens inside Stack
@@ -24,6 +26,11 @@ const LayoutScreens = () => {
 // Main Layout wrapped with Providers
 // ----------------------------
 const Layout = () => {
+  // Configure Google Sign-In on app start
+  useEffect(() => {
+    configureGoogleSignIn();
+  }, []);
+
   return (
     // Provide global user state
     <UserProvider>

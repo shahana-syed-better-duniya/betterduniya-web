@@ -60,7 +60,13 @@
         }
       ],
       "expo-web-browser",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.365559828766-e3ebe5cujt9r4s7vb6o2v1rfbuojgs4v"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

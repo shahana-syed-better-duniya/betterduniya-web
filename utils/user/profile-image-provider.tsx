@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 const ProfileContext = React.createContext({});
 
-const ProfileImageProvider = ({children}) => {
-  const [profileImageUrl, setProfileImageUrl] = useState<string>(null);
+const ProfileImageProvider = ({children}: {children: ReactNode}) => {
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const loadProfileImageUrl = async () => {
@@ -36,4 +36,5 @@ const ProfileImageProvider = ({children}) => {
   );
 };
 
-export {ProfileImageProvider, ProfileContext};
+export { ProfileContext, ProfileImageProvider };
+
