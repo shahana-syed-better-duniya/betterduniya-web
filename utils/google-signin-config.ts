@@ -1,11 +1,20 @@
-// This file is no longer used - we switched to browser-based OAuth with expo-auth-session
-// The native Google Sign-In SDK was causing DEVELOPER_ERROR issues with SHA-1 fingerprints
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export const configureGoogleSignIn = () => {
-  console.log('⚠️  [Google Config] This function is deprecated - using browser OAuth instead');
+  GoogleSignin.configure({
+    webClientId: '365559828766-e3ebe5cujt9r4s7vb6o2v1rfbuojgs4v.apps.googleusercontent.com',
+    offlineAccess: false,
+    hostedDomain: '',
+    forceCodeForRefreshToken: true,
+    accountName: '',
+  });
 };
 
 export const isGoogleSignInConfigured = async (): Promise<boolean> => {
-  console.log('⚠️  [Google Config] This function is deprecated - using browser OAuth instead');
-  return true;
+  try {
+    await GoogleSignin.hasPlayServices();
+    return true;
+  } catch (error) {
+    return false;
+  }
 };

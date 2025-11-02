@@ -1,4 +1,4 @@
-export const GOOGLE_OAUTH_APP_GUID = '891699588983-jiu9s1f5d9scrtddevkjs92n46pbgmi4';
+export const GOOGLE_OAUTH_APP_GUID = '365559828766-e3ebe5cujt9r4s7vb6o2v1rfbuojgs4v';
 
 export const oauthConfig = {
   authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',

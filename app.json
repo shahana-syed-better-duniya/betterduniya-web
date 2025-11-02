@@ -23,7 +23,7 @@
       "package": "io.enactus.duniya.reactnative"
     },
     "scheme": [
-      "com.googleusercontent.apps.891699588983-jiu9s1f5d9scrtddevkjs92n46pbgmi4"
+      "com.googleusercontent.apps.365559828766-e3ebe5cujt9r4s7vb6o2v1rfbuojgs4v"
     ],
     "web": {
       "bundler": "metro",
@@ -60,8 +60,13 @@
         }
       ],
       "expo-web-browser",
-      "expo-secure-store"
-
+      "expo-secure-store",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "365559828766-e3ebe5cujt9r4s7vb6o2v1rfbuojgs4v.apps.googleusercontent.com"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
