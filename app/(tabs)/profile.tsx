@@ -7,7 +7,7 @@ import { useForm } from "@/hooks/interaction/use-form";
 import useImagePicker from "@/hooks/interaction/use-image-picker";
 import { useBoolean } from "@/hooks/primitive/use-boolean";
 import useEditUserProfile from "@/hooks/user/use-edit-user-profile";
-import useListUserProductReviews from "@/hooks/user/use-list-user-product-reviews";
+import useListUserProductReviewsConditional from "@/hooks/user/use-list-user-product-reviews-conditional";
 import useUploadProfileImage from "@/hooks/user/use-upload-profile-image";
 import { validateBio } from "@/utils/products/validators";
 import { useUserContext } from "@/utils/user/user-context";
@@ -25,15 +25,24 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
 export default function Profile() {
-  const {username, firstName, lastName, bio, profileImageUri, setUserContext} = useUserContext();
+  const {userId, username, firstName, lastName, bio, profileImageUri, setUserContext, isLoaded} = useUserContext();
 
   const {onUpload} = useUploadProfileImage();
   const {handlePickImages} = useImagePicker();
 
+  // Only initialize user reviews if user is authenticated
+  const isAuthenticated = userId && userId.length > 0;
+  
   const {
     summary,
     onUpdate,
-  } = useListUserProductReviews();
+  } = useListUserProductReviewsConditional();
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      onUpdate();
+    }
+  }, [isAuthenticated, onUpdate]);
 
   const handleUploadProfileImage = async (e: GestureResponderEvent) => {
     const imagesLocal = await handlePickImages();

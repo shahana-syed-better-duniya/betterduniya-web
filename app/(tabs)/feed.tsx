@@ -5,6 +5,7 @@ import useInit from "@/hooks/api/use-init";
 import useFeedList from "@/hooks/product/use-feed-list";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import { useProductReviewContext } from "@/utils/products/product-review-context";
+import { useUserContext } from "@/utils/user/user-context";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useRef, useState } from "react";
 import {
@@ -31,13 +32,24 @@ const {width, height} = Dimensions.get("window");
 
 
 const Feed = () => {
+  const { userId, isLoaded } = useUserContext();
   const {summary: feedSummary, onUpdate} = useFeedList();
-  useInit(onUpdate);
+  
+  // Only initialize if user is logged in
+  const isAuthenticated = userId && userId.length > 0;
+  
+  useInit(() => {
+    if (isAuthenticated) {
+      onUpdate();
+    }
+  });
 
   useFocusEffect(
     useCallback(() => {
-      onUpdate();
-    }, [onUpdate])
+      if (isAuthenticated) {
+        onUpdate();
+      }
+    }, [onUpdate, isAuthenticated])
   );
 
   // Add search logic
@@ -140,7 +152,20 @@ const Feed = () => {
         />
       </Animated.View>
       {/* Render ProductReviewList directly, but pass onScroll and scrollEventThrottle for header animation */}
-      {selected !== 'All' ? (
+      {!isLoaded ? (
+        <View style={{padding: 32, alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="#FFC107"/>
+        </View>
+      ) : !isAuthenticated ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop: HEADER_MAX_HEIGHT }}>
+          <Text style={{ textAlign: 'center', color: '#888', fontSize: 18, marginBottom: 8 }}>
+            Welcome to Better Duniya!
+          </Text>
+          <Text style={{ textAlign: 'center', color: '#666', fontSize: 16 }}>
+            Please log in to view product reviews and connect with the community.
+          </Text>
+        </View>
+      ) : selected !== 'All' ? (
         <ComingSoonCard/>
       ) : isLoading ? (
         <View style={{padding: 32, alignItems: 'center'}}>
