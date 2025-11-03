@@ -97,32 +97,34 @@ export default function Login() {
 
   return (
     <>
-      <FormWrapper style={styles.inputSection} {...formProps}>
-        <TextInputRequired
-          value={values.email}
-          onChangeText={handleChange("email")}
-          onBlur={handleBlur("email")}
-          touched={touched.email}
-          error={errors.email}
-          placeholder="Email *"
-          placeholderTextColor="#888"
-          autoCapitalize="none"
-        />
-        <TextInputRequired
-          secureTextEntry
-          value={values.password}
-          onChangeText={handleChange("password")}
-          onBlur={handleBlur("password")}
-          touched={touched.password}
-          error={errors.password}
-          placeholder="Password *"
-          placeholderTextColor="#888"
-        />
+      <View style={styles.inputSection}>
+        <FormWrapper {...formProps}>
+          <TextInputRequired
+            value={values.email}
+            onChangeText={handleChange("email")}
+            onBlur={handleBlur("email")}
+            touched={touched.email}
+            error={errors.email}
+            placeholder="Email *"
+            placeholderTextColor="#888"
+            autoCapitalize="none"
+          />
+          <TextInputRequired
+            secureTextEntry
+            value={values.password}
+            onChangeText={handleChange("password")}
+            onBlur={handleBlur("password")}
+            touched={touched.password}
+            error={errors.password}
+            placeholder="Password *"
+            placeholderTextColor="#888"
+          />
+        </FormWrapper>
 
         <TouchableOpacity onPress={isForgetPassword.onToggle} style={styles.forgotPassword}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
-      </FormWrapper>
+      </View>
 
       {isLoading ? (
         <ActivityIndicator size="large" color="#000"/>

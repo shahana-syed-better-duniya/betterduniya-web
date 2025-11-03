@@ -80,7 +80,8 @@ export default function Signup() {
           extraScrollHeight={20}
         >
          
-          <FormWrapper style={[styles.inputSection, { width: '100%', alignSelf: 'stretch', paddingHorizontal: 0 , marginHorizontal: 0, marginLeft: 10, marginRight: 100}]} {...formProps}>
+          <View style={[styles.inputSection, { width: '100%', alignSelf: 'stretch', paddingHorizontal: 0 , marginHorizontal: 0, marginLeft: 10, marginRight: 100}]}>
+            <FormWrapper {...formProps}>
             <TextInputRequired
               style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
               value={values.email}
@@ -148,7 +149,8 @@ export default function Signup() {
               error={errors.confirmPassword}
               secureTextEntry
             />
-          </FormWrapper>
+            </FormWrapper>
+          </View>
         
           {isLoading ? (
             <ActivityIndicator size="large" color="#000"/>
