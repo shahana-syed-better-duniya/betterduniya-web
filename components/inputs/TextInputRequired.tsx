@@ -50,10 +50,49 @@ const TextInputRequired: React.FC<TextInputRequiredProps> = ({
     name: placeholder?.toLowerCase().replace(/\s+/g, '').replace('*', '') || 'input',
   } : {};
 
+  // Enhanced styles for better web display
+  const getInputStyle = () => {
+    const baseStyle = style ?? styles.input;
+    if (Platform.OS === 'web') {
+      return [
+        baseStyle,
+        keyboardType === 'email-address' && {
+          minWidth: 280,
+          width: '100%' as any,
+          maxWidth: 350,
+        },
+        {
+          //@ts-ignore - Web-specific CSS properties
+          display: 'block',
+          //@ts-ignore - Web-specific CSS properties
+          boxSizing: 'border-box',
+        }
+      ];
+    }
+    return baseStyle;
+  };
+
+  const getErrorStyle = () => {
+    if (Platform.OS === 'web') {
+      return [
+        styles.inputError,
+        {
+          //@ts-ignore - Web-specific CSS properties
+          display: 'block',
+          //@ts-ignore - Web-specific CSS properties
+          width: '100%',
+          marginTop: 4,
+          marginBottom: 8,
+        }
+      ] as any;
+    }
+    return styles.inputError;
+  };
+
   return (
     <>
       <TextInput
-        style={style ?? styles.input}
+        style={getInputStyle()}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor ?? "#bbb"}
         value={value}
@@ -67,7 +106,7 @@ const TextInputRequired: React.FC<TextInputRequiredProps> = ({
         {...webProps}
       />
       {touched && error != null && (
-        <Text style={styles.inputError}>{error}</Text>
+        <Text style={getErrorStyle()}>{error}</Text>
       )}
     </>
   )
