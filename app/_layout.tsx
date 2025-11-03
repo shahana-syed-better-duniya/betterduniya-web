@@ -2,7 +2,9 @@ import useLogoutTimer from "@/hooks/auth/use-logout-timer";
 import { configureGoogleSignIn } from "@/utils/google-signin-config";
 import { ProductReviewProvider } from "@/utils/products/product-review-provider";
 import { UserProvider } from "@/utils/user/user-provider";
+import { Jura_400Regular, useFonts } from '@expo-google-fonts/jura';
 import { Stack } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 
@@ -26,10 +28,28 @@ const LayoutScreens = () => {
 // Main Layout wrapped with Providers
 // ----------------------------
 const Layout = () => {
+  // Load fonts
+  let [fontsLoaded] = useFonts({
+    Jura_400Regular,
+  });
+
   // Configure Google Sign-In on app start
   useEffect(() => {
     configureGoogleSignIn();
   }, []);
+
+  useEffect(() => {
+    async function prepare() {
+      if (fontsLoaded) {
+        await SplashScreen.hideAsync();
+      }
+    }
+    prepare();
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     // Provide global user state

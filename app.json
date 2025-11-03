@@ -34,19 +34,10 @@
       [
         "expo-font",
         {
-          "android": {
-            "fonts": [
-              {
-                "fontFamily": "Jura_400Regular",
-                "fontDefinitions": [
-                  {
-                    "path": "./assets/fonts/Jura-Regular.ttf",
-                    "weight": 400
-                  }
-                ]
-              }
-            ]
-          }
+          "fonts": [
+            "./assets/fonts/Jura-Regular.ttf",
+            "./assets/fonts/Jura-VariableFont_wght.ttf"
+          ]
         }
       ],
       "expo-router",
