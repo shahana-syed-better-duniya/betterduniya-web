@@ -1,0 +1,49 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ website-development ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build
+      run: npm run build
+      env:
+        BACKEND_URL: ${{ secrets.BACKEND_URL || 'https://api.yourdomain.com' }}
+        BACKEND_URL_PROD: ${{ secrets.BACKEND_URL_PROD || 'https://api.yourdomain.com' }}
+        BACKEND_URL_TEST: ${{ secrets.BACKEND_URL_TEST || 'https://test-api.yourdomain.com' }}
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: './dist'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
