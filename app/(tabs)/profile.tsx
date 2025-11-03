@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: 'white'
   },
-  quickLabel: {fontSize: height * 0.014, color: "#888", marginTop: 6, marginBottom: 2, textAlign: 'center'},
+  quickLabel: {fontSize: height * 0.014, color: "#888", marginTop: 6, marginBottom: 2, textAlign: 'center', fontFamily: 'Jura_400Regular'},
   fabStack: {
     position: "absolute", right: 18, bottom: 32, alignItems: "flex-end", zIndex: 10,
   },

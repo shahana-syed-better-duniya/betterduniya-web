@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: height * 0.04,
     fontWeight: 600,
-    fontFamily: "ClashGrotesk",
+    fontFamily: "Jura_400Regular",
     color: "#1B1B1B",
     marginBottom: height * 0.01,
   },
