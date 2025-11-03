@@ -1,7 +1,6 @@
-import {Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import React, { forwardRef } from "react";
-import { Keyboard } from "react-native";
+import { Dimensions, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 interface SearchBarProps {
   searchValue: string;
@@ -12,8 +11,8 @@ interface SearchBarProps {
 }
 const {width, height} = Dimensions.get("window");
 
-const SearchBar = forwardRef<TextInput, SearchBarProps>(
-  ({searchValue, icon, onChangeText, placeholder, onSearch}, ref) => {
+const SearchBar = forwardRef<TextInput, SearchBarProps>(function SearchBar(
+  {searchValue, icon, onChangeText, placeholder, onSearch}, ref) {
     return (
       <View style={styles.searchRow}>
         <View style={styles.searchBar}>
@@ -29,7 +28,7 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(
                 Keyboard.dismiss();   // Hides the keyboard
                 onSearch();           // Calls search function
              }}
-            returnKeyType="Go!"         // This shows "Go" on the keyboard
+            returnKeyType="go"         // This shows "Go" on the keyboard
           />
         </View>
         <TouchableOpacity style={styles.goButton} onPress={onSearch}>

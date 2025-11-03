@@ -1,5 +1,5 @@
-import {createContext, useContext} from 'react';
-import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
+import { ProductReviewSummary } from "@/interfaces/products/productReviewSummary";
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 export interface ProductReviewContextType {
   summary?: ProductReviewSummary;
@@ -17,4 +17,31 @@ export const useProductReviewContext = (): ProductReviewContextType => {
   }
 
   return context;
+};
+
+// Provider component for testing
+export const ProductReviewContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [summary, setSummary] = useState<ProductReviewSummary | undefined>();
+  const [previousSearchValue, setPreviousSearchValue] = useState<string>('');
+
+  const setProductReviewContext = (data: Partial<ProductReviewContextType>) => {
+    if (data.summary !== undefined) {
+      setSummary(data.summary);
+    }
+    if (data.previousSearchValue !== undefined) {
+      setPreviousSearchValue(data.previousSearchValue);
+    }
+  };
+
+  const value: ProductReviewContextType = {
+    summary,
+    previousSearchValue,
+    setProductReviewContext,
+  };
+
+  return React.createElement(
+    ProductReviewContext.Provider,
+    { value },
+    children
+  );
 };

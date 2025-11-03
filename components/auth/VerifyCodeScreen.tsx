@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity, BackHandler} from "react-native";
-import useString from "@/hooks/primitive/use-string";
-import {styles} from "@/utils/auth/styles";
 import ViewCard from "@/components/layouts/ViewCard";
-import useTimer from "@/hooks/auth/use-timer";
-import { useNavigation } from '@react-navigation/native';
 import BackPromptModal from '@/components/products/BackPromptModal';
+import useTimer from "@/hooks/auth/use-timer";
+import useString from "@/hooks/primitive/use-string";
+import { styles } from "@/utils/auth/styles";
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from "react";
+import { BackHandler, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
 
 export interface VerifyCodeScreenProps {
   email: string;
@@ -98,7 +98,7 @@ const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
       </TouchableOpacity>
 
       <Text style={stylesLocal.resendText}>
-        Didn't receive the code? {isTimerActive.value ? (
+        Didn&apos;t receive the code? {isTimerActive.value ? (
         <Text style={stylesLocal.timerText}>
           Resend in {timer.value}s
         </Text>

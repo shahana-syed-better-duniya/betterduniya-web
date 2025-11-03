@@ -2,10 +2,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from "react-native";
 
-const isMobile = Platform.OS !== 'web';
-const getItemAsync = isMobile ? SecureStore.getItemAsync : AsyncStorage.getItem;
-const setItemAsync = isMobile ? SecureStore.setItemAsync : AsyncStorage.setItem;
-const removeItemAsync = isMobile ? SecureStore.deleteItemAsync : AsyncStorage.removeItem;
+// Dynamic platform checking functions
+const getItemAsync = (key: string) => {
+  return Platform.OS !== 'web' ? SecureStore.getItemAsync(key) : AsyncStorage.getItem(key);
+};
+
+const setItemAsync = (key: string, value: string) => {
+  return Platform.OS !== 'web' ? SecureStore.setItemAsync(key, value) : AsyncStorage.setItem(key, value);
+};
+
+const removeItemAsync = (key: string) => {
+  return Platform.OS !== 'web' ? SecureStore.deleteItemAsync(key) : AsyncStorage.removeItem(key);
+};
 
 
 const ACCESS_TOKEN_KEY = 'accessToken';

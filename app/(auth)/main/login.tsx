@@ -41,13 +41,10 @@ export default function Login() {
     if (isValid) {
       try {
         const userInfo = await onLogin(values.email, values.password);
-        if (userInfo != null) {
+        // ✅ SECURITY FIX: Only save login data if we have valid tokens
+        if (userInfo != null && userInfo.accessToken && userInfo.accessToken.length > 0) {
           await saveLoginResult(userInfo);
-          if (userInfo.accessToken.length > 0) {
-            router.replace('/(tabs)/home')
-          } else {
-            loginError.onChangeValue("Email or password is invalid. Please try again.")
-          }
+          router.replace('/(tabs)/home')
         } else {
           loginError.onChangeValue("Email or password is invalid. Please try again.");
         }

@@ -38,7 +38,11 @@ const useLoginSave = () => {
     // ----------------------------
     // 3. Persist user context in AsyncStorage
     // ----------------------------
-    await saveUserContextToStorage(contextData);
+    try {
+      await saveUserContextToStorage(contextData);
+    } catch (err) {
+      console.warn("Failed to save user context to storage:", err);
+    }
 
     // ----------------------------
     // 4. Save JWT tokens to storage

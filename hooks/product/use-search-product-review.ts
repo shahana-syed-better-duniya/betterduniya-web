@@ -24,6 +24,7 @@ const useSearchProductReview = () => {
     }
     const response = await onRequest(productApi.searchReview, [searchValue.value], null, false);
     if (response.result != null) {
+      summary.onChangeValue(response.result);
       setProductReviewContext({summary: response.result, previousSearchValue: searchValue.value});
     }
   }

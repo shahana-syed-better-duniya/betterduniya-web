@@ -7,21 +7,21 @@ import { useBoolean } from "@/hooks/primitive/use-boolean";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
 import { styles as authStyles } from "@/utils/auth/styles";
 import { useProductReviewContext } from "@/utils/products/product-review-context";
-import { useFocusEffect, useNavigation } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import React, { useCallback, useRef } from "react";
 import {
-    ActivityIndicator,
-    Animated,
-    BackHandler,
-    Dimensions,
-    FlatList,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  ActivityIndicator,
+  Animated,
+  BackHandler,
+  Dimensions,
+  FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import feedStyles from "../../components/products/product-review-list-styles";
@@ -115,18 +115,12 @@ export default function Home() {
     lastScrollY.current = currentY;
   };
 
-  const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
-      const unsubscribe = navigation.addListener("tabPress", () => {
-        console.log(123)
-        // Reset the search value when the tab is pressed
-        searchValue.onChangeValue("");
-        isSearched.onFalse();
-      });
-
-      return unsubscribe;
-    }, [navigation, searchValue.onChangeValue, isSearched.onFalse])
+      // Reset the search value when the tab is focused
+      searchValue.onChangeValue("");
+      isSearched.onFalse();
+    }, [searchValue.onChangeValue, isSearched.onFalse])
   );
 
   const searchInputRef = useRef<TextInput>(null);
