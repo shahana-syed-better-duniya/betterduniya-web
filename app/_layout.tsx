@@ -7,6 +7,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import { Platform } from "react-native";
 
 // ----------------------------
 // Screens inside Stack
@@ -33,9 +34,11 @@ const Layout = () => {
     Jura_400Regular,
   });
 
-  // Configure Google Sign-In on app start
+  // Configure Google Sign-In on app start (only for mobile platforms)
   useEffect(() => {
-    configureGoogleSignIn();
+    if (Platform.OS !== 'web') {
+      configureGoogleSignIn();
+    }
   }, []);
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import { styles } from "@/utils/auth/styles";
 import { validateLogin } from "@/utils/auth/validators";
 import { router } from "expo-router";
 import React from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Platform, Text, TouchableOpacity, View } from "react-native";
 
 export default function Login() {
   const {onLogin, isLoading,} = useLogin();
@@ -85,9 +85,19 @@ export default function Login() {
     )
   }
 
+  const FormWrapper = Platform.OS === 'web' ? 'form' as any : View;
+  const formProps = Platform.OS === 'web' ? {
+    onSubmit: (e: any) => {
+      e.preventDefault();
+      handleLogin();
+    },
+    method: 'post',
+    autoComplete: 'on'
+  } : {};
+
   return (
     <>
-      <View style={styles.inputSection}>
+      <FormWrapper style={styles.inputSection} {...formProps}>
         <TextInputRequired
           value={values.email}
           onChangeText={handleChange("email")}
@@ -112,7 +122,7 @@ export default function Login() {
         <TouchableOpacity onPress={isForgetPassword.onToggle} style={styles.forgotPassword}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
-      </View>
+      </FormWrapper>
 
       {isLoading ? (
         <ActivityIndicator size="large" color="#000"/>

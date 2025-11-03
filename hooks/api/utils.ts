@@ -1,12 +1,13 @@
-import {AxiosRequestConfig} from "axios";
-import {ApiRequest} from "@/api/request-instance";
+import { ApiRequest } from "@/api/request-instance";
 import useAuthTokens from "@/hooks/auth/use-auth-tokens";
+import { AxiosRequestConfig } from "axios";
 
 export const useRequestConfig = async (request: ApiRequest): Promise<AxiosRequestConfig> => {
   const {onGetAccessToken} = useAuthTokens();
   const token = await onGetAccessToken();
   if (token == null) {
-    console.log(`Invalid token: ${token}`);
+    // Silent log for missing token on web - this is normal for first-time users
+    console.debug(`No access token available`);
   }
 
   const responseType = request?.isBlob ? {responseType: 'blob' as const} : {};

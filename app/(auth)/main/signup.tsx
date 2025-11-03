@@ -5,14 +5,14 @@ import { styles } from "@/utils/auth/styles";
 import { validateSignUp } from "@/utils/auth/validators";
 import React from "react";
 import {
-  ActivityIndicator,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
+    ActivityIndicator,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -55,6 +55,16 @@ export default function Signup() {
     }
   };
 
+  const FormWrapper = Platform.OS === 'web' ? 'form' as any : View;
+  const formProps = Platform.OS === 'web' ? {
+    onSubmit: (e: any) => {
+      e.preventDefault();
+      handleSignUp();
+    },
+    method: 'post',
+    autoComplete: 'on'
+  } : {};
+
   return (
      
     <KeyboardAvoidingView
@@ -70,7 +80,7 @@ export default function Signup() {
           extraScrollHeight={20}
         >
          
-          <View style={[styles.inputSection, { width: '100%', alignSelf: 'stretch', paddingHorizontal: 0 , marginHorizontal: 0, marginLeft: 10, marginRight: 100}]}>
+          <FormWrapper style={[styles.inputSection, { width: '100%', alignSelf: 'stretch', paddingHorizontal: 0 , marginHorizontal: 0, marginLeft: 10, marginRight: 100}]} {...formProps}>
             <TextInputRequired
               style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
               value={values.email}
@@ -138,7 +148,7 @@ export default function Signup() {
               error={errors.confirmPassword}
               secureTextEntry
             />
-          </View>
+          </FormWrapper>
         
           {isLoading ? (
             <ActivityIndicator size="large" color="#000"/>
