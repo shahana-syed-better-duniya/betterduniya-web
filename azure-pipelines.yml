@@ -1,0 +1,94 @@
+# Azure DevOps Pipeline for Expo Web App
+trigger:
+- website-development
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  nodeVersion: '18.x'
+
+stages:
+- stage: Test
+  displayName: 'Test Stage'
+  jobs:
+  - job: RunTests
+    displayName: 'Run Tests'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: $(nodeVersion)
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm ci
+      displayName: 'Install Dependencies'
+
+    - script: |
+        npm test
+      displayName: 'Run Tests'
+
+    - script: |
+        npm run lint
+      displayName: 'Run Linter'
+
+- stage: Build
+  displayName: 'Build Stage'
+  dependsOn: Test
+  jobs:
+  - job: BuildApp
+    displayName: 'Build Application'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: $(nodeVersion)
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm ci
+      displayName: 'Install Dependencies'
+
+    - script: |
+        npm run build
+      displayName: 'Build Expo Web App'
+      env:
+        BACKEND_URL: $(BACKEND_URL)
+        BACKEND_URL_PROD: $(BACKEND_URL_PROD)
+        BACKEND_URL_TEST: $(BACKEND_URL_TEST)
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'dist'
+        ArtifactName: 'web-build'
+        publishLocation: 'Container'
+      displayName: 'Publish Build Artifacts'
+
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/website-development'))
+  jobs:
+  - deployment: DeployWeb
+    displayName: 'Deploy to Web'
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'web-build'
+              downloadPath: '$(System.ArtifactsDirectory)'
+            displayName: 'Download Build Artifacts'
+
+          # Add your specific deployment steps here
+          # For example, deploy to Azure Static Web Apps:
+          - task: AzureStaticWebApp@0
+            inputs:
+              app_location: '$(System.ArtifactsDirectory)/web-build'
+              api_location: ''
+              output_location: ''
+              azure_static_web_apps_api_token: $(AZURE_STATIC_WEB_APPS_API_TOKEN)
+            displayName: 'Deploy to Azure Static Web Apps'
