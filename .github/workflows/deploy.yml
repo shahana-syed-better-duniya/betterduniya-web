@@ -8,7 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Build and Deploy to GoDaddy
+    name: Build and Deploy to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     
     steps:
     - name: 🚚 Checkout Code
@@ -36,17 +40,14 @@ jobs:
     - name: 📂 List Build Files
       run: ls -la dist/
 
-    - name: 🚀 Deploy to GoDaddy via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    - name: � Setup Pages
+      uses: actions/configure-pages@v3
+
+    - name: 📦 Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/
-        server-dir: /public_html/
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          **/.DS_Store
-          **/Thumbs.db
+        path: './dist'
+
+    - name: 🚀 Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
