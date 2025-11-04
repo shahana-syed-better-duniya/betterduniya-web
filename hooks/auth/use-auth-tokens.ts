@@ -22,7 +22,14 @@ const REFRESH_TOKEN_EXPIRY_KEY = 'refreshTokenExpiry';
 
 const useAuthTokens = () => {
   const onGetAccessToken = async () => {
-    return await getItemAsync(ACCESS_TOKEN_KEY)
+    try {
+      const token = await getItemAsync(ACCESS_TOKEN_KEY);
+      console.log("🔍 Retrieved access token:", !!token ? `Found (${token.length} chars)` : 'Not found');
+      return token;
+    } catch (error) {
+      console.error("❌ Error retrieving access token:", error);
+      return null;
+    }
   }
 
   const onGetRefreshToken = async () => {
@@ -34,7 +41,15 @@ const useAuthTokens = () => {
   };
 
   const onSetAccessToken = async (accessToken: string) => {
-    await setItemAsync(ACCESS_TOKEN_KEY, String(accessToken));
+    console.log("📱 Platform:", Platform.OS);
+    console.log("💾 Attempting to save access token to storage...");
+    try {
+      await setItemAsync(ACCESS_TOKEN_KEY, String(accessToken));
+      console.log("✅ Access token saved to", Platform.OS === 'web' ? 'AsyncStorage (localStorage)' : 'SecureStore');
+    } catch (error) {
+      console.error("❌ Error saving access token:", error);
+      throw error;
+    }
   }
 
   const onSetRefreshToken = async (refreshToken: string) => {

@@ -48,27 +48,37 @@ const useLoginSave = () => {
     // 4. Save JWT tokens to storage
     // ----------------------------
     try {
-      // Diagnostic: show keys and simple presence for mobile response
-      // Diagnostic logs removed for production safety.
+      console.log("🔐 Starting token save process...");
+      console.log("🔐 User info keys:", Object.keys(userInfo));
 
       if ((userInfo as any).accessToken) {
         // Coerce to string so SecureStore always gets a string
-  const tokenToSave = String((userInfo as any).accessToken);
-  await onSetAccessToken(tokenToSave);
+        const tokenToSave = String((userInfo as any).accessToken);
+        console.log("🔐 Saving access token... (length:", tokenToSave.length, ")");
+        await onSetAccessToken(tokenToSave);
+        console.log("✅ Access token saved successfully");
+      } else {
+        console.warn("⚠️ No access token found in userInfo");
       }
 
       if ((userInfo as any).refreshToken) {
-  await onSetRefreshToken(String((userInfo as any).refreshToken));
+        console.log("🔐 Saving refresh token...");
+        await onSetRefreshToken(String((userInfo as any).refreshToken));
+        console.log("✅ Refresh token saved successfully");
       }
 
       if ((userInfo as any).refreshTokenExpiry) {
-  await onSetRefreshTokenExpiry(String((userInfo as any).refreshTokenExpiry));
+        console.log("🔐 Saving refresh token expiry...");
+        await onSetRefreshTokenExpiry(String((userInfo as any).refreshTokenExpiry));
+        console.log("✅ Refresh token expiry saved successfully");
       }
 
-      // Verify storage
-      // Storage verification removed from logs for privacy.
+      // Verify storage by reading back
+      const savedToken = await onGetAccessToken();
+      console.log("🔍 Verification - saved token exists:", !!savedToken);
+      console.log("🔍 Verification - token length:", savedToken?.length || 0);
     } catch (err) {
-      console.warn("Failed to save auth tokens:", err);
+      console.error("❌ Failed to save auth tokens:", err);
     }
   };
 };
