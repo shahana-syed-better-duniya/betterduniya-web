@@ -43,12 +43,14 @@ axiosInstance.interceptors.request.use(
   async (config) => {
     try {
         const token: string | null = await getItemAsync("accessToken"); // get JWT from storage (SecureStore on mobile)
+        console.log("🌐 Axios interceptor - token check for", config.url, ":", !!token ? `Found (${token.length} chars)` : 'Not found');
 
         // Only attach token when it's a non-empty string (mobile app uses SecureStore)
         if (typeof token === 'string' && token.length > 0) {
           config.headers.Authorization = `Bearer ${token}`; // attach token
+          console.log("🌐 Authorization header attached");
         } else {
-          // No token available; proceed without Authorization header
+          console.log("🌐 No token available - proceeding without Authorization header");
         }
 
         return config;
