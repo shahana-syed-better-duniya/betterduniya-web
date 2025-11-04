@@ -39,17 +39,17 @@ const Feed = () => {
   const isAuthenticated = userId && userId.length > 0;
   
   useInit(() => {
-    if (isAuthenticated) {
+    if (isLoaded && isAuthenticated) {
       onUpdate();
     }
   });
 
   useFocusEffect(
     useCallback(() => {
-      if (isAuthenticated) {
+      if (isLoaded && isAuthenticated) {
         onUpdate();
       }
-    }, [onUpdate, isAuthenticated])
+    }, [onUpdate, isAuthenticated, isLoaded])
   );
 
   // Add search logic
