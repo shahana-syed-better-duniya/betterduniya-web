@@ -42,20 +42,21 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config) => {
     try {
-        const token: string | null = await getItemAsync("accessToken"); // get JWT from storage (SecureStore on mobile)
+        // Use consistent token key with auth system
+        const token: string | null = await getItemAsync("bd_access_token");
         console.log("🌐 Axios interceptor - token check for", config.url, ":", !!token ? `Found (${token.length} chars)` : 'Not found');
 
-        // Only attach token when it's a non-empty string (mobile app uses SecureStore)
+        // Only attach token when it's a non-empty string
         if (typeof token === 'string' && token.length > 0) {
-          config.headers.Authorization = `Bearer ${token}`; // attach token
-          console.log("🌐 Authorization header attached");
+          config.headers.Authorization = `Bearer ${token}`;
+          console.log("🌐 Authorization header attached successfully");
         } else {
-          console.log("🌐 No token available - proceeding without Authorization header");
+          console.log("🌐 No valid token available - proceeding without Authorization header");
         }
 
         return config;
     } catch (error) {
-      console.warn("Error fetching access token for request:", error);
+      console.error("❌ Error fetching access token for request:", error);
       return config; // send request anyway, token optional
     }
   },

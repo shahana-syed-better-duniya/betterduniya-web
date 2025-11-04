@@ -20,19 +20,32 @@ const useLogoutTimer = () => {
     console.log("⏰ Setting up logout timer, refresh token expiry:", refreshTokenExpiry);
 
     if (refreshTokenExpiry) {
-      const expiryTime = new Date(refreshTokenExpiry);
-      const now = new Date();
-      console.log("⏰ Token expiry time:", expiryTime.toISOString());
-      console.log("⏰ Current time:", now.toISOString());
+      try {
+        const expiryTime = new Date(refreshTokenExpiry);
+        const now = new Date();
+        console.log("⏰ Token expiry time:", expiryTime.toISOString());
+        console.log("⏰ Current time:", now.toISOString());
 
-      if (now >= expiryTime) {
-        console.log("⏰ Token already expired - triggering logout");
-        await onLogout();
-      } else {
-        const timeUntilExpiry = expiryTime.getTime() - now.getTime();
-        console.log("⏰ Token valid for", Math.round(timeUntilExpiry / 1000 / 60), "more minutes");
-        const timerId = setTimeout(onLogout, timeUntilExpiry);
-        return () => clearTimeout(timerId);
+        // Add 5-minute buffer to prevent premature logout
+        const bufferTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+        const effectiveExpiryTime = expiryTime.getTime() - bufferTime;
+
+        if (now.getTime() >= effectiveExpiryTime) {
+          console.log("⏰ Token expired (with 5min buffer) - triggering logout");
+          await onLogout();
+        } else {
+          const timeUntilExpiry = effectiveExpiryTime - now.getTime();
+          const minutesLeft = Math.round(timeUntilExpiry / 1000 / 60);
+          console.log("⏰ Token valid for", minutesLeft, "more minutes (including 5min buffer)");
+          
+          if (minutesLeft > 0) {
+            const timerId = setTimeout(onLogout, timeUntilExpiry);
+            return () => clearTimeout(timerId);
+          }
+        }
+      } catch (error) {
+        console.error("⏰ Error parsing refresh token expiry:", error);
+        console.log("⏰ Skipping logout timer due to invalid expiry format");
       }
     } else {
       console.log("⏰ No refresh token expiry found - skipping logout timer");

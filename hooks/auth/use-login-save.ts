@@ -12,7 +12,7 @@ import { useUserContext } from "@/utils/user/user-context";
 
 const useLoginSave = () => {
   const { setUserContext } = useUserContext();
-  const { onSetAccessToken, onSetRefreshToken, onSetRefreshTokenExpiry, onGetAccessToken } = useAuthTokens();
+  const { onSetAccessToken, onSetRefreshToken, onSetRefreshTokenExpiry, onGetAccessToken, onGetRefreshToken, onGetRefreshTokenExpiry } = useAuthTokens();
 
   return async (userInfo: UserLoginSuccessInfo) => {
     if (!userInfo) return;
@@ -73,10 +73,21 @@ const useLoginSave = () => {
         console.log("✅ Refresh token expiry saved successfully");
       }
 
-      // Verify storage by reading back
-      const savedToken = await onGetAccessToken();
-      console.log("🔍 Verification - saved token exists:", !!savedToken);
-      console.log("🔍 Verification - token length:", savedToken?.length || 0);
+      // Comprehensive verification by reading back all saved tokens
+      console.log("🔍 Starting comprehensive token verification...");
+      const savedAccessToken = await onGetAccessToken();
+      const savedRefreshToken = await onGetRefreshToken();
+      const savedRefreshExpiry = await onGetRefreshTokenExpiry();
+      
+      console.log("🔍 Verification - Access Token:", !!savedAccessToken ? `Found (${savedAccessToken.length} chars)` : 'MISSING');
+      console.log("🔍 Verification - Refresh Token:", !!savedRefreshToken ? `Found (${savedRefreshToken.length} chars)` : 'MISSING');
+      console.log("🔍 Verification - Refresh Expiry:", savedRefreshExpiry || 'MISSING');
+      
+      if (!savedAccessToken) {
+        throw new Error("❌ Critical: Access token verification failed - token not found after save");
+      }
+      
+      console.log("✅ All token verifications passed successfully");
     } catch (err) {
       console.error("❌ Failed to save auth tokens:", err);
     }

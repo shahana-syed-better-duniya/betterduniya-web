@@ -1,4 +1,5 @@
 import useLogoutTimer from "@/hooks/auth/use-logout-timer";
+import useTokenValidation from "@/hooks/auth/use-token-validation";
 import { configureGoogleSignIn } from "@/utils/google-signin-config";
 import { ProductReviewProvider } from "@/utils/products/product-review-provider";
 import { UserProvider } from "@/utils/user/user-provider";
@@ -13,6 +14,9 @@ import { Platform } from "react-native";
 // Screens inside Stack
 // ----------------------------
 const LayoutScreens = () => {
+  // Validate tokens on startup and maintain token integrity
+  useTokenValidation();
+  
   // Start logout timer (auto logout after inactivity)
   useLogoutTimer();
 
