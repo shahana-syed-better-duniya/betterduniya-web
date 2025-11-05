@@ -1,29 +1,37 @@
-import useAuthTokens from "@/hooks/auth/use-auth-tokens";
-import { useUserContext } from "@/utils/user/user-context";
+/**
+ * Pure utility functions for debugging authentication state
+ * These functions don't use React hooks and accept required functions/values as parameters
+ */
+
+export type AuthDebugParams = {
+  onGetAccessToken: () => Promise<string | null>;
+  onGetRefreshToken: () => Promise<string | null>;
+  onGetRefreshTokenExpiry: () => Promise<string | null>;
+  userId?: string | null;
+  username?: string;
+  isLoaded: boolean;
+};
 
 /**
- * Utility to debug authentication state
+ * Debug authentication state with provided values
  * Call this function to log current auth status to console
  */
-export const debugAuthState = async () => {
+export const debugAuthStateWith = async (params: AuthDebugParams): Promise<void> => {
   console.log("🔧 ========== AUTHENTICATION DEBUG ==========");
   
   try {
-    const { onGetAccessToken, onGetRefreshToken, onGetRefreshTokenExpiry } = useAuthTokens();
-    const { userId, username, isLoaded } = useUserContext();
-    
     // Check user context
     console.log("🔧 [USER CONTEXT]");
-    console.log("🔧 - isLoaded:", isLoaded);
-    console.log("🔧 - userId:", userId);
-    console.log("🔧 - username:", username);
-    console.log("🔧 - Has userId:", !!userId && userId.length > 0);
+    console.log("🔧 - isLoaded:", params.isLoaded);
+    console.log("🔧 - userId:", params.userId);
+    console.log("🔧 - username:", params.username);
+    console.log("🔧 - Has userId:", !!params.userId && params.userId.length > 0);
     
     // Check stored tokens
     console.log("🔧 [STORED TOKENS]");
-    const accessToken = await onGetAccessToken();
-    const refreshToken = await onGetRefreshToken();
-    const refreshExpiry = await onGetRefreshTokenExpiry();
+    const accessToken = await params.onGetAccessToken();
+    const refreshToken = await params.onGetRefreshToken();
+    const refreshExpiry = await params.onGetRefreshTokenExpiry();
     
     console.log("🔧 - Access Token:", accessToken ? `Present (${accessToken.length} chars)` : "Missing");
     console.log("🔧 - Refresh Token:", refreshToken ? `Present (${refreshToken.length} chars)` : "Missing");
@@ -43,7 +51,7 @@ export const debugAuthState = async () => {
     }
     
     // Overall auth status
-    const shouldBeAuthenticated = !!userId && userId.length > 0;
+    const shouldBeAuthenticated = !!params.userId && params.userId.length > 0;
     const hasValidTokens = !!accessToken && !!refreshToken;
     
     console.log("🔧 [AUTHENTICATION STATUS]");

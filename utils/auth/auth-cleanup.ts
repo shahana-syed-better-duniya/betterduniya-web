@@ -1,28 +1,38 @@
-import useAuthTokens from "@/hooks/auth/use-auth-tokens";
-import { useUserContext } from "@/utils/user/user-context";
+/**
+ * Pure utility functions for authentication cleanup
+ * These functions don't use React hooks and accept required functions as parameters
+ */
+
+export type TokenGetters = {
+  onGetAccessToken: () => Promise<string | null>;
+  onGetRefreshToken: () => Promise<string | null>;
+};
+
+export type LogoutHandlers = {
+  onClearTokens: () => Promise<void>;
+  resetUserContext: () => Promise<void>;
+};
 
 /**
  * Force logout and cleanup when authentication fails
  * Call this when you get 401 errors or detect invalid auth state
  */
-export const forceLogoutAndCleanup = async () => {
+export const forceLogoutAndCleanup = async (handlers: LogoutHandlers): Promise<void> => {
   console.log("🧹 Force logout: Cleaning up authentication state...");
   
   try {
-    const { onClearTokens } = useAuthTokens();
-    const { resetUserContext } = useUserContext();
-    
     // Clear all tokens
-    await onClearTokens();
+    await handlers.onClearTokens();
     console.log("✅ Tokens cleared");
     
     // Reset user context
-    await resetUserContext();
+    await handlers.resetUserContext();
     console.log("✅ User context reset");
     
     console.log("✅ Force logout completed - user should see login screen");
   } catch (error) {
     console.error("❌ Error during force logout:", error);
+    throw error; // Re-throw so caller can handle if needed
   }
 };
 
@@ -30,15 +40,14 @@ export const forceLogoutAndCleanup = async () => {
  * Check if authentication state is consistent
  * Returns true if user context and tokens are in sync
  */
-export const isAuthStateConsistent = async (): Promise<boolean> => {
+export const isAuthStateConsistent = async (params: TokenGetters & { userId?: string | null }): Promise<boolean> => {
   try {
-    const { onGetAccessToken, onGetRefreshToken } = useAuthTokens();
-    const { userId } = useUserContext();
-    
-    const hasUser = !!userId && userId.length > 0;
-    const accessToken = await onGetAccessToken();
-    const refreshToken = await onGetRefreshToken();
+    const hasUser = !!params.userId && params.userId.length > 0;
+    const accessToken = await params.onGetAccessToken();
+    const refreshToken = await params.onGetRefreshToken();
     const hasTokens = !!accessToken && !!refreshToken;
+    
+    console.log("🔍 Auth state check - hasUser:", hasUser, "hasTokens:", hasTokens);
     
     return hasUser === hasTokens;
   } catch (error) {

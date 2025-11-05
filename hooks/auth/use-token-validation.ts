@@ -1,3 +1,4 @@
+import { forceLogoutAndCleanup, isAuthStateConsistent } from '@/utils/auth/auth-cleanup';
 import { useUserContext } from '@/utils/user/user-context';
 import { useEffect } from 'react';
 import useAuthTokens from './use-auth-tokens';
@@ -16,25 +17,32 @@ const useTokenValidation = () => {
       try {
         console.log("🔐 Starting token validation on app startup...");
         
-        const accessToken = await onGetAccessToken();
-        const refreshToken = await onGetRefreshToken();
-        const refreshExpiry = await onGetRefreshTokenExpiry();
+        // First check if auth state is consistent using pure utility
+        const isConsistent = await isAuthStateConsistent({
+          onGetAccessToken,
+          onGetRefreshToken,
+          userId
+        });
 
-        // Check if user context indicates logged in but no tokens exist
+        if (!isConsistent) {
+          console.log("⚠️ INCONSISTENT AUTH STATE detected during validation");
+          console.log("⚠️ This usually happens when:");
+          console.log("⚠️ 1. Tokens expired and were cleared");
+          console.log("⚠️ 2. Storage was cleared externally");
+          console.log("⚠️ 3. Platform storage mismatch");
+          console.log("⚠️ → Forcing logout to clean state");
+          
+          await forceLogoutAndCleanup({
+            onClearTokens,
+            resetUserContext
+          });
+          return;
+        }
+
+        // Additional validation for token expiry if user is authenticated
         if (userId && userId.length > 0) {
-          if (!accessToken || !refreshToken) {
-            console.log("⚠️ INCONSISTENT AUTH STATE: User context exists but tokens missing");
-            console.log("⚠️ This usually happens when:");
-            console.log("⚠️ 1. Tokens expired and were cleared");
-            console.log("⚠️ 2. Storage was cleared externally");
-            console.log("⚠️ 3. Platform storage mismatch");
-            console.log("⚠️ → Clearing user state to force re-login");
-            await resetUserContext();
-            await onClearTokens();
-            return;
-          }
-
-          // Check if refresh token is expired
+          const refreshExpiry = await onGetRefreshTokenExpiry();
+          
           if (refreshExpiry) {
             try {
               const expiryTime = new Date(refreshExpiry);
@@ -42,36 +50,40 @@ const useTokenValidation = () => {
               
               if (now >= expiryTime) {
                 console.log("⚠️ Refresh token expired - clearing all auth data");
-                await resetUserContext();
-                await onClearTokens();
+                await forceLogoutAndCleanup({
+                  onClearTokens,
+                  resetUserContext
+                });
                 return;
               }
             } catch (error) {
               console.error("⚠️ Invalid refresh token expiry format - clearing auth data");
-              await resetUserContext();
-              await onClearTokens();
+              await forceLogoutAndCleanup({
+                onClearTokens,
+                resetUserContext
+              });
               return;
             }
           }
 
           console.log("✅ Token validation passed - user authenticated with valid tokens");
-        } else {
-          // No user context but tokens exist - clean up orphaned tokens
-          if (accessToken || refreshToken || refreshExpiry) {
-            console.log("🧹 No user context but tokens exist - cleaning up orphaned tokens");
-            await onClearTokens();
-          }
         }
       } catch (error) {
         console.error("❌ Error during token validation:", error);
         // On validation error, clear everything to ensure clean state
-        await resetUserContext();
-        await onClearTokens();
+        try {
+          await forceLogoutAndCleanup({
+            onClearTokens,
+            resetUserContext
+          });
+        } catch (cleanupError) {
+          console.error("❌ Error during cleanup after validation failure:", cleanupError);
+        }
       }
     };
 
     validateTokens();
-  }, [isLoaded, userId]);
+  }, [isLoaded, userId, onGetAccessToken, onGetRefreshToken, onGetRefreshTokenExpiry, onClearTokens, resetUserContext]);
 };
 
 export default useTokenValidation;

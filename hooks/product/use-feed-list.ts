@@ -1,8 +1,8 @@
+import { productApi } from "@/api/product/product";
 import useRequest from "@/hooks/api/use-request";
-import {ProductReviewSummary} from "@/interfaces/products/productReviewSummary";
-import {productApi} from "@/api/product/product";
 import useObject from "@/hooks/primitive/use-object";
-import {useCallback} from "react";
+import { ProductReviewSummary } from "@/interfaces/products/productReviewSummary";
+import { useCallback } from "react";
 
 const useFeedList = () => {
   const summary = useObject<ProductReviewSummary>({

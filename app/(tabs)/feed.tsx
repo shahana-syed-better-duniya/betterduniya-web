@@ -3,9 +3,10 @@ import ComingSoonCard from "@/components/products/ComingSoonCard";
 import ProductReviewList from "@/components/products/ProductReviewList";
 import useInit from "@/hooks/api/use-init";
 import useAuthStateValidator from "@/hooks/auth/use-auth-state-validator";
+import useAuthTokens from "@/hooks/auth/use-auth-tokens";
 import useFeedList from "@/hooks/product/use-feed-list";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
-import { debugAuthState } from "@/utils/auth/token-debug";
+import { debugAuthStateWith } from "@/utils/auth/token-debug";
 import { useProductReviewContext } from "@/utils/products/product-review-context";
 import { useUserContext } from "@/utils/user/user-context";
 import { useFocusEffect } from "expo-router";
@@ -34,8 +35,9 @@ const {width, height} = Dimensions.get("window");
 
 
 const Feed = () => {
-  const { userId, isLoaded } = useUserContext();
+  const { userId, username, isLoaded } = useUserContext();
   const {summary: feedSummary, onUpdate} = useFeedList();
+  const { onGetAccessToken, onGetRefreshToken, onGetRefreshTokenExpiry } = useAuthTokens();
   
   // Automatically detect and fix auth state issues
   useAuthStateValidator();
@@ -62,7 +64,14 @@ const Feed = () => {
   useFocusEffect(
     useCallback(() => {
       // Debug authentication state when feed page is focused
-      debugAuthState();
+      debugAuthStateWith({
+        onGetAccessToken,
+        onGetRefreshToken,
+        onGetRefreshTokenExpiry,
+        userId,
+        username,
+        isLoaded
+      });
       
       if (isLoaded && isAuthenticated) {
         console.log("🔍 [Feed] useFocusEffect - Calling onUpdate() to refresh feed data");
@@ -188,7 +197,14 @@ const Feed = () => {
           {/* Debug button - remove after fixing */}
           <TouchableOpacity 
             style={{ backgroundColor: '#FF6B6B', padding: 10, borderRadius: 5, marginTop: 10 }}
-            onPress={() => debugAuthState()}
+            onPress={() => debugAuthStateWith({
+              onGetAccessToken,
+              onGetRefreshToken,
+              onGetRefreshTokenExpiry,
+              userId,
+              username,
+              isLoaded
+            })}
           >
             <Text style={{ color: 'white', fontSize: 14 }}>🔧 Debug Auth State</Text>
           </TouchableOpacity>
