@@ -1,6 +1,6 @@
+import { useUserContext } from '@/utils/user/user-context';
 import { useEffect } from 'react';
 import useAuthTokens from './use-auth-tokens';
-import { useUserContext } from '@/utils/user/user-context';
 
 /**
  * Hook to validate tokens on app startup and clear invalid/expired tokens

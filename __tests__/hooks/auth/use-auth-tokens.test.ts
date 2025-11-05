@@ -45,7 +45,7 @@ describe('useAuthTokens', () => {
         await result.current.onSetAccessToken(testToken);
       });
 
-      expect(mockSecureStore.setItemAsync).toHaveBeenCalledWith('accessToken', testToken);
+      expect(mockSecureStore.setItemAsync).toHaveBeenCalledWith('bd_access_token', testToken);
     });
 
     it('should get access token from SecureStore', async () => {
@@ -59,7 +59,7 @@ describe('useAuthTokens', () => {
         retrievedToken = await result.current.onGetAccessToken();
       });
 
-      expect(mockSecureStore.getItemAsync).toHaveBeenCalledWith('accessToken');
+      expect(mockSecureStore.getItemAsync).toHaveBeenCalledWith('bd_access_token');
       expect(retrievedToken).toBe(testToken);
     });
 
@@ -71,7 +71,7 @@ describe('useAuthTokens', () => {
         await result.current.onSetRefreshToken(testRefreshToken);
       });
 
-      expect(mockSecureStore.setItemAsync).toHaveBeenCalledWith('refreshToken', testRefreshToken);
+      expect(mockSecureStore.setItemAsync).toHaveBeenCalledWith('bd_refresh_token', testRefreshToken);
     });
 
     it('should get refresh token from SecureStore', async () => {
@@ -85,7 +85,7 @@ describe('useAuthTokens', () => {
         retrievedToken = await result.current.onGetRefreshToken();
       });
 
-      expect(mockSecureStore.getItemAsync).toHaveBeenCalledWith('refreshToken');
+      expect(mockSecureStore.getItemAsync).toHaveBeenCalledWith('bd_refresh_token');
       expect(retrievedToken).toBe(testRefreshToken);
     });
 
@@ -96,8 +96,9 @@ describe('useAuthTokens', () => {
         await result.current.onClearTokens();
       });
 
-      expect(mockSecureStore.deleteItemAsync).toHaveBeenCalledWith('accessToken');
-      expect(mockSecureStore.deleteItemAsync).toHaveBeenCalledWith('refreshToken');
+      expect(mockSecureStore.deleteItemAsync).toHaveBeenCalledWith('bd_access_token');
+      expect(mockSecureStore.deleteItemAsync).toHaveBeenCalledWith('bd_refresh_token');
+      expect(mockSecureStore.deleteItemAsync).toHaveBeenCalledWith('bd_refresh_token_expiry');
     });
   });
 
@@ -120,7 +121,7 @@ describe('useAuthTokens', () => {
         await result.current.onSetAccessToken(testToken);
       });
 
-      expect(mockAsyncStorage.setItem).toHaveBeenCalledWith('accessToken', testToken);
+      expect(mockAsyncStorage.setItem).toHaveBeenCalledWith('bd_access_token', testToken);
     });
 
     it('should get access token from AsyncStorage on web', async () => {
@@ -134,7 +135,7 @@ describe('useAuthTokens', () => {
         retrievedToken = await result.current.onGetAccessToken();
       });
 
-      expect(mockAsyncStorage.getItem).toHaveBeenCalledWith('accessToken');
+      expect(mockAsyncStorage.getItem).toHaveBeenCalledWith('bd_access_token');
       expect(retrievedToken).toBe(testToken);
     });
   });

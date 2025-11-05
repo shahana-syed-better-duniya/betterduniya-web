@@ -26,6 +26,9 @@ const mockSaveUserContextToStorage = require('../../../utils/auth/storage').save
 const mockOnSetAccessToken = jest.fn();
 const mockOnSetRefreshToken = jest.fn();
 const mockOnSetRefreshTokenExpiry = jest.fn();
+const mockOnGetAccessToken = jest.fn().mockResolvedValue('mock-saved-token');
+const mockOnGetRefreshToken = jest.fn().mockResolvedValue('mock-saved-refresh-token');
+const mockOnGetRefreshTokenExpiry = jest.fn().mockResolvedValue('2024-12-31');
 
 require('../../../utils/user/user-context').useUserContext.mockReturnValue({
   setUserContext: mockSetUserContext,
@@ -35,6 +38,9 @@ require('../../../hooks/auth/use-auth-tokens').default.mockReturnValue({
   onSetAccessToken: mockOnSetAccessToken,
   onSetRefreshToken: mockOnSetRefreshToken,
   onSetRefreshTokenExpiry: mockOnSetRefreshTokenExpiry,
+  onGetAccessToken: mockOnGetAccessToken,
+  onGetRefreshToken: mockOnGetRefreshToken,
+  onGetRefreshTokenExpiry: mockOnGetRefreshTokenExpiry,
 });
 
 describe('useLoginSave', () => {
