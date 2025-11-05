@@ -146,11 +146,12 @@ describe('useAuthTokens', () => {
 
       const { result } = renderHook(() => useAuthTokens());
 
-      await expect(
-        act(async () => {
-          await result.current.onGetAccessToken();
-        })
-      ).rejects.toThrow('SecureStore error');
+      let retrievedToken;
+      await act(async () => {
+        retrievedToken = await result.current.onGetAccessToken();
+      });
+
+      expect(retrievedToken).toBeNull();
     });
 
     it('should handle AsyncStorage errors gracefully', async () => {
@@ -159,11 +160,12 @@ describe('useAuthTokens', () => {
 
       const { result } = renderHook(() => useAuthTokens());
 
-      await expect(
-        act(async () => {
-          await result.current.onGetAccessToken();
-        })
-      ).rejects.toThrow('AsyncStorage error');
+      let retrievedToken;
+      await act(async () => {
+        retrievedToken = await result.current.onGetAccessToken();
+      });
+
+      expect(retrievedToken).toBeNull();
     });
   });
 });
