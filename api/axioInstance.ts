@@ -44,19 +44,20 @@ axiosInstance.interceptors.request.use(
     try {
         // Use consistent token key with auth system
         const token: string | null = await getItemAsync("bd_access_token");
-        console.log("🌐 Axios interceptor - token check for", config.url, ":", !!token ? `Found (${token.length} chars)` : 'Not found');
+        console.log("🌐 [Axios] Making request to:", config.url);
+        console.log("🌐 [Axios] Token check:", !!token ? `Found (${token.length} chars)` : 'Not found');
 
         // Only attach token when it's a non-empty string
         if (typeof token === 'string' && token.length > 0) {
           config.headers.Authorization = `Bearer ${token}`;
-          console.log("🌐 Authorization header attached successfully");
+          console.log("🌐 [Axios] ✅ Authorization header attached successfully");
         } else {
-          console.log("🌐 No valid token available - proceeding without Authorization header");
+          console.log("🌐 [Axios] ⚠️ No valid token available - proceeding without Authorization header");
         }
 
         return config;
     } catch (error) {
-      console.error("❌ Error fetching access token for request:", error);
+      console.error("❌ [Axios] Error fetching access token for request:", error);
       return config; // send request anyway, token optional
     }
   },
@@ -70,10 +71,18 @@ axiosInstance.interceptors.request.use(
 // Could be used to handle token expiry, 401 errors, etc.
 // ----------------------------
 axiosInstance.interceptors.response.use(
-  (response) => response, // return successful responses as-is
+  (response) => {
+    console.log("🌐 [Axios] ✅ Request successful:", response.config.url, "Status:", response.status);
+    return response;
+  }, // return successful responses as-is
   (error) => {
+    console.log("🌐 [Axios] ❌ Request failed:", error.config?.url);
+    console.log("🌐 [Axios] ❌ Status:", error.response?.status);
+    console.log("🌐 [Axios] ❌ Error message:", error.response?.data?.message || error.message);
+    
     if (error.response?.status === 401) {
-      console.warn("Unauthorized request - token may be invalid/expired");
+      console.warn("🌐 [Axios] 🚫 UNAUTHORIZED REQUEST - Token may be invalid/expired");
+      console.warn("🌐 [Axios] 🚫 This means the server rejected the authentication token");
       // Optionally: redirect to login, clear token, etc.
     }
     return Promise.reject(error);

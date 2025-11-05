@@ -109,7 +109,8 @@ const requestInstance = async <T>(
         }
       } else {
         // No tokens available - user is not authenticated
-        console.debug("Unauthorized request - token may be invalid/expired");
+        console.debug("🚫 UNAUTHORIZED: No tokens available for retry");
+        console.debug("🚫 This means user is not properly logged in");
         return {
           result: null,
           ok: false,

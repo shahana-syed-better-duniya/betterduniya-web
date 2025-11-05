@@ -2,8 +2,10 @@ import SearchBar from "@/components/layouts/SearchBar";
 import ComingSoonCard from "@/components/products/ComingSoonCard";
 import ProductReviewList from "@/components/products/ProductReviewList";
 import useInit from "@/hooks/api/use-init";
+import useAuthStateValidator from "@/hooks/auth/use-auth-state-validator";
 import useFeedList from "@/hooks/product/use-feed-list";
 import useSearchProductReview from "@/hooks/product/use-search-product-review";
+import { debugAuthState } from "@/utils/auth/token-debug";
 import { useProductReviewContext } from "@/utils/products/product-review-context";
 import { useUserContext } from "@/utils/user/user-context";
 import { useFocusEffect } from "expo-router";
@@ -35,19 +37,38 @@ const Feed = () => {
   const { userId, isLoaded } = useUserContext();
   const {summary: feedSummary, onUpdate} = useFeedList();
   
+  // Automatically detect and fix auth state issues
+  useAuthStateValidator();
+  
   // Only initialize if user is logged in
   const isAuthenticated = userId && userId.length > 0;
   
+  // 🔍 DEBUG: Log authentication state
+  console.log("🔍 [Feed] Authentication Debug:");
+  console.log("🔍 [Feed] userId:", userId);
+  console.log("🔍 [Feed] userId length:", userId?.length);
+  console.log("🔍 [Feed] isLoaded:", isLoaded);
+  console.log("🔍 [Feed] isAuthenticated:", isAuthenticated);
+  
   useInit(() => {
     if (isLoaded && isAuthenticated) {
+      console.log("🔍 [Feed] useInit - Calling onUpdate() to fetch feed data");
       onUpdate();
+    } else {
+      console.log("🔍 [Feed] useInit - NOT calling onUpdate. isLoaded:", isLoaded, "isAuthenticated:", isAuthenticated);
     }
   });
 
   useFocusEffect(
     useCallback(() => {
+      // Debug authentication state when feed page is focused
+      debugAuthState();
+      
       if (isLoaded && isAuthenticated) {
+        console.log("🔍 [Feed] useFocusEffect - Calling onUpdate() to refresh feed data");
         onUpdate();
+      } else {
+        console.log("🔍 [Feed] useFocusEffect - NOT calling onUpdate. isLoaded:", isLoaded, "isAuthenticated:", isAuthenticated);
       }
     }, [onUpdate, isAuthenticated, isLoaded])
   );
@@ -161,9 +182,16 @@ const Feed = () => {
           <Text style={{ textAlign: 'center', color: '#888', fontSize: 18, marginBottom: 8 }}>
             Welcome to Better Duniya!
           </Text>
-          <Text style={{ textAlign: 'center', color: '#666', fontSize: 16 }}>
+          <Text style={{ textAlign: 'center', color: '#666', fontSize: 16, marginBottom: 20 }}>
             Please log in to view product reviews and connect with the community.
           </Text>
+          {/* Debug button - remove after fixing */}
+          <TouchableOpacity 
+            style={{ backgroundColor: '#FF6B6B', padding: 10, borderRadius: 5, marginTop: 10 }}
+            onPress={() => debugAuthState()}
+          >
+            <Text style={{ color: 'white', fontSize: 14 }}>🔧 Debug Auth State</Text>
+          </TouchableOpacity>
         </View>
       ) : selected !== 'All' ? (
         <ComingSoonCard/>

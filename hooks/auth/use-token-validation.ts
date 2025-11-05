@@ -23,7 +23,12 @@ const useTokenValidation = () => {
         // Check if user context indicates logged in but no tokens exist
         if (userId && userId.length > 0) {
           if (!accessToken || !refreshToken) {
-            console.log("⚠️ User context exists but tokens missing - clearing user state");
+            console.log("⚠️ INCONSISTENT AUTH STATE: User context exists but tokens missing");
+            console.log("⚠️ This usually happens when:");
+            console.log("⚠️ 1. Tokens expired and were cleared");
+            console.log("⚠️ 2. Storage was cleared externally");
+            console.log("⚠️ 3. Platform storage mismatch");
+            console.log("⚠️ → Clearing user state to force re-login");
             await resetUserContext();
             await onClearTokens();
             return;

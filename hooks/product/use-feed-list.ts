@@ -14,9 +14,19 @@ const useFeedList = () => {
   const {onRequest, isLoading} = useRequest<ProductReviewSummary>();
 
   const onUpdate = useCallback(async () => {
+    console.log("🔍 [useFeedList] Starting API call to fetch feed data...");
     const response = await onRequest(productApi.listReviews, [], null, false)
+    console.log("🔍 [useFeedList] API response:", {
+      ok: response.ok,
+      hasResult: response.result != null,
+      errorMessage: response.errorMessage,
+      error: response.error
+    });
     if (response.result != null) {
       summary.onChangeValue(response.result)
+      console.log("🔍 [useFeedList] Successfully updated feed summary with", response.result.reviews?.length, "reviews");
+    } else {
+      console.log("🔍 [useFeedList] API call failed or returned null result");
     }
   }, [onRequest, summary.onChangeValue])
 
