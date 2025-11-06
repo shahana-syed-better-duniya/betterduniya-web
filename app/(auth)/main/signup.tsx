@@ -83,7 +83,7 @@ export default function Signup() {
           <View style={styles.inputSection}>
             <FormWrapper {...formProps}>
             <TextInputRequired
-              style={[styles.input,{ alignSelf: "stretch"}]}
+              style={[styles.input]}
               value={values.email}
               onChangeText={handleChange('email')}
               onBlur={handleBlur("email")}
@@ -95,7 +95,7 @@ export default function Signup() {
               autoCapitalize="none"
             />
             <TextInputRequired
-              style={[styles.input,{ alignSelf: "stretch"}]}
+              style={[styles.input]}
               value={values.username}
               onChangeText={handleChange('username')}
               onBlur={handleBlur("username")}
@@ -106,7 +106,7 @@ export default function Signup() {
               autoCapitalize="none"
             />
             <TextInputRequired
-              style={[styles.input,{ alignSelf: "stretch"}]}
+              style={[styles.input]}
                   value={values.firstName}
                   onChangeText={handleChange('firstName')}
                   onBlur={handleBlur("firstName")}
@@ -117,7 +117,7 @@ export default function Signup() {
                   autoCapitalize="none"
               />
             <TextInputRequired
-              style={[styles.input,{ alignSelf: "stretch"}]}
+              style={[styles.input]}
                   value={values.lastName}
                   onChangeText={handleChange('lastName')}
                   onBlur={handleBlur("lastName")}
@@ -128,7 +128,7 @@ export default function Signup() {
                   autoCapitalize="none"
               />
             <TextInputRequired
-              style={[styles.input,{ alignSelf: "stretch"}]}
+              style={[styles.input]}
               value={values.password}
               onChangeText={handleChange('password')}
               onBlur={handleBlur("password")}
@@ -139,7 +139,7 @@ export default function Signup() {
               secureTextEntry
             />
             <TextInputRequired
-              style={[styles.input,{ alignSelf: "stretch"}]}
+              style={[styles.input]}
               placeholder="Confirm Password *"
               placeholderTextColor="#888"
               value={values.confirmPassword}
