@@ -80,7 +80,7 @@ export default function Signup() {
           extraScrollHeight={20}
         >
          
-          <View style={[styles.inputSection, { width: '100%', alignSelf: 'stretch', paddingHorizontal: 0 , marginHorizontal: 0, marginLeft: 10, marginRight: 100}]}>
+          <View style={styles.inputSection}>
             <FormWrapper {...formProps}>
             <TextInputRequired
               style={[styles.input,{ alignSelf: "stretch", width: "100%", marginLeft: 0}]}
