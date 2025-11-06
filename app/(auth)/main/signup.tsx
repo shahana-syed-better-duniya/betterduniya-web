@@ -6,12 +6,10 @@ import { validateSignUp } from "@/utils/auth/validators";
 import React from "react";
 import {
   ActivityIndicator,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -72,18 +70,15 @@ export default function Signup() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAwareScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 0, paddingVertical:0 , marginLeft: 0, marginRight: 100}}
-          keyboardShouldPersistTaps="handled"
-          enableOnAndroid={true}
-          extraScrollHeight={20}
-        >
-         
-          <View style={styles.inputSection}>
-            <FormWrapper {...formProps}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 0, paddingVertical: 0, marginLeft: 20 }}
+        keyboardShouldPersistTaps="always"
+        enableOnAndroid={true}
+        extraScrollHeight={20}
+      >
+        <View style={[styles.inputSection, {alignItems: 'flex-start'}]}>
+          <FormWrapper {...formProps}>
             <TextInputRequired
-              style={[styles.input]}
               value={values.email}
               onChangeText={handleChange('email')}
               onBlur={handleBlur("email")}
@@ -93,9 +88,9 @@ export default function Signup() {
               placeholderTextColor="#888"
               keyboardType="email-address"
               autoCapitalize="none"
+              editable={true}
             />
             <TextInputRequired
-              style={[styles.input]}
               value={values.username}
               onChangeText={handleChange('username')}
               onBlur={handleBlur("username")}
@@ -104,31 +99,31 @@ export default function Signup() {
               placeholder="Username *"
               placeholderTextColor="#888"
               autoCapitalize="none"
+              editable={true}
             />
             <TextInputRequired
-              style={[styles.input]}
-                  value={values.firstName}
-                  onChangeText={handleChange('firstName')}
-                  onBlur={handleBlur("firstName")}
-                  touched={touched.firstName}
-                  error={errors.firstName}
-                  placeholder="First Name *"
-                  placeholderTextColor="#888"
-                  autoCapitalize="none"
-              />
+              value={values.firstName}
+              onChangeText={handleChange('firstName')}
+              onBlur={handleBlur("firstName")}
+              touched={touched.firstName}
+              error={errors.firstName}
+              placeholder="First Name *"
+              placeholderTextColor="#888"
+              autoCapitalize="none"
+              editable={true}
+            />
             <TextInputRequired
-              style={[styles.input]}
-                  value={values.lastName}
-                  onChangeText={handleChange('lastName')}
-                  onBlur={handleBlur("lastName")}
-                  touched={touched.lastName}
-                  error={errors.lastName}
-                  placeholder="Last Name *"
-                  placeholderTextColor="#888"
-                  autoCapitalize="none"
-              />
+              value={values.lastName}
+              onChangeText={handleChange('lastName')}
+              onBlur={handleBlur("lastName")}
+              touched={touched.lastName}
+              error={errors.lastName}
+              placeholder="Last Name *"
+              placeholderTextColor="#888"
+              autoCapitalize="none"
+              editable={true}
+            />
             <TextInputRequired
-              style={[styles.input]}
               value={values.password}
               onChangeText={handleChange('password')}
               onBlur={handleBlur("password")}
@@ -137,9 +132,9 @@ export default function Signup() {
               placeholder="Password *"
               placeholderTextColor="#888"
               secureTextEntry
+              editable={true}
             />
             <TextInputRequired
-              style={[styles.input]}
               placeholder="Confirm Password *"
               placeholderTextColor="#888"
               value={values.confirmPassword}
@@ -148,27 +143,26 @@ export default function Signup() {
               touched={touched.confirmPassword}
               error={errors.confirmPassword}
               secureTextEntry
+              editable={true}
             />
-            </FormWrapper>
-          </View>
-        
-          {isLoading ? (
-            <ActivityIndicator size="large" color="#000"/>
-          ) : (
-            <TouchableOpacity
-              style={[
-                styles.loginBtn,
-                {alignSelf: "flex-end"},
-                !isValid && {backgroundColor: "#ccc"},
-              ]}
-              onPress={handleSignUp}
-              disabled={!isValid}
-            >
-              <Text style={styles.loginBtnText}>Sign Up</Text>
-            </TouchableOpacity>
-      )}
+          </FormWrapper>
+        </View>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#000"/>
+        ) : (
+          <TouchableOpacity
+            style={[
+              styles.loginBtn,
+              {alignSelf: "flex-end"},
+              !isValid && {backgroundColor: "#ccc"},
+            ]}
+            onPress={handleSignUp}
+            disabled={!isValid}
+          >
+            <Text style={styles.loginBtnText}>Sign Up</Text>
+          </TouchableOpacity>
+        )}
       </KeyboardAwareScrollView>
-      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
     
   );

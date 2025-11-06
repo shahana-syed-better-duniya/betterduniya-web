@@ -3,6 +3,7 @@ import React from "react";
 import { KeyboardTypeOptions, Platform, Text, TextInput } from "react-native";
 
 export interface TextInputRequiredProps {
+  editable?: boolean;
   value: string;
   onChangeText: (val: string) => void;
   onBlur: () => void;
@@ -19,20 +20,21 @@ export interface TextInputRequiredProps {
 }
 
 const TextInputRequired: React.FC<TextInputRequiredProps> = ({
-                                                               value,
-                                                               onChangeText,
-                                                               onBlur,
-                                                               touched,
-                                                               error,
-                                                               placeholder,
-                                                               placeholderTextColor,
-                                                               style,
-                                                               multiline = false,
-                                                               numberOfLines,
-                                                               secureTextEntry = false,
-                                                               keyboardType,
-                                                               autoCapitalize,
-                                                             }) => {
+  value,
+  onChangeText,
+  onBlur,
+  touched,
+  error,
+  placeholder,
+  placeholderTextColor,
+  style,
+  multiline = false,
+  numberOfLines,
+  secureTextEntry = false,
+  keyboardType,
+  autoCapitalize,
+  editable = true,
+}) => {
   // Web-specific props for better form integration
   const getAutoCompleteValue = () => {
     if (secureTextEntry) return 'current-password' as const;
@@ -103,6 +105,7 @@ const TextInputRequired: React.FC<TextInputRequiredProps> = ({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
+        editable={editable}
         {...webProps}
       />
       {touched && error != null && (
