@@ -35,7 +35,8 @@ const TextInputRequired: React.FC<TextInputRequiredProps> = ({
   autoCapitalize,
   editable = true,
 }) => {
-  // Web-specific props for better form integration
+
+  // Determine autocomplete type for web
   const getAutoCompleteValue = () => {
     if (secureTextEntry) return 'current-password' as const;
     if (keyboardType === 'email-address') return 'email' as const;
@@ -44,15 +45,24 @@ const TextInputRequired: React.FC<TextInputRequiredProps> = ({
     return undefined;
   };
 
+  // Web-specific props including autofill fix
   const webProps = Platform.OS === 'web' ? {
     autoComplete: getAutoCompleteValue(),
     //@ts-ignore - Web-specific props
     required: placeholder?.includes('*') ? true : false,
     //@ts-ignore - Web-specific props  
     name: placeholder?.toLowerCase().replace(/\s+/g, '').replace('*', '') || 'input',
+    // 🩹 Fix: trigger onChangeText when autofill occurs
+    onInput: (e: any) => {
+      if (e?.nativeEvent?.text) {
+        onChangeText(e.nativeEvent.text);
+      } else if (e?.target?.value) {
+        onChangeText(e.target.value);
+      }
+    },
   } : {};
 
-  // Enhanced styles for better web display
+  // Input styling
   const getInputStyle = () => {
     const baseStyle = style ?? styles.input;
     if (Platform.OS === 'web') {
@@ -74,6 +84,7 @@ const TextInputRequired: React.FC<TextInputRequiredProps> = ({
     return baseStyle;
   };
 
+  // Error styling
   const getErrorStyle = () => {
     if (Platform.OS === 'web') {
       return [
@@ -106,13 +117,14 @@ const TextInputRequired: React.FC<TextInputRequiredProps> = ({
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
         editable={editable}
-        {...webProps}
+        {...webProps}  // include web-specific props and autofill-fix
+        
       />
       {touched && error != null && (
         <Text style={getErrorStyle()}>{error}</Text>
       )}
     </>
-  )
+  );
 }
 
 export default TextInputRequired;

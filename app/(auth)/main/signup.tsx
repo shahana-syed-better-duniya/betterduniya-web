@@ -3,7 +3,7 @@ import useRegistration from "@/hooks/auth/use-registration";
 import { useForm } from "@/hooks/interaction/use-form";
 import { styles } from "@/utils/auth/styles";
 import { validateSignUp } from "@/utils/auth/validators";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -14,9 +14,8 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-
 export default function Signup() {
-  const {onSignUp, isLoading} = useRegistration();
+  const { onSignUp, isLoading } = useRegistration();
 
   const {
     values,
@@ -26,6 +25,7 @@ export default function Signup() {
     handleChange,
     resetForm,
     isValid,
+    setValues,
     setErrors,
   } = useForm({
     initialValues: {
@@ -39,10 +39,44 @@ export default function Signup() {
     validate: validateSignUp,
   });
 
+  // ✅ Autofill support for web
+  useEffect(() => {
+    if (Platform.OS === "web") {
+      const fillValuesFromDOM = () => {
+        const inputs = document.querySelectorAll("input");
+        let updated = false;
+        inputs.forEach((input) => {
+          const key = input.name as keyof typeof values;
+          if (key && input.value && !values[key]) {
+            values[key] = input.value;
+            updated = true;
+          }
+        });
+
+        if (updated) {
+          setValues({ ...values });
+          // Manually validate using your existing validator
+          const newErrors = validateSignUp(values);
+          setErrors(newErrors);
+        }
+      };
+
+      // Run after initial render and again after a short delay (autofill timing)
+      setTimeout(fillValuesFromDOM, 100);
+      setTimeout(fillValuesFromDOM, 500);
+    }
+  }, []);
+
   const handleSignUp = async () => {
     if (isValid) {
       try {
-        await onSignUp(values.email, values.username, values.password, values.firstName, values.lastName);
+        await onSignUp(
+          values.email,
+          values.username,
+          values.password,
+          values.firstName,
+          values.lastName
+        );
         resetForm();
       } catch (error) {
         setErrors((prev) => ({
@@ -53,34 +87,41 @@ export default function Signup() {
     }
   };
 
-  const FormWrapper = Platform.OS === 'web' ? 'form' as any : View;
-  const formProps = Platform.OS === 'web' ? {
-    onSubmit: (e: any) => {
-      e.preventDefault();
-      handleSignUp();
-    },
-    method: 'post',
-    autoComplete: 'on'
-  } : {};
+  const FormWrapper = Platform.OS === "web" ? ("form" as any) : View;
+  const formProps =
+    Platform.OS === "web"
+      ? {
+          onSubmit: (e: any) => {
+            e.preventDefault();
+            handleSignUp();
+          },
+          method: "post",
+          autoComplete: "on",
+        }
+      : {};
 
   return (
-     
     <KeyboardAvoidingView
       style={{ flex: 1, paddingHorizontal: 0, paddingTop: 20 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
     >
       <KeyboardAwareScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 0, paddingVertical: 0, marginLeft: 20 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 0,
+          paddingVertical: 0,
+          marginLeft: 20,
+        }}
         keyboardShouldPersistTaps="always"
         enableOnAndroid={true}
         extraScrollHeight={20}
       >
-        <View style={[styles.inputSection, {alignItems: 'flex-start'}]}>
+        <View style={[styles.inputSection, { alignItems: "flex-start" }]}>
           <FormWrapper {...formProps}>
             <TextInputRequired
               value={values.email}
-              onChangeText={handleChange('email')}
+              onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
               touched={touched.email}
               error={errors.email}
@@ -92,7 +133,7 @@ export default function Signup() {
             />
             <TextInputRequired
               value={values.username}
-              onChangeText={handleChange('username')}
+              onChangeText={handleChange("username")}
               onBlur={handleBlur("username")}
               touched={touched.username}
               error={errors.username}
@@ -103,7 +144,7 @@ export default function Signup() {
             />
             <TextInputRequired
               value={values.firstName}
-              onChangeText={handleChange('firstName')}
+              onChangeText={handleChange("firstName")}
               onBlur={handleBlur("firstName")}
               touched={touched.firstName}
               error={errors.firstName}
@@ -114,7 +155,7 @@ export default function Signup() {
             />
             <TextInputRequired
               value={values.lastName}
-              onChangeText={handleChange('lastName')}
+              onChangeText={handleChange("lastName")}
               onBlur={handleBlur("lastName")}
               touched={touched.lastName}
               error={errors.lastName}
@@ -125,7 +166,7 @@ export default function Signup() {
             />
             <TextInputRequired
               value={values.password}
-              onChangeText={handleChange('password')}
+              onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
               touched={touched.password}
               error={errors.password}
@@ -135,26 +176,27 @@ export default function Signup() {
               editable={true}
             />
             <TextInputRequired
-              placeholder="Confirm Password *"
-              placeholderTextColor="#888"
               value={values.confirmPassword}
-              onChangeText={handleChange('confirmPassword')}
+              onChangeText={handleChange("confirmPassword")}
               onBlur={handleBlur("confirmPassword")}
               touched={touched.confirmPassword}
               error={errors.confirmPassword}
+              placeholder="Confirm Password *"
+              placeholderTextColor="#888"
               secureTextEntry
               editable={true}
             />
           </FormWrapper>
         </View>
+
         {isLoading ? (
-          <ActivityIndicator size="large" color="#000"/>
+          <ActivityIndicator size="large" color="#000" />
         ) : (
           <TouchableOpacity
             style={[
               styles.loginBtn,
-              {alignSelf: "flex-end"},
-              !isValid && {backgroundColor: "#ccc"},
+              { alignSelf: "flex-end" },
+              !isValid && { backgroundColor: "#ccc" },
             ]}
             onPress={handleSignUp}
             disabled={!isValid}
@@ -164,7 +206,5 @@ export default function Signup() {
         )}
       </KeyboardAwareScrollView>
     </KeyboardAvoidingView>
-    
   );
 }
-
