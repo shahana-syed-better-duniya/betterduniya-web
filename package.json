@@ -12,7 +12,9 @@
     "build": "expo export -p web",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@expo-google-fonts/jura": "^0.4.1",
@@ -79,5 +81,7 @@
     "ts-jest": "^29.4.5",
     "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "homepage": "https://shahana-syed-better-duniya.github.io/betterduniya-web"
+  
 }
