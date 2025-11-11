@@ -26,22 +26,31 @@ export default function LoginScreen() {
 
   return (
     <ViewCard>
+      {/* remove after connecting the backend */}
+      <View style={{marginBottom: 16, alignItems: 'center'}}>
+        <Text style={{color: '#d35400', fontWeight: 'bold', fontSize: 16, textAlign: 'center'}}>
+          We are building new features! We will be back shortly!
+        </Text>
+      </View>
       <View style={stylesLocal.tabRow}>
         <Animated.View
-          style={[
+          /*style={[
             stylesForSlide.slidingBackground,
             {left: slidePosition},
-          ]}
-        />
+          ]}*/
+        style={[stylesForSlide.slidingBackground, {left: slidePosition}]}
+         />
         <TouchableOpacity
           style={stylesLocal.tabBtn}
           onPress={() => handleTabPress("login")}
         >
           <Text
-            style={[
+            /*style={[
               stylesLocal.tabText,
               activeTab === "login" && stylesLocal.tabTextActive,
-            ]}
+            ]}*/
+            style={[stylesLocal.tabText, activeTab === "login" && stylesLocal.tabTextActive]}
+  
           >
             Log In
           </Text>
@@ -51,10 +60,12 @@ export default function LoginScreen() {
           onPress={() => handleTabPress("signup")}
         >
           <Text
-            style={[
+           /* style={[
               stylesLocal.tabText,
               activeTab === "signup" && stylesLocal.tabTextActive,
-            ]}
+            ]}*/ 
+            style={[stylesLocal.tabText, activeTab === "signup" && stylesLocal.tabTextActive]}
+
           >
             Sign Up
           </Text>
