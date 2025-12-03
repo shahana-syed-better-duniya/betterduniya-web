@@ -26,12 +26,12 @@ export default function LoginScreen() {
 
   return (
     <ViewCard>
-      /*  remove the message after connecting the backend 
+      {/* remove the message after connecting the backend 
       <View style={{marginBottom: 16, alignItems: 'center'}}>
         <Text style={{color: '#d35400', fontWeight: 'bold', fontSize: 16, textAlign: 'center'}}>
           We are back!!
         </Text>
-      </View> */
+      </View> */}
       <View style={stylesLocal.tabRow}>
         <Animated.View
           /*style={[
